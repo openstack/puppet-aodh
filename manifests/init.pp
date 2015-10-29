@@ -91,8 +91,9 @@
 #
 # [*log_dir*]
 #   (optional) Directory where logs should be stored.
-#   If set to boolean false, it will not log to any directory.
-#   Defaults to undef
+#   If set to boolean false or the $::os_service_default, it will not log to
+#   any directory.
+#   Defaults to undef.
 #
 # [*state_path*]
 #   (optional) Directory for storing state.
@@ -222,6 +223,7 @@ class aodh (
   $use_syslog                         = undef,
   $use_stderr                         = undef,
   $log_facility                       = undef,
+  $log_dir                            = undef,
   $notification_driver                = undef,
   $notification_topics                = 'notifications',
   $database_connection                = undef,
