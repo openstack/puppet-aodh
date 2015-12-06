@@ -9,6 +9,7 @@ class aodh::params {
       $common_package_name     = 'openstack-aodh-common'
       $psycopg_package_name    = 'python-psycopg2'
       $sqlite_package_name     = undef
+      $pymongo_package_name    = 'python-pymongo'
       $api_package_name        = 'openstack-aodh-api'
       $api_service_name        = 'openstack-aodh-api'
       $notifier_package_name   = 'openstack-aodh-notifier'
@@ -26,6 +27,7 @@ class aodh::params {
       $common_package_name     = 'aodh-common'
       $psycopg_package_name    = 'python-psycopg2'
       $sqlite_package_name     = 'python-pysqlite2'
+      $pymongo_package_name    = 'python-pymongo'
       $api_package_name        = 'aodh-api'
       $api_service_name        = 'aodh-api'
       $notifier_package_name   = 'aodh-notifier'

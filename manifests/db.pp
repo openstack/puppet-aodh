@@ -41,6 +41,7 @@ class aodh::db (
   $database_max_retries    = 10,
   $database_retry_interval = 10,
   $database_max_overflow   = 20,
+  $sync_db                 = true,
 ) {
 
   include ::aodh::params
@@ -54,10 +55,13 @@ class aodh::db (
   $database_max_overflow_real = pick($::aodh::database_max_overflow, $database_max_overflow)
 
   validate_re($database_connection_real,
-    '(sqlite|mysql|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
+    '(sqlite|mongodb|mysql|postgresql):\/\/(\S+:\S+@\S+\/\S+)?')
 
   if $database_connection_real {
     case $database_connection_real {
+      /^mongodb:\/\//: {
+        $backend_package = $::aodh::params::pymongo_package_name
+      }
       /^mysql:\/\//: {
         $backend_package = false
         require 'mysql::bindings'
@@ -94,4 +98,7 @@ class aodh::db (
     }
   }
 
+  if $sync_db {
+    include ::aodh::db::sync
+  }
 }
