@@ -3,8 +3,8 @@ require 'shared_examples'
 require 'webmock/rspec'
 
 require 'rspec-puppet-facts'
+require 'puppet-openstack_spec_helper/defaults'
 include RspecPuppetFacts
-require 'defaults.rb'
 
 RSpec.configure do |c|
   c.alias_it_should_behave_like_to :it_configures, 'configures'
