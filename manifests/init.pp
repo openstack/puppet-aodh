@@ -69,21 +69,21 @@
 #
 # [*kombu_ssl_ca_certs*]
 #   (optional) SSL certification authority file (valid only if SSL enabled).
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_certfile*]
 #   (optional) SSL cert file (valid only if SSL enabled).
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_keyfile*]
 #   (optional) SSL key file (valid only if SSL enabled).
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_version*]
 #   (optional) SSL version to use (valid only if SSL enabled).
 #   Valid values are TLSv1, SSLv23 and SSLv3. SSLv2 may be
 #   available on some distributions.
-#   Defaults to 'TLSv1'
+#   Defaults to $::os_service_default
 #
 # [*kombu_reconnect_delay*]
 #   (optional) How long to wait before reconnecting in response to an AMQP
@@ -222,10 +222,10 @@ class aodh (
   $rabbit_heartbeat_timeout_threshold = 0,
   $rabbit_heartbeat_rate              = 2,
   $rabbit_ha_queues                   = undef,
-  $kombu_ssl_ca_certs                 = undef,
-  $kombu_ssl_certfile                 = undef,
-  $kombu_ssl_keyfile                  = undef,
-  $kombu_ssl_version                  = 'TLSv1',
+  $kombu_ssl_ca_certs                 = $::os_service_default,
+  $kombu_ssl_certfile                 = $::os_service_default,
+  $kombu_ssl_keyfile                  = $::os_service_default,
+  $kombu_ssl_version                  = $::os_service_default,
   $kombu_reconnect_delay              = '1.0',
   $amqp_durable_queues                = false,
   $verbose                            = undef,
@@ -259,19 +259,6 @@ class aodh (
   include ::aodh::db
   include ::aodh::logging
 
-  if $kombu_ssl_ca_certs and !$rabbit_use_ssl {
-    fail('The kombu_ssl_ca_certs parameter requires rabbit_use_ssl to be set to true')
-  }
-  if $kombu_ssl_certfile and !$rabbit_use_ssl {
-    fail('The kombu_ssl_certfile parameter requires rabbit_use_ssl to be set to true')
-  }
-  if $kombu_ssl_keyfile and !$rabbit_use_ssl {
-    fail('The kombu_ssl_keyfile parameter requires rabbit_use_ssl to be set to true')
-  }
-  if ($kombu_ssl_certfile and !$kombu_ssl_keyfile) or ($kombu_ssl_keyfile and !$kombu_ssl_certfile) {
-    fail('The kombu_ssl_certfile and kombu_ssl_keyfile parameters must be used together')
-  }
-
   package { 'aodh':
     ensure => $ensure_package,
     name   => $::aodh::params::common_package_name,
@@ -279,69 +266,26 @@ class aodh (
   }
 
   if $rpc_backend == 'rabbit' {
-    # I may want to support exporting and collecting these
+    oslo::messaging::rabbit { 'aodh_config':
+      rabbit_userid               => $rabbit_userid,
+      rabbit_password             => $rabbit_password,
+      rabbit_virtual_host         => $rabbit_virtual_host,
+      rabbit_host                 => $rabbit_host,
+      rabbit_port                 => $rabbit_port,
+      rabbit_hosts                => $rabbit_hosts,
+      rabbit_ha_queues            => $rabbit_ha_queues,
+      heartbeat_timeout_threshold => $rabbit_heartbeat_timeout_threshold,
+      heartbeat_rate              => $rabbit_heartbeat_rate,
+      rabbit_use_ssl              => $rabbit_use_ssl,
+      kombu_reconnect_delay       => $kombu_reconnect_delay,
+      kombu_ssl_version           => $kombu_ssl_version,
+      kombu_ssl_keyfile           => $kombu_ssl_keyfile,
+      kombu_ssl_certfile          => $kombu_ssl_certfile,
+      kombu_ssl_ca_certs          => $kombu_ssl_ca_certs,
+    }
+
     aodh_config {
-      'oslo_messaging_rabbit/rabbit_password':              value => $rabbit_password, secret => true;
-      'oslo_messaging_rabbit/rabbit_userid':                value => $rabbit_userid;
-      'oslo_messaging_rabbit/rabbit_virtual_host':          value => $rabbit_virtual_host;
-      'oslo_messaging_rabbit/rabbit_use_ssl':               value => $rabbit_use_ssl;
-      'oslo_messaging_rabbit/heartbeat_timeout_threshold':  value => $rabbit_heartbeat_timeout_threshold;
-      'oslo_messaging_rabbit/heartbeat_rate':               value => $rabbit_heartbeat_rate;
-      'oslo_messaging_rabbit/kombu_reconnect_delay':        value => $kombu_reconnect_delay;
-      'DEFAULT/amqp_durable_queues':                        value => $amqp_durable_queues;
-    }
-
-    if $rabbit_use_ssl {
-
-      if $kombu_ssl_ca_certs {
-        aodh_config { 'oslo_messaging_rabbit/kombu_ssl_ca_certs': value => $kombu_ssl_ca_certs; }
-      } else {
-        aodh_config { 'oslo_messaging_rabbit/kombu_ssl_ca_certs': ensure => absent; }
-      }
-
-      if $kombu_ssl_certfile or $kombu_ssl_keyfile {
-        aodh_config {
-          'oslo_messaging_rabbit/kombu_ssl_certfile': value => $kombu_ssl_certfile;
-          'oslo_messaging_rabbit/kombu_ssl_keyfile':  value => $kombu_ssl_keyfile;
-        }
-      } else {
-        aodh_config {
-          'oslo_messaging_rabbit/kombu_ssl_certfile': ensure => absent;
-          'oslo_messaging_rabbit/kombu_ssl_keyfile':  ensure => absent;
-        }
-      }
-
-      if $kombu_ssl_version {
-        aodh_config { 'oslo_messaging_rabbit/kombu_ssl_version':  value => $kombu_ssl_version; }
-      } else {
-        aodh_config { 'oslo_messaging_rabbit/kombu_ssl_version':  ensure => absent; }
-      }
-
-    } else {
-      aodh_config {
-        'oslo_messaging_rabbit/kombu_ssl_ca_certs': ensure => absent;
-        'oslo_messaging_rabbit/kombu_ssl_certfile': ensure => absent;
-        'oslo_messaging_rabbit/kombu_ssl_keyfile':  ensure => absent;
-        'oslo_messaging_rabbit/kombu_ssl_version':  ensure => absent;
-      }
-    }
-
-    if $rabbit_hosts {
-      aodh_config { 'oslo_messaging_rabbit/rabbit_hosts': value => join($rabbit_hosts, ',') }
-    } else {
-      aodh_config { 'oslo_messaging_rabbit/rabbit_host':  value => $rabbit_host }
-      aodh_config { 'oslo_messaging_rabbit/rabbit_port':  value => $rabbit_port }
-      aodh_config { 'oslo_messaging_rabbit/rabbit_hosts': value => "${rabbit_host}:${rabbit_port}" }
-    }
-
-    if $rabbit_ha_queues == undef {
-      if $rabbit_hosts {
-        aodh_config { 'oslo_messaging_rabbit/rabbit_ha_queues': value => true }
-      } else {
-        aodh_config { 'oslo_messaging_rabbit/rabbit_ha_queues': value => false }
-      }
-    } else {
-      aodh_config { 'oslo_messaging_rabbit/rabbit_ha_queues': value => $rabbit_ha_queues }
+      'DEFAULT/amqp_durable_queues': value => $amqp_durable_queues;
     }
   }
 
@@ -349,18 +293,13 @@ class aodh (
     warning('Qpid driver was removed from Oslo.messaging in Mitaka release')
   }
 
-  if $notification_driver {
-    aodh_config {
-      'DEFAULT/notification_driver': value => join(any2array($notification_driver), ',');
-    }
-  } else {
-    aodh_config { 'DEFAULT/notification_driver': ensure => absent; }
+  oslo::messaging::notifications { 'aodh_config':
+    driver => $notification_driver,
+    topics => $notification_topics,
   }
+
   aodh_config {
-    'DEFAULT/rpc_backend':                 value => $rpc_backend;
-    'DEFAULT/notification_topics':         value => $notification_topics;
     'DEFAULT/gnocchi_url':                 value => $gnocchi_url;
     'database/alarm_history_time_to_live': value => $alarm_history_time_to_live;
   }
-
 }
