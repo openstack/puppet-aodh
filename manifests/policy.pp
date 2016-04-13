@@ -35,5 +35,5 @@ class aodh::policy (
   }
 
   create_resources('openstacklib::policy::base', $policies)
-  oslo::policy { 'aodh_config': policy_file => $policy_path }
+
 }
