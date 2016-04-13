@@ -20,6 +20,7 @@ describe 'aodh::policy' do
         :key   => 'context_is_admin',
         :value => 'foo:bar'
       })
+      is_expected.to contain_aodh_config('oslo_policy/policy_file').with_value('/etc/aodh/policy.json')
     end
   end
 
