@@ -16,7 +16,6 @@
 # [*rpc_backend*]
 #   (optional) The rpc backend implementation to use, can be:
 #     rabbit (for rabbitmq)
-#     qpid (for qpid)
 #     zmq (for zeromq)
 #   Defaults to 'rabbit'
 #
@@ -176,38 +175,6 @@
 #
 # DEPRECATED PARAMETERS
 #
-# [*qpid_hostname*]
-#   (optional) Location of qpid server
-#   Defaults to undef
-#
-# [*qpid_port*]
-#   (optional) Port for qpid server
-#   Defaults to undef
-#
-# [*qpid_username*]
-#   (optional) Username to use when connecting to qpid
-#   Defaults to undef
-#
-# [*qpid_password*]
-#   (optional) Password to use when connecting to qpid
-#   Defaults to undef
-#
-# [*qpid_heartbeat*]
-#   (optional) Seconds between connection keepalive heartbeats
-#   Defaults to undef
-#
-# [*qpid_protocol*]
-#   (optional) Transport to use, either 'tcp' or 'ssl''
-#   Defaults to undef
-#
-# [*qpid_sasl_mechanisms*]
-#   (optional) Enable one or more SASL mechanisms
-#   Defaults to undef
-#
-# [*qpid_tcp_nodelay*]
-#   (optional) Disable Nagle algorithm
-#   Defaults to undef
-#
 class aodh (
   $ensure_package                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
@@ -246,14 +213,6 @@ class aodh (
   $database_max_overflow              = undef,
   $gnocchi_url                        = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $qpid_hostname                      = undef,
-  $qpid_port                          = undef,
-  $qpid_username                      = undef,
-  $qpid_password                      = undef,
-  $qpid_sasl_mechanisms               = undef,
-  $qpid_heartbeat                     = undef,
-  $qpid_protocol                      = undef,
-  $qpid_tcp_nodelay                   = undef,
 ) inherits aodh::params {
 
   include ::aodh::db
@@ -287,10 +246,6 @@ class aodh (
     aodh_config {
       'DEFAULT/amqp_durable_queues': value => $amqp_durable_queues;
     }
-  }
-
-  if $rpc_backend == 'qpid' {
-    warning('Qpid driver was removed from Oslo.messaging in Mitaka release')
   }
 
   oslo::messaging::notifications { 'aodh_config':
