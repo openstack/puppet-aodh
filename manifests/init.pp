@@ -99,15 +99,6 @@
 #   any directory.
 #   Defaults to undef.
 #
-# [*state_path*]
-#   (optional) Directory for storing state.
-#   Defaults to '/var/lib/aodh'
-#
-# [*lock_path*]
-#   (optional) Directory for lock files.
-#   On RHEL will be '/var/lib/aodh/tmp' and on Debian '/var/lock/aodh'
-#   Defaults to $::aodh::params::lock_path
-#
 # [*verbose*]
 #   (optional) Set log output to verbose output.
 #   Defaults to undef
