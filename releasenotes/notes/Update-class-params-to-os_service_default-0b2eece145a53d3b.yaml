@@ -1,0 +1,4 @@
+---
+upgrade:
+  - Updated the parameters for aodh::db class,
+    using the default fact $::os_service_default
