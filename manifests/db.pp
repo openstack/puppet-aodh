@@ -4,6 +4,11 @@
 #
 # === Parameters
 #
+# [*database_db_max_retries*]
+#   (optional) Maximum retries in case of connection error or deadlock error
+#   before error is raised. Set to -1 to specify an infinite retry count.
+#   Defaults to $::os_service_default
+#
 # [*database_connection*]
 #   Url used to connect to database.
 #   (Optional) Defaults to "sqlite:////var/lib/aodh/aodh.sqlite".
@@ -34,6 +39,7 @@
 #   (Optional) Defaults to 20.
 #
 class aodh::db (
+  $database_db_max_retries = $::os_service_default,
   $database_connection     = 'sqlite:////var/lib/aodh/aodh.sqlite',
   $database_idle_timeout   = 3600,
   $database_min_pool_size  = 1,
@@ -52,6 +58,7 @@ class aodh::db (
   $database_max_overflow_real = pick($::aodh::database_max_overflow, $database_max_overflow)
 
   oslo::db { 'aodh_config':
+    db_max_retries => $database_db_max_retries,
     connection     => $database_connection_real,
     idle_timeout   => $database_idle_timeout_real,
     min_pool_size  => $database_min_pool_size_real,
