@@ -17,14 +17,20 @@
 #     DEFAULT/bar:
 #       value: barValue
 #
+# [*aodh_api_paste_ini*]
+#   (optional) Allow configuration of /etc/aodh/api_paste.ini options.
+#
 #   NOTE: The configuration MUST NOT be already handled by this module
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class aodh::config (
-  $aodh_config = {},
+  $aodh_config        = {},
+  $aodh_api_paste_ini = {},
 ) {
 
   validate_hash($aodh_config)
+  validate_hash($aodh_api_paste_ini)
 
   create_resources('aodh_config', $aodh_config)
+  create_resources('aodh_api_paste_ini', $aodh_api_paste_ini)
 }
