@@ -21,35 +21,35 @@
 #
 # [*rabbit_host*]
 #   (optional) Location of rabbitmq installation.
-#   Defaults to 'localhost'
+#   Defaults to $::os_service_default
 #
 # [*rabbit_hosts*]
 #   (optional) List of clustered rabbit servers.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*rabbit_port*]
 #   (optional) Port for rabbitmq instance.
-#   Defaults to '5672'
+#   Defaults to $::os_service_default
 #
 # [*rabbit_password*]
 #   (optional) Password used to connect to rabbitmq.
-#   Defaults to 'guest'
+#   Defaults to $::os_service_default
 #
 # [*rabbit_userid*]
 #   (optional) User used to connect to rabbitmq.
-#   Defaults to 'guest'
+#   Defaults to $::os_service_default
 #
 # [*rabbit_virtual_host*]
 #   (optional) The RabbitMQ virtual host.
-#   Defaults to '/'
+#   Defaults to $::os_service_default
 #
 # [*rabbit_use_ssl*]
 #   (optional) Connect over SSL for RabbitMQ
-#   Defaults to false
+#   Defaults to $::os_service_default
 #
 # [*rabbit_ha_queues*]
 #   (optional) Use HA queues in RabbitMQ.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*rabbit_heartbeat_timeout_threshold*]
 #   (optional) Number of seconds after which the RabbitMQ broker is considered
@@ -57,14 +57,14 @@
 #   Heartbeating helps to ensure the TCP connection to RabbitMQ isn't silently
 #   closed, resulting in missed or lost messages from the queue.
 #   (Requires kombu >= 3.0.7 and amqp >= 1.4.0)
-#   Defaults to 0
+#   Defaults to $::os_service_default
 #
 # [*rabbit_heartbeat_rate*]
 #   (optional) How often during the rabbit_heartbeat_timeout_threshold period to
 #   check the heartbeat on RabbitMQ connection.  (i.e. rabbit_heartbeat_rate=2
 #   when rabbit_heartbeat_timeout_threshold=60, the heartbeat will be checked
 #   every 30 seconds.
-#   Defaults to 2
+#   Defaults to $::os_service_default
 #
 # [*kombu_ssl_ca_certs*]
 #   (optional) SSL certification authority file (valid only if SSL enabled).
@@ -87,11 +87,17 @@
 # [*kombu_reconnect_delay*]
 #   (optional) How long to wait before reconnecting in response to an AMQP
 #   consumer cancel notification.
-#   Defaults to '1.0'
+#   Defaults to '$::os_service_default
+#
+# [*kombu_compression*]
+#   (optional) Possible values are: gzip, bz2. If not set compression will not
+#   be used. This option may notbe available in future versions. EXPERIMENTAL.
+#   (string value)
+#   Defaults to $::os_service_default
 #
 # [*amqp_durable_queues*]
 #   (optional) Define queues as "durable" to rabbitmq.
-#   Defaults to false
+#   Defaults to $::os_service_default
 #
 # [*log_dir*]
 #   (optional) Directory where logs should be stored.
@@ -122,11 +128,11 @@
 # [*notification_driver*]
 #   (optional) Driver or drivers to handle sending notifications.
 #   Value can be a string or a list.
-#   Defaults to undef
+#   Defaults to $::os_service_default
 #
 # [*notification_topics*]
 #   (optional) AMQP topic used for OpenStack notifications
-#   Defaults to 'notifications'
+#   Defaults to $::os_service_default
 #
 # [*database_connection*]
 #   (optional) Connection url for the aodh database.
@@ -170,30 +176,31 @@ class aodh (
   $ensure_package                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
   $rpc_backend                        = 'rabbit',
-  $rabbit_host                        = 'localhost',
-  $rabbit_hosts                       = undef,
-  $rabbit_password                    = 'guest',
-  $rabbit_port                        = '5672',
-  $rabbit_userid                      = 'guest',
-  $rabbit_virtual_host                = '/',
-  $rabbit_use_ssl                     = false,
-  $rabbit_heartbeat_timeout_threshold = 0,
-  $rabbit_heartbeat_rate              = 2,
-  $rabbit_ha_queues                   = undef,
+  $rabbit_host                        = $::os_service_default,
+  $rabbit_hosts                       = $::os_service_default,
+  $rabbit_password                    = $::os_service_default,
+  $rabbit_port                        = $::os_service_default,
+  $rabbit_userid                      = $::os_service_default,
+  $rabbit_virtual_host                = $::os_service_default,
+  $rabbit_use_ssl                     = $::os_service_default,
+  $rabbit_heartbeat_timeout_threshold = $::os_service_default,
+  $rabbit_heartbeat_rate              = $::os_service_default,
+  $rabbit_ha_queues                   = $::os_service_default,
   $kombu_ssl_ca_certs                 = $::os_service_default,
   $kombu_ssl_certfile                 = $::os_service_default,
   $kombu_ssl_keyfile                  = $::os_service_default,
   $kombu_ssl_version                  = $::os_service_default,
-  $kombu_reconnect_delay              = '1.0',
-  $amqp_durable_queues                = false,
+  $kombu_reconnect_delay              = $::os_service_default,
+  $kombu_compression                  = $::os_service_default,
+  $amqp_durable_queues                = $::os_service_default,
   $verbose                            = undef,
   $debug                              = undef,
   $use_syslog                         = undef,
   $use_stderr                         = undef,
   $log_facility                       = undef,
   $log_dir                            = undef,
-  $notification_driver                = undef,
-  $notification_topics                = 'notifications',
+  $notification_driver                = $::os_service_default,
+  $notification_topics                = $::os_service_default,
   $database_connection                = undef,
   $slave_connection                   = undef,
   $database_idle_timeout              = undef,
@@ -232,10 +239,8 @@ class aodh (
       kombu_ssl_keyfile           => $kombu_ssl_keyfile,
       kombu_ssl_certfile          => $kombu_ssl_certfile,
       kombu_ssl_ca_certs          => $kombu_ssl_ca_certs,
-    }
-
-    aodh_config {
-      'DEFAULT/amqp_durable_queues': value => $amqp_durable_queues;
+      kombu_compression           => $kombu_compression,
+      amqp_durable_queues         => $amqp_durable_queues,
     }
   }
 

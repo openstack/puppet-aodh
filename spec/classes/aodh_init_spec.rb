@@ -19,13 +19,14 @@ describe 'aodh' do
 
       it 'configures rabbit' do
         is_expected.to contain_aodh_config('DEFAULT/rpc_backend').with_value('rabbit')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_host').with_value('localhost')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_password').with_value('guest').with_secret(true)
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('5672')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_userid').with_value('guest')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('/')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('0')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_rate').with_value('2')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>').with_secret(true)
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_userid').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_notifications/driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('<SERVICE DEFAULT>')
       end
@@ -42,6 +43,7 @@ describe 'aodh' do
           :rabbit_ha_queues                   => 'undef',
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
+          :kombu_compression                  => 'gzip',
           :ensure_package                     => '2012.1.1-15.el6',
           :gnocchi_url                        => 'http://127.0.0.1:8041',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
@@ -56,9 +58,10 @@ describe 'aodh' do
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_password').with_value('password').with_secret(true)
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('5673')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_userid').with_value('rabbit_user')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('/')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_virtual_host').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('60')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_rate').with_value('10')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/kombu_compression').with_value('gzip')
         is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('604800')
       end
 
@@ -88,9 +91,9 @@ describe 'aodh' do
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit:5673,rabbit2:5674')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value(true)
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(false)
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('1.0')
-        is_expected.to contain_aodh_config('DEFAULT/amqp_durable_queues').with_value(false)
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -104,9 +107,9 @@ describe 'aodh' do
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit:5673')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(false)
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('1.0')
-        is_expected.to contain_aodh_config('DEFAULT/amqp_durable_queues').with_value(false)
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/kombu_reconnect_delay').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/amqp_durable_queues').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -152,8 +155,8 @@ describe 'aodh' do
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_hosts').with_value('rabbit:5673')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_ha_queues').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value(false)
-        is_expected.to contain_aodh_config('DEFAULT/amqp_durable_queues').with_value(true)
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_use_ssl').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_rabbit/amqp_durable_queues').with_value(true)
       end
     end
 
