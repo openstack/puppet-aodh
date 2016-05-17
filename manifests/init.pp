@@ -170,10 +170,6 @@
 #   any directory.
 #   Defaults to undef.
 #
-# [*verbose*]
-#   (optional) Set log output to verbose output.
-#   Defaults to undef
-#
 # [*debug*]
 #   (optional) Set log output to debug output.
 #   Defaults to undef
@@ -237,6 +233,10 @@
 #
 # DEPRECATED PARAMETERS
 #
+# [*verbose*]
+#   (optional) Deprecated. Set log output to verbose output.
+#   Defaults to undef
+#
 class aodh (
   $ensure_package                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
@@ -274,7 +274,6 @@ class aodh (
   $amqp_sasl_config_name              = $::os_service_default,
   $amqp_username                      = $::os_service_default,
   $amqp_password                      = $::os_service_default,
-  $verbose                            = undef,
   $debug                              = undef,
   $use_syslog                         = undef,
   $use_stderr                         = undef,
@@ -292,6 +291,7 @@ class aodh (
   $database_max_overflow              = undef,
   $gnocchi_url                        = $::os_service_default,
   # DEPRECATED PARAMETERS
+  $verbose                            = undef,
 ) inherits aodh::params {
 
   include ::aodh::db
@@ -301,6 +301,10 @@ class aodh (
     ensure => $ensure_package,
     name   => $::aodh::params::common_package_name,
     tag    => ['openstack', 'aodh-package'],
+  }
+
+  if $verbose {
+    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
   }
 
   if $rpc_backend == 'rabbit' {

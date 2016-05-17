@@ -30,7 +30,6 @@ describe 'basic aodh' do
       class { '::aodh':
         rabbit_userid       => 'aodh',
         rabbit_password     => 'an_even_bigger_secret',
-        verbose             => true,
         debug               => true,
         rabbit_host         => '127.0.0.1',
         database_connection => 'mysql://aodh:a_big_secret@127.0.0.1/aodh?charset=utf8',

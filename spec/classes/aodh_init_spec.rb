@@ -34,7 +34,7 @@ describe 'aodh' do
 
     context 'with overridden parameters' do
       let :params do
-        { :verbose                            => true,
+        {
           :debug                              => true,
           :rabbit_host                        => 'rabbit',
           :rabbit_userid                      => 'rabbit_user',

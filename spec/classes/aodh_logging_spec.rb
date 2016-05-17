@@ -27,7 +27,6 @@ describe 'aodh::logging' do
      :use_stderr => false,
      :log_facility => 'LOG_FOO',
      :log_dir => '/var/log',
-     :verbose => true,
      :debug => true,
     }
   end
@@ -60,7 +59,6 @@ describe 'aodh::logging' do
       is_expected.to contain_aodh_config('DEFAULT/use_stderr').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_aodh_config('DEFAULT/syslog_log_facility').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_aodh_config('DEFAULT/log_dir').with(:value => '/var/log/aodh')
-      is_expected.to contain_aodh_config('DEFAULT/verbose').with(:value => '<SERVICE DEFAULT>')
       is_expected.to contain_aodh_config('DEFAULT/debug').with(:value => '<SERVICE DEFAULT>')
     end
   end
@@ -71,7 +69,6 @@ describe 'aodh::logging' do
       is_expected.to contain_aodh_config('DEFAULT/use_stderr').with(:value => 'false')
       is_expected.to contain_aodh_config('DEFAULT/syslog_log_facility').with(:value => 'LOG_FOO')
       is_expected.to contain_aodh_config('DEFAULT/log_dir').with(:value => '/var/log')
-      is_expected.to contain_aodh_config('DEFAULT/verbose').with(:value => 'true')
       is_expected.to contain_aodh_config('DEFAULT/debug').with(:value => 'true')
     end
   end
