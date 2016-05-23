@@ -19,6 +19,7 @@ describe 'aodh' do
 
       it 'configures rabbit' do
         is_expected.to contain_aodh_config('DEFAULT/rpc_backend').with_value('rabbit')
+        is_expected.to contain_aodh_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_host').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_password').with_value('<SERVICE DEFAULT>').with_secret(true)
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('<SERVICE DEFAULT>')
@@ -27,6 +28,7 @@ describe 'aodh' do
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_timeout_threshold').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/heartbeat_rate').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/kombu_compression').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('oslo_messaging_notifications/transport_url').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('oslo_messaging_notifications/driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('<SERVICE DEFAULT>')
       end
@@ -36,6 +38,7 @@ describe 'aodh' do
       let :params do
         {
           :debug                              => true,
+          :default_transport_url              => 'rabbit://rabbit_user:password@localhost:5673',
           :rabbit_host                        => 'rabbit',
           :rabbit_userid                      => 'rabbit_user',
           :rabbit_port                        => '5673',
@@ -46,6 +49,7 @@ describe 'aodh' do
           :kombu_compression                  => 'gzip',
           :ensure_package                     => '2012.1.1-15.el6',
           :gnocchi_url                        => 'http://127.0.0.1:8041',
+          :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
           :notification_topics                => 'openstack',
           :alarm_history_time_to_live         => '604800',
@@ -54,6 +58,7 @@ describe 'aodh' do
 
       it 'configures rabbit' do
         is_expected.to contain_aodh_config('DEFAULT/rpc_backend').with_value('rabbit')
+        is_expected.to contain_aodh_config('DEFAULT/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_password').with_value('password').with_secret(true)
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_port').with_value('5673')
@@ -66,6 +71,7 @@ describe 'aodh' do
       end
 
       it 'configures various things' do
+        is_expected.to contain_aodh_config('oslo_messaging_notifications/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673')
         is_expected.to contain_aodh_config('oslo_messaging_notifications/driver').with_value('ceilometer.compute.aodh_notifier')
         is_expected.to contain_aodh_config('oslo_messaging_notifications/topics').with_value('openstack')
         is_expected.to contain_aodh_config('DEFAULT/gnocchi_url').with_value('http://127.0.0.1:8041')
@@ -224,19 +230,21 @@ describe 'aodh' do
 
     context 'with overriden amqp parameters' do
       let :params do
-        { :rpc_backend        => 'amqp',
-          :amqp_idle_timeout  => '60',
-          :amqp_trace         => true,
-          :amqp_ssl_ca_file   => '/etc/ca.cert',
-          :amqp_ssl_cert_file => '/etc/certfile',
-          :amqp_ssl_key_file  => '/etc/key',
-          :amqp_username      => 'amqp_user',
-          :amqp_password      => 'password',
+        { :rpc_backend           => 'amqp',
+          :default_transport_url => 'amqp://amqp_user:password@localhost:5672',
+          :amqp_idle_timeout     => '60',
+          :amqp_trace            => true,
+          :amqp_ssl_ca_file      => '/etc/ca.cert',
+          :amqp_ssl_cert_file    => '/etc/certfile',
+          :amqp_ssl_key_file     => '/etc/key',
+          :amqp_username         => 'amqp_user',
+          :amqp_password         => 'password',
         }
       end
 
       it 'configures amqp' do
         is_expected.to contain_aodh_config('DEFAULT/rpc_backend').with_value('amqp')
+        is_expected.to contain_aodh_config('DEFAULT/transport_url').with_value('amqp://amqp_user:password@localhost:5672')
         is_expected.to contain_aodh_config('oslo_messaging_amqp/idle_timeout').with_value('60')
         is_expected.to contain_aodh_config('oslo_messaging_amqp/trace').with_value('true')
         is_expected.to contain_aodh_config('oslo_messaging_amqp/ssl_ca_file').with_value('/etc/ca.cert')

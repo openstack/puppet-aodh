@@ -13,6 +13,12 @@
 #    (<= 0 means forever)
 #    Defaults to $::os_service_default
 #
+# [*default_transport_url*]
+#    (optional) A URL representing the messaging driver to use and its full
+#    configuration. Transport URLs take the form:
+#      transport://user:pass@host1:port[,hostN:portN]/virtual_host
+#    Defaults to $::os_service_default
+#
 # [*rpc_backend*]
 #   (optional) The rpc backend implementation to use, can be:
 #     amqp (for AMQP 1.0 protocol)
@@ -182,6 +188,12 @@
 #   (optional) Syslog facility to receive log lines.
 #   Defaults to undef
 #
+# [*notification_transport_url*]
+#   (optional) A URL representing the messaging driver to use for notifications
+#   and its full configuration. Transport URLs take the form:
+#     transport://user:pass@host1:port[,hostN:portN]/virtual_host
+#   Defaults to $::os_service_default
+#
 # [*notification_driver*]
 #   (optional) Driver or drivers to handle sending notifications.
 #   Value can be a string or a list.
@@ -240,6 +252,7 @@
 class aodh (
   $ensure_package                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
+  $default_transport_url              = $::os_service_default,
   $rpc_backend                        = 'rabbit',
   $rabbit_host                        = $::os_service_default,
   $rabbit_hosts                       = $::os_service_default,
@@ -278,6 +291,7 @@ class aodh (
   $use_stderr                         = undef,
   $log_facility                       = undef,
   $log_dir                            = undef,
+  $notification_transport_url         = $::os_service_default,
   $notification_driver                = $::os_service_default,
   $notification_topics                = $::os_service_default,
   $database_connection                = undef,
@@ -353,9 +367,14 @@ class aodh (
     }
   }
 
+  oslo::messaging::default { 'aodh_config':
+    transport_url => $default_transport_url,
+  }
+
   oslo::messaging::notifications { 'aodh_config':
-    driver => $notification_driver,
-    topics => $notification_topics,
+    transport_url => $notification_transport_url,
+    driver        => $notification_driver,
+    topics        => $notification_topics,
   }
 
   aodh_config {
