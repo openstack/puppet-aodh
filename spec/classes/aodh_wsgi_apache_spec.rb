@@ -41,7 +41,7 @@ describe 'aodh::wsgi::apache' do
         'wsgi_script_aliases'         => { '/' => "#{platform_parameters[:wsgi_script_path]}/app" },
         'require'                     => 'File[aodh_wsgi]'
       )}
-      it { is_expected.to contain_file("#{platform_parameters[:httpd_ports_file]}") }
+      it { is_expected.to contain_concat("#{platform_parameters[:httpd_ports_file]}") }
     end
 
     describe 'when overriding parameters using different ports' do
@@ -69,7 +69,7 @@ describe 'aodh::wsgi::apache' do
         'require'                     => 'File[aodh_wsgi]'
       )}
 
-      it { is_expected.to contain_file("#{platform_parameters[:httpd_ports_file]}") }
+      it { is_expected.to contain_concat("#{platform_parameters[:httpd_ports_file]}") }
     end
   end
 
