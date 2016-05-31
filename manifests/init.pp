@@ -174,6 +174,10 @@
 #   (optional) Set log output to debug output.
 #   Defaults to undef
 #
+# [*use_syslog*]
+#   (optional) Use syslog for logging
+#   Defaults to undef
+#
 # [*use_stderr*]
 #   (optional) Use stderr for logging
 #   Defaults to undef
@@ -233,10 +237,6 @@
 #   (optional) Deprecated. Set log output to verbose output.
 #   Defaults to undef
 #
-# [*use_syslog*]
-#   (optional) DEPRECATED. Use syslog for logging
-#   Defaults to undef
-#
 class aodh (
   $ensure_package                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
@@ -275,6 +275,7 @@ class aodh (
   $amqp_username                      = $::os_service_default,
   $amqp_password                      = $::os_service_default,
   $debug                              = undef,
+  $use_syslog                         = undef,
   $use_stderr                         = undef,
   $log_facility                       = undef,
   $log_dir                            = undef,
@@ -291,7 +292,6 @@ class aodh (
   $gnocchi_url                        = $::os_service_default,
   # DEPRECATED PARAMETERS
   $verbose                            = undef,
-  $use_syslog                         = undef,
 ) inherits aodh::params {
 
   include ::aodh::db
@@ -305,10 +305,6 @@ class aodh (
 
   if $verbose {
     warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
-  }
-
-  if $use_syslog {
-    warning('use_syslog is deprecated, has no effect and will be removed in a future release')
   }
 
   if $rpc_backend == 'rabbit' {
