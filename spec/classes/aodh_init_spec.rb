@@ -5,9 +5,13 @@ describe 'aodh' do
   shared_examples 'aodh' do
 
     context 'with default parameters' do
-     it 'contains the logging class' do
-       is_expected.to contain_class('aodh::logging')
-     end
+      let :params do
+        { :purge_config => false  } 
+      end
+
+      it 'contains the logging class' do
+        is_expected.to contain_class('aodh::logging')
+      end
 
       it 'installs packages' do
         is_expected.to contain_package('aodh').with(
@@ -32,6 +36,13 @@ describe 'aodh' do
         is_expected.to contain_aodh_config('oslo_messaging_notifications/driver').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('<SERVICE DEFAULT>')
       end
+
+      it 'passes purge to resource' do
+        is_expected.to contain_resources('aodh_config').with({
+          :purge => false
+        })
+      end
+
     end
 
     context 'with overridden parameters' do

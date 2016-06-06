@@ -243,6 +243,11 @@
 #   (optional) URL to Gnocchi.
 #   Defaults to: $::os_service_default.
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the aodh config.
+#   Defaults to false.
+#
 # DEPRECATED PARAMETERS
 #
 # [*verbose*]
@@ -304,6 +309,7 @@ class aodh (
   $database_retry_interval            = undef,
   $database_max_overflow              = undef,
   $gnocchi_url                        = $::os_service_default,
+  $purge_config                       = false,
   # DEPRECATED PARAMETERS
   $verbose                            = undef,
 ) inherits aodh::params {
@@ -315,6 +321,10 @@ class aodh (
     ensure => $ensure_package,
     name   => $::aodh::params::common_package_name,
     tag    => ['openstack', 'aodh-package'],
+  }
+
+  resources { 'aodh_config':
+    purge  => $purge_config,
   }
 
   if $verbose {
