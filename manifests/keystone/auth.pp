@@ -35,7 +35,7 @@
 #
 # [*service_name*]
 #   (optional) Name of the service.
-#   Defaults to the value of auth_name.
+#   Defaults to 'aodh'.
 #
 # [*public_url*]
 #   (optional) The endpoint's public url. (Defaults to 'http://127.0.0.1:8042')
@@ -57,7 +57,7 @@ class aodh::keystone::auth (
   $configure_endpoint  = true,
   $configure_user      = true,
   $configure_user_role = true,
-  $service_name        = undef,
+  $service_name        = 'aodh',
   $service_type        = 'alarming',
   $region              = 'RegionOne',
   $public_url          = 'http://127.0.0.1:8042',
@@ -65,13 +65,11 @@ class aodh::keystone::auth (
   $admin_url           = 'http://127.0.0.1:8042',
 ) {
 
-  $real_service_name    = pick($service_name, $auth_name)
-
   keystone::resource::service_identity { 'aodh':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,
     configure_endpoint  => $configure_endpoint,
-    service_name        => $real_service_name,
+    service_name        => $service_name,
     service_type        => $service_type,
     service_description => 'OpenStack Alarming Service',
     region              => $region,

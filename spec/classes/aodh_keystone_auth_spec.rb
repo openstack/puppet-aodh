@@ -63,8 +63,8 @@ describe 'aodh::keystone::auth' do
 
     it { is_expected.to contain_keystone_user('aodhany') }
     it { is_expected.to contain_keystone_user_role('aodhany@services') }
-    it { is_expected.to contain_keystone_service('aodhany::alarming') }
-    it { is_expected.to contain_keystone_endpoint('RegionOne/aodhany::alarming') }
+    it { is_expected.to contain_keystone_service('aodh::alarming') }
+    it { is_expected.to contain_keystone_endpoint('RegionOne/aodh::alarming') }
   end
 
   describe 'when overriding service name' do
