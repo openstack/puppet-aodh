@@ -18,6 +18,19 @@
 #   (optional) Tenant to authenticate with.
 #   Defaults to 'services'.
 #
+# [*keystone_project_domain_name*]
+#   (optional) Project domain name to authenticate with.
+#   Defaults to 'default'.
+#
+# [*keystone_user_domain_name*]
+#   (optional) User domain name to authenticate with.
+#   Defaults to 'default'.
+#
+# [*keystone_auth_type*]
+#   (optional) An authentication type to use with an OpenStack Identity server.
+#   The value should contain auth plugin name.
+#   Defaults to 'password'.
+#
 # [*keystone_password*]
 #   Password to authenticate with.
 #   Mandatory.
@@ -26,9 +39,9 @@
 #   (optional) Public Identity API endpoint.
 #   Defaults to 'false'.
 #
-# [*keystone_identity_uri*]
-#   (optional) Complete admin Identity API endpoint.
-#   Defaults to: false
+# [*keystone_auth_url*]
+#   (optional) URL used by the plugin to know where to authenticate the service user.
+#   Defaults to $::os_service_default.
 #
 # [*host*]
 #   (optional) The aodh api bind address.
@@ -54,21 +67,40 @@
 # [*sync_db*]
 #   (optional) Run gnocchi-upgrade db sync on api nodes after installing the package.
 #   Defaults to false
+#
+# DEPRECATED PARAMETERS
+#
+# [*keystone_identity_uri*]
+#   (optional) DEPRECATED. Complete admin Identity API endpoint.
+#   Defaults to: undef
+#
 
 class aodh::api (
-  $manage_service        = true,
-  $enabled               = true,
-  $package_ensure        = 'present',
-  $keystone_user         = 'aodh',
-  $keystone_tenant       = 'services',
-  $keystone_password     = false,
-  $keystone_auth_uri     = false,
-  $keystone_identity_uri = false,
-  $host                  = '0.0.0.0',
-  $port                  = '8042',
-  $service_name          = $::aodh::params::api_service_name,
-  $sync_db               = false,
+  $manage_service               = true,
+  $enabled                      = true,
+  $package_ensure               = 'present',
+  $keystone_user                = 'aodh',
+  $keystone_tenant              = 'services',
+  $keystone_password            = false,
+  $keystone_auth_uri            = false,
+  $keystone_auth_url            = $::os_service_default,
+  $keystone_project_domain_name = 'default',
+  $keystone_user_domain_name    = 'default',
+  $keystone_auth_type           = 'password',
+  $host                         = '0.0.0.0',
+  $port                         = '8042',
+  $service_name                 = $::aodh::params::api_service_name,
+  $sync_db                      = false,
+  # DEPRECATED PARAMETERS
+  $keystone_identity_uri        = undef,
 ) inherits aodh::params {
+
+  if $keystone_identity_uri {
+    warning('keystone_identity_uri is deprecated, and will be removed in a future release.')
+    $keystone_auth_url_real = $keystone_identity_uri
+  } else {
+    $keystone_auth_url_real = $keystone_auth_url
+  }
 
   include ::aodh::params
   include ::aodh::policy
@@ -126,22 +158,16 @@ class aodh::api (
   }
 
   aodh_config {
-    'keystone_authtoken/auth_uri'          : value => $keystone_auth_uri;
-    'keystone_authtoken/admin_tenant_name' : value => $keystone_tenant;
-    'keystone_authtoken/admin_user'        : value => $keystone_user;
-    'keystone_authtoken/admin_password'    : value => $keystone_password, secret => true;
-    'api/host'                             : value => $host;
-    'api/port'                             : value => $port;
-  }
-
-  if $keystone_identity_uri {
-    aodh_config {
-      'keystone_authtoken/identity_uri': value => $keystone_identity_uri;
-    }
-  } else {
-    aodh_config {
-      'keystone_authtoken/identity_uri': ensure => absent;
-    }
+    'keystone_authtoken/auth_uri'            : value => $keystone_auth_uri;
+    'keystone_authtoken/auth_url'            : value => $keystone_auth_url_real;
+    'keystone_authtoken/project_name'        : value => $keystone_tenant;
+    'keystone_authtoken/project_domain_name' : value => $keystone_project_domain_name;
+    'keystone_authtoken/user_domain_name'    : value => $keystone_user_domain_name;
+    'keystone_authtoken/auth_type'           : value => $keystone_auth_type;
+    'keystone_authtoken/username'            : value => $keystone_user;
+    'keystone_authtoken/password'            : value => $keystone_password, secret => true;
+    'api/host'                               : value => $host;
+    'api/port'                               : value => $port;
   }
 
 }

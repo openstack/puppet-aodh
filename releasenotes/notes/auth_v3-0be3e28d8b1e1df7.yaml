@@ -1,0 +1,6 @@
+---
+features:
+  - Update service_credentials and keystone_authtoken parameters to support
+    Keystone v3 and password auth_type.
+deprecations:
+  - Deprecate keystone_identity_uri from aodh::api class.
