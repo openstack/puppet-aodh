@@ -21,17 +21,31 @@
 #    the keystone tenant name for aodh services
 #    Optional. Defaults to 'services'
 #
+#  [*project_domain_id*]
+#    the keystone project domain id for aodh services
+#    Optional. Defaults to 'default'
+#
+#  [*user_domain_id*]
+#    the keystone user domain id for aodh services
+#    Optional. Defaults to 'default'
+#
 #  [*auth_tenant_id*]
 #    the keystone tenant id for aodh services.
-#    Optional. Defaults to undef.
+#    Optional. Defaults to $::os_service_default.
+#
+#  [*auth_type*]
+#    An authentication type to use with an OpenStack Identity server.
+#    The value should contain auth plugin name.
+#    Optional. Defaults to 'password'.
 #
 #  [*auth_cacert*]
-#    Certificate chain for SSL validation. Optional; Defaults to 'undef'
+#    Certificate chain for SSL validation.
+#    Optional. Defaults to $::os_service_default
 #
 #  [*auth_endpoint_type*]
 #    Type of endpoint in Identity service catalog to use for
 #    communication with OpenStack services.
-#    Optional. Defaults to undef.
+#    Optional. Defaults to $::os_service_default.
 #
 class aodh::auth (
   $auth_password,
@@ -39,35 +53,26 @@ class aodh::auth (
   $auth_region        = 'RegionOne',
   $auth_user          = 'aodh',
   $auth_tenant_name   = 'services',
-  $auth_tenant_id     = undef,
-  $auth_cacert        = undef,
-  $auth_endpoint_type = undef,
+  $project_domain_id  = 'default',
+  $user_domain_id     = 'default',
+  $auth_type          = 'password',
+  $auth_tenant_id     = $::os_service_default,
+  $auth_cacert        = $::os_service_default,
+  $auth_endpoint_type = $::os_service_default,
 ) {
 
-  if $auth_cacert {
-    aodh_config { 'service_credentials/os_cacert': value => $auth_cacert }
-  } else {
-    aodh_config { 'service_credentials/os_cacert': ensure => absent }
-  }
-
   aodh_config {
-    'service_credentials/os_auth_url'    : value => $auth_url;
-    'service_credentials/os_region_name' : value => $auth_region;
-    'service_credentials/os_username'    : value => $auth_user;
-    'service_credentials/os_password'    : value => $auth_password, secret => true;
-    'service_credentials/os_tenant_name' : value => $auth_tenant_name;
-  }
-
-  if $auth_tenant_id {
-    aodh_config {
-      'service_credentials/os_tenant_id' : value => $auth_tenant_id;
-    }
-  }
-
-  if $auth_endpoint_type {
-    aodh_config {
-      'service_credentials/os_endpoint_type' : value => $auth_endpoint_type;
-    }
+    'service_credentials/auth_url'          : value => $auth_url;
+    'service_credentials/region_name'       : value => $auth_region;
+    'service_credentials/username'          : value => $auth_user;
+    'service_credentials/password'          : value => $auth_password, secret => true;
+    'service_credentials/project_name'      : value => $auth_tenant_name;
+    'service_credentials/cacert'            : value => $auth_cacert;
+    'service_credentials/tenant_id'         : value => $auth_tenant_id;
+    'service_credentials/endpoint_type'     : value => $auth_endpoint_type;
+    'service_credentials/project_domain_id' : value => $project_domain_id;
+    'service_credentials/user_domain_id'    : value => $user_domain_id;
+    'service_credentials/auth_type'         : value => $auth_type;
   }
 
 }
