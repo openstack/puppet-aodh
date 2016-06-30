@@ -42,6 +42,7 @@ describe 'aodh::api' do
       is_expected.to contain_aodh_config('keystone_authtoken/admin_user').with_value( params[:keystone_user] )
       is_expected.to contain_aodh_config('keystone_authtoken/admin_password').with_value( params[:keystone_password] )
       is_expected.to contain_aodh_config('keystone_authtoken/admin_password').with_value( params[:keystone_password] ).with_secret(true)
+      is_expected.to contain_aodh_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_aodh_config('api/host').with_value( params[:host] )
       is_expected.to contain_aodh_config('api/port').with_value( params[:port] )
     end
@@ -118,6 +119,17 @@ describe 'aodh::api' do
       end
 
       it_raises 'a Puppet::Error', /Invalid service_name/
+    end
+
+    context "with memcached servers" do
+      before do
+        params.merge!({
+          :memcached_servers => '1.1.1.1:11211',
+        })
+      end
+      it 'configures auth_uri but deprecates old auth settings' do
+        is_expected.to contain_aodh_config('keystone_authtoken/memcached_servers').with_value('1.1.1.1:11211');
+      end
     end
 
     context "with custom keystone identity_uri and auth_uri" do

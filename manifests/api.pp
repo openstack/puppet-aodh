@@ -30,6 +30,11 @@
 #   (optional) Complete admin Identity API endpoint.
 #   Defaults to: false
 #
+# [*memcached_servers*]
+#   (optinal) a list of memcached server(s) to use for caching. If left
+#   undefined, tokens will instead be cached in-process.
+#   Defaults to $::os_service_default.
+#
 # [*host*]
 #   (optional) The aodh api bind address.
 #   Defaults to 0.0.0.0
@@ -59,6 +64,7 @@ class aodh::api (
   $keystone_tenant       = 'services',
   $keystone_password     = false,
   $keystone_auth_uri     = false,
+  $memcached_servers     = $::os_service_default,
   $keystone_identity_uri = false,
   $host                  = '0.0.0.0',
   $port                  = '8042',
@@ -121,6 +127,7 @@ class aodh::api (
     'keystone_authtoken/admin_tenant_name' : value => $keystone_tenant;
     'keystone_authtoken/admin_user'        : value => $keystone_user;
     'keystone_authtoken/admin_password'    : value => $keystone_password, secret => true;
+    'keystone_authtoken/memcached_servers' : value => join(any2array($memcached_servers), ',');
     'api/host'                             : value => $host;
     'api/port'                             : value => $port;
   }
