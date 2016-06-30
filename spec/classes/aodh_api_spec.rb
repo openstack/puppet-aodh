@@ -47,6 +47,7 @@ describe 'aodh::api' do
       is_expected.to contain_aodh_config('keystone_authtoken/project_domain_name').with_value( params[:keystone_project_domain_name] )
       is_expected.to contain_aodh_config('keystone_authtoken/user_domain_name').with_value( params[:keystone_user_domain_name] )
       is_expected.to contain_aodh_config('keystone_authtoken/auth_type').with_value( params[:keystone_auth_type] )
+      is_expected.to contain_aodh_config('keystone_authtoken/memcached_servers').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_aodh_config('api/host').with_value( params[:host] )
       is_expected.to contain_aodh_config('api/port').with_value( params[:port] )
     end
@@ -143,6 +144,17 @@ describe 'aodh::api' do
       it 'configures auth_uri but deprecates old auth settings' do
         is_expected.to contain_aodh_config('keystone_authtoken/auth_uri').with_value("https://foo.bar:5000");
         is_expected.to contain_aodh_config('keystone_authtoken/auth_url').with_value("https://foo.bar:35357");
+      end
+    end
+
+    context "with memcached servers" do
+      before do
+        params.merge!({
+          :memcached_servers => '1.1.1.1:11211',
+        })
+      end
+      it 'configures auth_uri but deprecates old auth settings' do
+        is_expected.to contain_aodh_config('keystone_authtoken/memcached_servers').with_value('1.1.1.1:11211');
       end
     end
 
