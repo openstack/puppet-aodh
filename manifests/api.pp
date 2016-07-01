@@ -43,6 +43,11 @@
 #   (optional) URL used by the plugin to know where to authenticate the service user.
 #   Defaults to $::os_service_default.
 #
+# [*memcached_servers*]
+#   (optinal) a list of memcached server(s) to use for caching. If left
+#   undefined, tokens will instead be cached in-process.
+#   Defaults to $::os_service_default.
+#
 # [*host*]
 #   (optional) The aodh api bind address.
 #   Defaults to 0.0.0.0
@@ -84,6 +89,7 @@ class aodh::api (
   $keystone_password            = false,
   $keystone_auth_uri            = false,
   $keystone_auth_url            = $::os_service_default,
+  $memcached_servers            = $::os_service_default,
   $keystone_project_domain_name = 'default',
   $keystone_user_domain_name    = 'default',
   $keystone_auth_type           = 'password',
@@ -166,6 +172,7 @@ class aodh::api (
     'keystone_authtoken/auth_type'           : value => $keystone_auth_type;
     'keystone_authtoken/username'            : value => $keystone_user;
     'keystone_authtoken/password'            : value => $keystone_password, secret => true;
+    'keystone_authtoken/memcached_servers'   : value => join(any2array($memcached_servers), ',');
     'api/host'                               : value => $host;
     'api/port'                               : value => $port;
   }
