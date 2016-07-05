@@ -1,8 +1,6 @@
 AODH
 ====
 
-8.0.0 - 2016.1.0 - Mitaka
-
 #### Table of Contents
 
 1. [Overview - What is the AODH module?](#overview)
