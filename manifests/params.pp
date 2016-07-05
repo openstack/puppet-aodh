@@ -1,6 +1,7 @@
 # Parameters for puppet-aodh
 #
 class aodh::params {
+  include ::openstacklib::defaults
 
   $client_package_name = 'python-ceilometerclient'
 
