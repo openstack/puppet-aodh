@@ -13,7 +13,7 @@ class aodh::client (
   include ::aodh::params
 
   if $package_name != $::os_service_default {
-    $client_package_name = $client_package_name
+    $client_package_name = $package_name
   } else {
     $client_package_name = $::aodh::params::client_package_name
   }
