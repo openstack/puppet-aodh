@@ -42,11 +42,12 @@ describe 'basic aodh' do
       class { '::aodh::keystone::auth':
         password => 'a_big_secret',
       }
+      class { '::aodh::keystone::authtoken':
+        password => 'a_big_secret',
+      }
       class { '::aodh::api':
-        enabled               => true,
-        keystone_password     => 'a_big_secret',
-        keystone_auth_uri     => 'http://127.0.0.1:5000',
-        service_name          => 'httpd',
+        enabled      => true,
+        service_name => 'httpd',
       }
       include ::apache
       class { '::aodh::wsgi::apache':

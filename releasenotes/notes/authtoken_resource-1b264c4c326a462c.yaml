@@ -1,0 +1,25 @@
+---
+features:
+  - Configure keystonemiddleware in a consistent way with all options required
+    for Keystone v3.
+deprecations:
+  - aodh::api::keystone_tenant is deprecated in favor of
+    aodh::keystone::authtoken::project_name.
+  - aodh::api::keystone_user is deprecated in favor of
+    aodh::keystone::authtoken::username.
+  - aodh::api::keystone_password is deprecated in favor of
+    aodh::keystone::authtoken::password.
+  - aodh::api::keystone_project_domain_name is deprecated in favor of
+    aodh::keystone::authtoken::project_domain_name
+  - aodh::api::keystone_user_domain_name is deprecated in favor of
+    aodh::keystone::authtoken::user_domain_name
+  - aodh::api::keystone_auth_type is deprecated in favor of
+    aodh::keystone::authtoken::auth_type
+  - aodh::api::keystone_auth_uri is deprecated in favor of
+    aodh::keystone::authtoken::auth_uri
+  - aodh::api::keystone_identity_uri is deprecated in favor of
+    aodh::keystone::authtoken::auth_url
+  - aodh::api::keystone_auth_url is deprecated in favor of
+    aodh::keystone::authtoken::auth_url
+  - aodh::api::memcached_servers is deprecated in favor of
+    aodh::keystone::authtoken::memcached_servers
