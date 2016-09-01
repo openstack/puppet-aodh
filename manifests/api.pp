@@ -42,7 +42,7 @@
 # = DEPRECATED PARAMETERS
 #
 # [*keystone_identity_uri*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::auth_uri instead.
+#   (optional) DEPRECATED. Use aodh::keystone::authtoken::auth_url instead.
 #   Defaults to: undef
 #
 # [*keystone_user*]
