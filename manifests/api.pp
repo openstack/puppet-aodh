@@ -193,8 +193,8 @@ class aodh::api (
     # we need to make sure aodh-api/eventlet is stopped before trying to start apache
     Service['aodh-api'] -> Service[$service_name]
   } else {
-    fail('Invalid service_name. Either aodh/openstack-aodh-api for running \
-          as a standalone service, or httpd for being run by a httpd server')
+    fail("Invalid service_name. Either aodh/openstack-aodh-api for running \
+as a standalone service, or httpd for being run by a httpd server")
   }
 
   aodh_config {
