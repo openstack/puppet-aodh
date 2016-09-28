@@ -44,48 +44,6 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
-# = DEPRECATED PARAMETERS
-#
-# [*keystone_identity_uri*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::auth_url instead.
-#   Defaults to: undef
-#
-# [*keystone_user*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::username instead.
-#   Defaults to undef
-#
-# [*keystone_tenant*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::project_name instead.
-#   Defaults to undef
-#
-# [*keystone_project_domain_name*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::project_domain_name instead.
-#   Defaults to undef
-#
-# [*keystone_user_domain_name*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::user_domain_name instead.
-#   Defaults to undef
-#
-# [*keystone_auth_type*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::auth_type instead.
-#   Defaults to undef
-#
-# [*keystone_password*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::password instead.
-#   Defaults to undef
-#
-# [*keystone_auth_uri*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::auth_uri instead.
-#   Defaults to undef
-#
-# [*keystone_auth_url*]
-#   (optional) DEPRECATED. Use aodh::keystone::authtoken::auth_url instead.
-#   Defaults to undef
-#
-# [*memcached_servers*]
-#   (optinal) DEPRECATED. Use aodh::keystone::authtoken::memcached_servers.
-#   Defaults to undef
-#
 class aodh::api (
   $manage_service                 = true,
   $enabled                        = true,
@@ -96,54 +54,8 @@ class aodh::api (
   $sync_db                        = false,
   $auth_strategy                  = 'keystone',
   $enable_proxy_headers_parsing   = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $keystone_identity_uri          = undef,
-  $keystone_user                  = undef,
-  $keystone_tenant                = undef,
-  $keystone_password              = undef,
-  $keystone_auth_uri              = undef,
-  $keystone_auth_url              = undef,
-  $keystone_project_domain_name   = undef,
-  $keystone_user_domain_name      = undef,
-  $keystone_auth_type             = undef,
-  $memcached_servers              = undef,
 ) inherits aodh::params {
 
-  if $keystone_identity_uri {
-    warning('aodh::api::keystone_identity_uri is deprecated, user aodh::keystone::authtoken::auth_url instead.')
-  }
-
-  if $keystone_user {
-    warning('aodh::api::keystone_user is deprecated, use aodh::keystone::authtoken::username instead')
-  }
-
-  if $keystone_tenant {
-    warning('aodh::api::keystone_tenant is deprecated, use aodh::keystone::authtoken::project_name instead')
-  }
-
-  if $keystone_password {
-    warning('aodh::api::keystone_password is deprecated, use aodh::keystone::authtoken::password instead')
-  }
-
-  if $keystone_auth_uri {
-    warning('aodh::api::keystone_auth_uri is deprecated, use aodh::keystone::authtoken::auth_uri instead')
-  }
-
-  if $keystone_project_domain_name {
-    warning('aodh::api::keystone_project_domain_name is deprecated, use aodh::keystone::authtoken::project_domain_name instead')
-  }
-
-  if $keystone_user_domain_name {
-    warning('aodh::api::keystone_user_domain_name is deprecated, use aodh::keystone::authtoken::user_domain_name instead')
-  }
-
-  if $keystone_auth_type {
-    warning('aodh::api::keystone_auth_type is deprecated, use aodh::keystone::authtoken::auth_type instead')
-  }
-
-  if $memcached_servers {
-    warning('aodh::api::memcached_servers is deprecated, use aodh::keystone::authtoken::memcached_servers instead.')
-  }
 
   include ::aodh::params
   include ::aodh::policy

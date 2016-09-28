@@ -1,0 +1,12 @@
+---
+other:
+  - removed deprecated aodh::api::keystone_tenant
+  - removed deprecated aodh::api::keystone_user
+  - removed deprecated aodh::api::keystone_password
+  - removed deprecated aodh::api::keystone_project_domain_name
+  - removed deprecated aodh::api::keystone_user_domain_name
+  - removed deprecated aodh::api::keystone_auth_type
+  - removed deprecated aodh::api::keystone_auth_uri
+  - removed deprecated aodh::api::keystone_identity_uri
+  - removed deprecated aodh::api::keystone_auth_url
+  - removed deprecated aodh::api::memcached_servers

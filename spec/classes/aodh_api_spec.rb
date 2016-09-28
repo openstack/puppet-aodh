@@ -4,13 +4,15 @@ describe 'aodh::api' do
 
   let :pre_condition do
     "class { 'aodh': }
-     include ::aodh::db"
+     include ::aodh::db
+     class { '::aodh::keystone::authtoken':
+       password => 'a_big_secret',
+     }"
   end
 
   let :params do
     { :enabled           => true,
       :manage_service    => true,
-      :keystone_password => 'aodh-passw0rd',
       :package_ensure    => 'latest',
       :port              => '8042',
       :host              => '0.0.0.0',
@@ -72,43 +74,6 @@ describe 'aodh::api' do
       it { is_expected.to contain_aodh_config('oslo_middleware/enable_proxy_headers_parsing').with_value(true) }
     end
 
-    context 'with deprecated parameters' do
-      before do
-        params.merge!({
-          :keystone_user                => 'dummy',
-          :keystone_password            => 'mypassword',
-          :keystone_tenant              => 'tenant',
-          :keystone_auth_uri            => 'https://10.0.0.1:5000/deprecated',
-          :keystone_identity_uri        => 'https://10.0.0.1:35357/deprecated',
-          :keystone_auth_url            => 'https://10.0.0.1:35357/deprecated',
-          :memcached_servers            => ['memcached01:11211','memcached02:11211'],
-          :keystone_project_domain_name => 'domainX',
-          :keystone_user_domain_name    => 'domainX',
-          :keystone_auth_type           => 'auth',
-        })
-      end
-      it 'configures keystone_authtoken middleware' do
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/auth_uri').with_value('https://10.0.0.1:5000/deprecated')
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/username').with_value(params[:keystone_user])
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/password').with_value(params[:keystone_password]).with_secret(true)
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/auth_url').with_value(params[:keystone_identity_uri])
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/project_name').with_value(params[:keystone_tenant])
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/user_domain_name').with_value(params[:keystone_user_domain_name])
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/project_domain_name').with_value(params[:keystone_project_domain_name])
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/auth_type').with_value(params[:keystone_auth_type])
-        is_expected.to contain_aodh_config(
-          'keystone_authtoken/memcached_servers').with_value('memcached01:11211,memcached02:11211')
-      end
-    end
-
     context 'with disabled service managing' do
       before do
         params.merge!({
@@ -136,7 +101,10 @@ describe 'aodh::api' do
       let :pre_condition do
         "include ::apache
          include ::aodh::db
-         class { 'aodh': }"
+         class { 'aodh': }
+         class { '::aodh::keystone::authtoken':
+           password => 'a_big_secret',
+         }"
       end
 
       it 'configures aodh-api service with Apache' do
@@ -157,36 +125,13 @@ describe 'aodh::api' do
       let :pre_condition do
         "include ::apache
          include ::aodh::db
-         class { 'aodh': }"
+         class { 'aodh': }
+         class { '::aodh::keystone::authtoken':
+           password => 'a_big_secret',
+         }"
       end
 
       it_raises 'a Puppet::Error', /Invalid service_name/
-    end
-
-    context "with deprecated keystone options" do
-      before do
-        params.merge!({
-          :keystone_user                => 'user',
-          :keystone_password            => 'userpassword',
-          :keystone_tenant              => 'tenant',
-          :keystone_project_domain_name => 'domainx',
-          :keystone_user_domain_name    => 'domainx',
-          :keystone_auth_type           => 'password',
-          :keystone_auth_uri            => 'https://foo.bar:5000',
-          :keystone_auth_url            => 'https://foo.bar:35357/deprecated',
-          :keystone_identity_uri        => 'https://foo.bar:35357/deprecated',
-        })
-      end
-      it 'configures auth_uri but deprecates old auth settings' do
-        is_expected.to contain_aodh_config('keystone_authtoken/auth_uri').with_value("https://foo.bar:5000");
-        is_expected.to contain_aodh_config('keystone_authtoken/auth_url').with_value("https://foo.bar:35357/deprecated");
-        is_expected.to contain_aodh_config('keystone_authtoken/username').with_value('user')
-        is_expected.to contain_aodh_config('keystone_authtoken/password').with_value('userpassword')
-        is_expected.to contain_aodh_config('keystone_authtoken/project_name').with_value('tenant')
-        is_expected.to contain_aodh_config('keystone_authtoken/user_domain_name').with_value('domainx')
-        is_expected.to contain_aodh_config('keystone_authtoken/project_domain_name').with_value('domainx')
-        is_expected.to contain_aodh_config('keystone_authtoken/auth_type').with_value('password')
-      end
     end
   end
 
