@@ -13,6 +13,8 @@ class aodh::db::sync (
     path        => '/usr/bin',
     refreshonly => true,
     user        => $user,
+    try_sleep   => 5,
+    tries       => 10,
     logoutput   => on_failure,
   }
 
