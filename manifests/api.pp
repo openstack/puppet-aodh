@@ -39,6 +39,11 @@
 #   (optional) Type of authentication to be used.
 #   Defaults to 'keystone'
 #
+# [*enable_proxy_headers_parsing*]
+#   (Optional) Enable paste middleware to handle SSL requests through
+#   HTTPProxyToWSGI middleware.
+#   Defaults to $::os_service_default.
+#
 # = DEPRECATED PARAMETERS
 #
 # [*keystone_identity_uri*]
@@ -90,6 +95,7 @@ class aodh::api (
   $service_name                   = $::aodh::params::api_service_name,
   $sync_db                        = false,
   $auth_strategy                  = 'keystone',
+  $enable_proxy_headers_parsing   = $::os_service_default,
   # DEPRECATED PARAMETERS
   $keystone_identity_uri          = undef,
   $keystone_user                  = undef,
@@ -202,4 +208,7 @@ as a standalone service, or httpd for being run by a httpd server")
     'api/port': value => $port;
   }
 
+  oslo::middleware { 'aodh_config':
+    enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
+  }
 }
