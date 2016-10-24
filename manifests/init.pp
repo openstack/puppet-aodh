@@ -248,12 +248,6 @@
 #   in the aodh config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*verbose*]
-#   (optional) Deprecated. Set log output to verbose output.
-#   Defaults to undef
-#
 class aodh (
   $ensure_package                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
@@ -310,8 +304,6 @@ class aodh (
   $database_max_overflow              = undef,
   $gnocchi_url                        = $::os_service_default,
   $purge_config                       = false,
-  # DEPRECATED PARAMETERS
-  $verbose                            = undef,
 ) inherits aodh::params {
 
   include ::aodh::db
@@ -325,10 +317,6 @@ class aodh (
 
   resources { 'aodh_config':
     purge  => $purge_config,
-  }
-
-  if $verbose {
-    warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
   }
 
   if $rpc_backend == 'rabbit' {
