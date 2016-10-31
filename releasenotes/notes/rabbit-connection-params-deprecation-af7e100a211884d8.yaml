@@ -1,0 +1,6 @@
+---
+deprecations:
+  - aodh::rabbit_host, aodh::rabbit_hosts, aodh::rabbit_password,
+    aodh::rabbit_port, aodh::rabbit_userid and aodh::rabbit_virtual_host are
+    deprecated. aodh::default_transport_url should be used to configure the
+    messaging backend connection information.

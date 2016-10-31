@@ -30,11 +30,9 @@ describe 'basic aodh' do
       Rabbitmq_user_permissions['aodh@/'] -> Service<| tag == 'aodh-service' |>
 
       class { '::aodh':
-        rabbit_userid       => 'aodh',
-        rabbit_password     => 'an_even_bigger_secret',
-        debug               => true,
-        rabbit_host         => '127.0.0.1',
-        database_connection => 'mysql://aodh:a_big_secret@127.0.0.1/aodh?charset=utf8',
+        debug                 => true,
+        default_transport_url => 'rabbit://aodh:an_even_bigger_secret@127.0.0.1:5672',
+        database_connection   => 'mysql://aodh:a_big_secret@127.0.0.1/aodh?charset=utf8',
       }
       class { '::aodh::db::mysql':
         password => 'a_big_secret',
