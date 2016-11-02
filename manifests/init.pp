@@ -26,30 +26,6 @@
 #     zmq (for zeromq)
 #   Defaults to 'rabbit'
 #
-# [*rabbit_host*]
-#   (optional) Location of rabbitmq installation.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_hosts*]
-#   (optional) List of clustered rabbit servers.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_port*]
-#   (optional) Port for rabbitmq instance.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_password*]
-#   (optional) Password used to connect to rabbitmq.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_userid*]
-#   (optional) User used to connect to rabbitmq.
-#   Defaults to $::os_service_default
-#
-# [*rabbit_virtual_host*]
-#   (optional) The RabbitMQ virtual host.
-#   Defaults to $::os_service_default
-#
 # [*rabbit_use_ssl*]
 #   (optional) Connect over SSL for RabbitMQ
 #   Defaults to $::os_service_default
@@ -248,17 +224,37 @@
 #   in the aodh config.
 #   Defaults to false.
 #
+# === DEPRECATED PARAMETERS
+#
+# [*rabbit_host*]
+#   (optional) Location of rabbitmq installation.
+#   Defaults to $::os_service_default
+#
+# [*rabbit_hosts*]
+#   (optional) List of clustered rabbit servers.
+#   Defaults to $::os_service_default
+#
+# [*rabbit_port*]
+#   (optional) Port for rabbitmq instance.
+#   Defaults to $::os_service_default
+#
+# [*rabbit_password*]
+#   (optional) Password used to connect to rabbitmq.
+#   Defaults to $::os_service_default
+#
+# [*rabbit_userid*]
+#   (optional) User used to connect to rabbitmq.
+#   Defaults to $::os_service_default
+#
+# [*rabbit_virtual_host*]
+#   (optional) The RabbitMQ virtual host.
+#   Defaults to $::os_service_default
+#
 class aodh (
   $ensure_package                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
   $default_transport_url              = $::os_service_default,
   $rpc_backend                        = 'rabbit',
-  $rabbit_host                        = $::os_service_default,
-  $rabbit_hosts                       = $::os_service_default,
-  $rabbit_password                    = $::os_service_default,
-  $rabbit_port                        = $::os_service_default,
-  $rabbit_userid                      = $::os_service_default,
-  $rabbit_virtual_host                = $::os_service_default,
   $rabbit_use_ssl                     = $::os_service_default,
   $rabbit_heartbeat_timeout_threshold = $::os_service_default,
   $rabbit_heartbeat_rate              = $::os_service_default,
@@ -304,10 +300,28 @@ class aodh (
   $database_max_overflow              = undef,
   $gnocchi_url                        = $::os_service_default,
   $purge_config                       = false,
+  # DEPRECATED
+  $rabbit_host                        = $::os_service_default,
+  $rabbit_hosts                       = $::os_service_default,
+  $rabbit_password                    = $::os_service_default,
+  $rabbit_port                        = $::os_service_default,
+  $rabbit_userid                      = $::os_service_default,
+  $rabbit_virtual_host                = $::os_service_default,
 ) inherits aodh::params {
 
   include ::aodh::db
   include ::aodh::logging
+
+  if !is_service_default($rabbit_host) or
+    !is_service_default($rabbit_hosts) or
+    !is_service_default($rabbit_password) or
+    !is_service_default($rabbit_port) or
+    !is_service_default($rabbit_userid) or
+    !is_service_default($rabbit_virtual_host) {
+    warning("aodh::rabbit_host, aodh::rabbit_hosts, aodh::rabbit_password, \
+aodh::rabbit_port, aodh::rabbit_userid and aodh::rabbit_virtual_host are \
+deprecated. Please use aodh::default_transport_url instead.")
+  }
 
   package { 'aodh':
     ensure => $ensure_package,
