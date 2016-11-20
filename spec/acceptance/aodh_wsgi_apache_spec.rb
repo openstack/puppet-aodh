@@ -26,8 +26,6 @@ describe 'basic aodh' do
         provider             => 'rabbitmqctl',
         require              => Class['rabbitmq'],
       }
-      # https://bugs.launchpad.net/aodh/+bug/1557154
-      Rabbitmq_user_permissions['aodh@/'] -> Service<| tag == 'aodh-service' |>
 
       class { '::aodh':
         debug                 => true,
