@@ -49,6 +49,8 @@ class aodh::db (
   $database_max_overflow   = $::os_service_default,
 ) {
 
+  include ::aodh::deps
+
   $database_connection_real = pick($::aodh::database_connection, $database_connection)
   $database_idle_timeout_real = pick($::aodh::database_idle_timeout, $database_idle_timeout)
   $database_min_pool_size_real = pick($::aodh::database_min_pool_size, $database_min_pool_size)
