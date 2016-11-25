@@ -116,6 +116,7 @@ class aodh::logging(
   if $verbose {
     warning('verbose is deprecated, has no effect and will be removed after Newton cycle.')
   }
+  include ::aodh::deps
 
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use aodh::<myparam> first then aodh::logging::<myparam>.

@@ -145,6 +145,7 @@ class aodh::api (
     warning('aodh::api::memcached_servers is deprecated, use aodh::keystone::authtoken::memcached_servers instead.')
   }
 
+  include ::aodh::deps
   include ::aodh::params
   include ::aodh::policy
 
@@ -152,12 +153,6 @@ class aodh::api (
     include ::aodh::keystone::authtoken
   }
 
-  Aodh_config<||> ~> Service[$service_name]
-  Class['aodh::policy'] ~> Service[$service_name]
-
-  Package['aodh-api'] -> Service[$service_name]
-  Package['aodh-api'] -> Service['aodh-api']
-  Package['aodh-api'] -> Class['aodh::policy']
   package { 'aodh-api':
     ensure => $package_ensure,
     name   => $::aodh::params::api_package_name,
@@ -183,7 +178,6 @@ class aodh::api (
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
-      require    => Class['aodh::db'],
       tag        => 'aodh-service',
     }
   } elsif $service_name == 'httpd' {
@@ -194,7 +188,6 @@ class aodh::api (
       enable => false,
       tag    => 'aodh-service',
     }
-    Class['aodh::db'] -> Service[$service_name]
 
     # we need to make sure aodh-api/eventlet is stopped before trying to start apache
     Service['aodh-api'] -> Service[$service_name]

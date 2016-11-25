@@ -28,6 +28,8 @@ class aodh::config (
   $aodh_api_paste_ini = {},
 ) {
 
+  include ::aodh::deps
+
   validate_hash($aodh_config)
   validate_hash($aodh_api_paste_ini)
 

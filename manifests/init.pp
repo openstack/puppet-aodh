@@ -314,6 +314,7 @@ class aodh (
   $verbose                            = undef,
 ) inherits aodh::params {
 
+  include ::aodh::deps
   include ::aodh::db
   include ::aodh::logging
 

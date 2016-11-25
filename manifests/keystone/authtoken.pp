@@ -231,6 +231,7 @@ class aodh::keystone::authtoken(
   if is_service_default($password) and ! $::aodh::api::keystone_password {
     fail('Please set password for Aodh service user')
   }
+  include ::aodh::deps
 
   $username_real = pick($::aodh::api::keystone_user, $username)
   $password_real = pick($::aodh::api::keystone_password, $password)

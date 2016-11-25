@@ -19,11 +19,9 @@ class aodh::notifier (
   $package_ensure = 'present',
 ) {
 
+  include ::aodh::deps
   include ::aodh::params
 
-  Aodh_config<||> ~> Service['aodh-notifier']
-
-  Package[$::aodh::params::notifier_package_name] -> Service['aodh-notifier']
   ensure_resource( 'package', [$::aodh::params::notifier_package_name],
     { ensure => $package_ensure,
       tag    => ['openstack', 'aodh-package'] }
@@ -37,7 +35,6 @@ class aodh::notifier (
     }
   }
 
-  Package['aodh'] -> Service['aodh-notifier']
   service { 'aodh-notifier':
     ensure     => $service_ensure,
     name       => $::aodh::params::notifier_service_name,

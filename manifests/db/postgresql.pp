@@ -40,7 +40,7 @@ class aodh::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  Class['aodh::db::postgresql'] -> Service<| title == 'aodh' |>
+  include ::aodh::deps
 
   ::openstacklib::db::postgresql { 'aodh':
     password_hash => postgresql_password($user, $password),
@@ -50,6 +50,8 @@ class aodh::db::postgresql(
     privileges    => $privileges,
   }
 
-  ::Openstacklib::Db::Postgresql['aodh'] ~> Exec<| title == 'aodh-db-sync' |>
+  Anchor['aodh::db::begin']
+  ~> Class['aodh::db::postgresql']
+  ~> Anchor['aodh::db::end']
 
 }
