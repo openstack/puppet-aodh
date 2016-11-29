@@ -53,6 +53,8 @@ class aodh::db::mysql(
   $allowed_hosts = undef
 ) {
 
+  include ::aodh::deps
+
   validate_string($password)
 
   ::openstacklib::db::mysql { 'aodh':
@@ -65,5 +67,8 @@ class aodh::db::mysql(
     allowed_hosts => $allowed_hosts,
   }
 
-  ::Openstacklib::Db::Mysql['aodh'] ~> Exec<| title == 'aodh-db-sync' |>
+  Anchor['aodh::db::begin']
+  ~> Class['aodh::db::mysql']
+  ~> Anchor['aodh::db::end']
+
 }

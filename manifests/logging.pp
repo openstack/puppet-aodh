@@ -105,6 +105,8 @@ class aodh::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
+  include ::aodh::deps
+
   # NOTE(spredzy): In order to keep backward compatibility we rely on the pick function
   # to use aodh::<myparam> first then aodh::logging::<myparam>.
   $use_syslog_real   = pick($::aodh::use_syslog,$use_syslog)

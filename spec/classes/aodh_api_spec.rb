@@ -21,6 +21,7 @@ describe 'aodh::api' do
 
   shared_examples_for 'aodh-api' do
 
+    it { is_expected.to contain_class('aodh::deps') }
     it { is_expected.to contain_class('aodh::params') }
     it { is_expected.to contain_class('aodh::policy') }
 
@@ -51,10 +52,11 @@ describe 'aodh::api' do
             :enable     => params[:enabled],
             :hasstatus  => true,
             :hasrestart => true,
-            :require    => 'Class[Aodh::Db]',
             :tag        => 'aodh-service',
           )
         end
+        it { is_expected.to contain_service('aodh-api').that_subscribes_to('Anchor[aodh::service::begin]')}
+        it { is_expected.to contain_service('aodh-api').that_notifies('Anchor[aodh::service::end]')}
       end
     end
 

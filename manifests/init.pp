@@ -309,6 +309,7 @@ class aodh (
   $rabbit_virtual_host                = $::os_service_default,
 ) inherits aodh::params {
 
+  include ::aodh::deps
   include ::aodh::db
   include ::aodh::logging
 

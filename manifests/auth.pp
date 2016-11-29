@@ -61,6 +61,8 @@ class aodh::auth (
   $auth_endpoint_type = $::os_service_default,
 ) {
 
+  include ::aodh::deps
+
   aodh_config {
     'service_credentials/auth_url'          : value => $auth_url;
     'service_credentials/region_name'       : value => $auth_region;

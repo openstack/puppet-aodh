@@ -223,6 +223,8 @@ class aodh::keystone::authtoken(
   $token_cache_time               = $::os_service_default,
 ) {
 
+  include ::aodh::deps
+
   if is_service_default($password) {
     fail('Please set password for Aodh service user')
   }

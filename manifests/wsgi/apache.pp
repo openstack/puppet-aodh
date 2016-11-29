@@ -94,6 +94,7 @@ class aodh::wsgi::apache (
   $priority      = '10',
 ) {
 
+  include ::aodh::deps
   include ::aodh::params
   include ::apache
   include ::apache::mod::wsgi

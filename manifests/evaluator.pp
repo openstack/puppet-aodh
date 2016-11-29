@@ -24,9 +24,8 @@ class aodh::evaluator (
   $coordination_url = undef,
 ) {
 
+  include ::aodh::deps
   include ::aodh::params
-
-  Aodh_config<||> ~> Service['aodh-evaluator']
 
   if $coordination_url {
     aodh_config {
@@ -34,7 +33,6 @@ class aodh::evaluator (
     }
   }
 
-  Package[$::aodh::params::evaluator_package_name] -> Service['aodh-evaluator']
   ensure_resource( 'package', [$::aodh::params::evaluator_package_name],
     { ensure => $package_ensure,
       tag    => ['openstack', 'aodh-package'] }
@@ -48,7 +46,6 @@ class aodh::evaluator (
     }
   }
 
-  Package['aodh'] -> Service['aodh-evaluator']
   service { 'aodh-evaluator':
     ensure     => $service_ensure,
     name       => $::aodh::params::evaluator_service_name,

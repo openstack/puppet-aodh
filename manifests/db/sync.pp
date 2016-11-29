@@ -8,6 +8,9 @@
 class aodh::db::sync (
   $user = 'aodh',
 ){
+
+  include ::aodh::deps
+
   exec { 'aodh-db-sync':
     command     => 'aodh-dbsync --config-file /etc/aodh/aodh.conf',
     path        => '/usr/bin',
@@ -16,10 +19,12 @@ class aodh::db::sync (
     try_sleep   => 5,
     tries       => 10,
     logoutput   => on_failure,
+    subscribe   => [
+      Anchor['aodh::install::end'],
+      Anchor['aodh::config::end'],
+      Anchor['aodh::dbsync::begin']
+    ],
+    notify      => Anchor['aodh::dbsync::end'],
   }
 
-  Package<| tag == 'aodh-package' |> ~> Exec['aodh-db-sync']
-  Exec['aodh-db-sync'] ~> Service<| tag == 'aodh-db-sync-service' |>
-  Aodh_config<||> ~> Exec['aodh-db-sync']
-  Aodh_config<| title == 'database/connection' |> ~> Exec['aodh-db-sync']
 }

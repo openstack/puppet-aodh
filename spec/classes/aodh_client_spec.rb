@@ -4,6 +4,7 @@ describe 'aodh::client' do
 
   shared_examples_for 'aodh client' do
 
+    it { is_expected.to contain_class('aodh::deps') }
     it { is_expected.to contain_class('aodh::params') }
 
     it 'installs aodh client package' do

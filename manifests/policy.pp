@@ -28,6 +28,8 @@ class aodh::policy (
   $policy_path = '/etc/aodh/policy.json',
 ) {
 
+  include ::aodh::deps
+
   validate_hash($policies)
 
   Openstacklib::Policy::Base {
