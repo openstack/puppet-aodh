@@ -44,6 +44,7 @@ describe 'basic aodh' do
       class { '::aodh::api':
         enabled      => true,
         service_name => 'httpd',
+        sync_db      => true,
       }
       include ::apache
       class { '::aodh::wsgi::apache':
@@ -57,7 +58,6 @@ describe 'basic aodh' do
       class { '::aodh::notifier': }
       class { '::aodh::listener': }
       class { '::aodh::evaluator': }
-      class { '::aodh::db::sync': }
       EOS
 
 
