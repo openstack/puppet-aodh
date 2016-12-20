@@ -38,6 +38,13 @@ describe 'aodh::wsgi::apache' do
         'docroot_group'               => 'aodh',
         'ssl'                         => 'true',
         'wsgi_daemon_process'         => 'aodh',
+        'wsgi_daemon_process_options' => {
+          'user'         => 'aodh',
+          'group'        => 'aodh',
+          'processes'    => 1,
+          'threads'      => '8',
+          'display-name' => 'aodh_wsgi',
+        },
         'wsgi_process_group'          => 'aodh',
         'wsgi_script_aliases'         => { '/' => "#{platform_parameters[:wsgi_script_path]}/app" },
         'require'                     => 'File[aodh_wsgi]'
@@ -48,11 +55,12 @@ describe 'aodh::wsgi::apache' do
     describe 'when overriding parameters using different ports' do
       let :params do
         {
-          :servername  => 'dummy.host',
-          :bind_host   => '10.42.51.1',
-          :port        => 12345,
-          :ssl         => false,
-          :workers     => 37,
+          :servername                => 'dummy.host',
+          :bind_host                 => '10.42.51.1',
+          :port                      => 12345,
+          :ssl                       => false,
+          :wsgi_process_display_name => 'aodh',
+          :workers                   => 37,
         }
       end
 
@@ -65,6 +73,13 @@ describe 'aodh::wsgi::apache' do
         'docroot_group'               => 'aodh',
         'ssl'                         => 'false',
         'wsgi_daemon_process'         => 'aodh',
+        'wsgi_daemon_process_options' => {
+            'user'         => 'aodh',
+            'group'        => 'aodh',
+            'processes'    => '37',
+            'threads'      => '8',
+            'display-name' => 'aodh',
+        },
         'wsgi_process_group'          => 'aodh',
         'wsgi_script_aliases'         => { '/' => "#{platform_parameters[:wsgi_script_path]}/app" },
         'require'                     => 'File[aodh_wsgi]'
