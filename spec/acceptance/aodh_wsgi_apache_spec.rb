@@ -27,8 +27,6 @@ describe 'basic aodh' do
         require              => Class['rabbitmq'],
       }
 
-      Rabbitmq_user_permissions['aodh@/'] -> Service<| tag == 'aodh-service' |>
-
       class { '::aodh':
         debug                 => true,
         default_transport_url => 'rabbit://aodh:an_even_bigger_secret@127.0.0.1:5672',
