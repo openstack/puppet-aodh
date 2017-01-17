@@ -108,7 +108,7 @@ describe 'aodh::wsgi::apache' do
             :httpd_service_name => 'apache2',
             :httpd_ports_file   => '/etc/apache2/ports.conf',
             :wsgi_script_path   => '/usr/lib/cgi-bin/aodh',
-            :wsgi_script_source => '/usr/share/aodh-common/app.wsgi'
+            :wsgi_script_source => '/usr/share/aodh/app.wsgi'
           }
         when 'RedHat'
           {

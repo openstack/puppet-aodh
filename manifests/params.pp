@@ -42,7 +42,7 @@ class aodh::params {
       $listener_package_name   = 'aodh-listener'
       $listener_service_name   = 'aodh-listener'
       $aodh_wsgi_script_path   = '/usr/lib/cgi-bin/aodh'
-      $aodh_wsgi_script_source = '/usr/share/aodh-common/app.wsgi'
+      $aodh_wsgi_script_source = '/usr/share/aodh/app.wsgi'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")

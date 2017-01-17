@@ -107,6 +107,10 @@ class aodh::wsgi::apache (
     include ::apache::mod::ssl
   }
 
+  # NOTE(aschultz): needed because the packaging may introduce some apache
+  # configuration files that apache may remove. See LP#1657847
+  Anchor['aodh::install::end'] -> Class['apache']
+
   ::openstacklib::wsgi::apache { 'aodh_wsgi':
     bind_host                 => $bind_host,
     bind_port                 => $port,

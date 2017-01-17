@@ -1,0 +1,11 @@
+---
+upgrade:
+  - |
+    The Ubuntu packages for Ocata use a different location for the app.wsgi
+    file and as such the default has been updated. If planning on using the
+    Ocata modules with older versions of the package, be aware you may need to
+    specify a different app.wsgi location
+fixes:
+  - |
+    Updated app.wsgi location from /usr/share/aodh-common/app.wsgi to the new
+    location at /usr/share/aodh/app.wsgi
