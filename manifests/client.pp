@@ -1,9 +1,10 @@
 #
-# Installs the aodh python library.
+# Installs the aodh python client.
 #
 # == parameters
 #  [*ensure*]
-#    ensure state for pachage.
+#   (optional) Ensure state of the package.
+#   Defaults to 'present'.
 #
 class aodh::client (
   $ensure = 'present'
