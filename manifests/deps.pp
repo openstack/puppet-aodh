@@ -24,6 +24,10 @@ class aodh::deps {
   ~> Service<| tag == 'aodh-service' |>
   ~> anchor { 'aodh::service::end': }
 
+  # all db settings should be applied and all packages should be installed
+  # before dbsync starts
+  Oslo::Db<||> -> Anchor['aodh::dbsync::begin']
+
   # policy config should occur in the config block also.
   Anchor['aodh::config::begin']
   -> Openstacklib::Policy::Base<||>
