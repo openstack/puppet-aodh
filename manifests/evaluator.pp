@@ -31,6 +31,12 @@ class aodh::evaluator (
     aodh_config {
       'coordination/backend_url' : value => $coordination_url;
     }
+    if ($coordination_url =~ /^redis/ ) {
+      ensure_resource('package', 'python-redis', {
+        name   => $::aodh::params::redis_package_name,
+        tag    => 'openstack',
+      })
+    }
   }
 
   ensure_resource( 'package', [$::aodh::params::evaluator_package_name],
