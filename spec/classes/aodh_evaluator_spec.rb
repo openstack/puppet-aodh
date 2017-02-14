@@ -20,6 +20,13 @@ describe 'aodh::evaluator' do
       it 'configures backend_url' do
         is_expected.to contain_aodh_config('coordination/backend_url').with_value('redis://localhost:6379')
       end
+
+      it 'installs python-redis package' do
+        is_expected.to contain_package(platform_params[:redis_package_name]).with(
+          :name => platform_params[:redis_package_name],
+	  :tag  => 'openstack'
+        )
+      end
     end
 
     context 'when enabled' do
@@ -98,10 +105,12 @@ describe 'aodh::evaluator' do
         case facts[:osfamily]
         when 'Debian'
           { :evaluator_package_name => 'aodh-evaluator',
-            :evaluator_service_name => 'aodh-evaluator' }
+            :evaluator_service_name => 'aodh-evaluator',
+            :redis_package_name     => 'python-redis' }
         when 'RedHat'
           { :evaluator_package_name => 'openstack-aodh-evaluator',
-            :evaluator_service_name => 'openstack-aodh-evaluator' }
+            :evaluator_service_name => 'openstack-aodh-evaluator',
+            :redis_package_name     => 'python-redis' }
         end
       end
       it_configures 'aodh-evaluator'
