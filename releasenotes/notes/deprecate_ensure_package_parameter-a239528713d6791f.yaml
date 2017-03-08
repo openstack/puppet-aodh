@@ -1,0 +1,4 @@
+---
+deprecations:
+  - aodh::ensure_package is now deprecated and will be removed in the
+    future release. Please use aodh::package_ensure instead.

@@ -64,7 +64,7 @@ describe 'aodh' do
           :rabbit_heartbeat_timeout_threshold => '60',
           :rabbit_heartbeat_rate              => '10',
           :kombu_compression                  => 'gzip',
-          :ensure_package                     => '2012.1.1-15.el6',
+          :package_ensure                     => '2012.1.1-15.el6',
           :gnocchi_url                        => 'http://127.0.0.1:8041',
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
