@@ -10,8 +10,10 @@ describe 'aodh::db' do
         :connection     => 'sqlite:////var/lib/aodh/aodh.sqlite',
         :idle_timeout   => '<SERVICE DEFAULT>',
         :min_pool_size  => '<SERVICE DEFAULT>',
+        :max_pool_size  => '<SERVICE DEFAULT>',
         :max_retries    => '<SERVICE DEFAULT>',
         :retry_interval => '<SERVICE DEFAULT>',
+        :max_overflow   => '<SERVICE DEFAULT>',
       )}
 
     end
@@ -22,8 +24,10 @@ describe 'aodh::db' do
           :database_connection     => 'mysql+pymysql://aodh:aodh@localhost/aodh',
           :database_idle_timeout   => '3601',
           :database_min_pool_size  => '2',
+          :database_max_pool_size  => '11',
           :database_max_retries    => '11',
           :database_retry_interval => '11',
+          :database_max_overflow   => '21',
         }
       end
       it { is_expected.to contain_oslo__db('aodh_config').with(
@@ -31,8 +35,10 @@ describe 'aodh::db' do
         :connection     => 'mysql+pymysql://aodh:aodh@localhost/aodh',
         :idle_timeout   => '3601',
         :min_pool_size  => '2',
+        :max_pool_size  => '11',
         :max_retries    => '11',
         :retry_interval => '11',
+        :max_overflow   => '21',
       )}
 
     end
