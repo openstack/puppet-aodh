@@ -29,6 +29,16 @@ describe 'aodh::evaluator' do
       end
     end
 
+    context 'with evaluation interval' do
+      before do
+        params.merge!({ :evaluation_interval => '10' })
+      end
+      it 'configures interval' do
+        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('10')
+      end
+    end
+
+
     context 'when enabled' do
       it { is_expected.to contain_class('aodh::params') }
 

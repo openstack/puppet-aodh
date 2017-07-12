@@ -17,16 +17,24 @@
 #    (optional) The url to use for distributed group membership coordination.
 #    Defaults to undef.
 #
+#  [*evaluation_interval*]
+#    (optional) Period of evaluation cycle
+#    Defaults to $::os_service_default.
+#
 class aodh::evaluator (
-  $manage_service   = true,
-  $enabled          = true,
-  $package_ensure   = 'present',
-  $coordination_url = undef,
+  $manage_service      = true,
+  $enabled             = true,
+  $package_ensure      = 'present',
+  $coordination_url    = undef,
+  $evaluation_interval = $::os_service_default,
 ) {
 
   include ::aodh::deps
   include ::aodh::params
 
+  aodh_config {
+    'DEFAULT/evaluation_interval' : value => $evaluation_interval;
+  }
   if $coordination_url {
     aodh_config {
       'coordination/backend_url' : value => $coordination_url;
