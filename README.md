@@ -33,7 +33,7 @@ Setup
 
 **What the AODH module affects**
 
-* [AODH](http://docs.openstack.org/developer/aodh/), the Alarming service for OpenStack.
+* [AODH](https://docs.openstack.org/aodh/latest/), the Alarming service for OpenStack.
 
 ### Installing AODH
 
@@ -76,7 +76,7 @@ Development
 
 Developer documentation for the entire puppet-openstack project.
 
-* http://docs.openstack.org/developer/puppet-openstack-guide/
+* https://docs.openstack.org/puppet-openstack-guide/latest/
 
 Contributors
 ------------
