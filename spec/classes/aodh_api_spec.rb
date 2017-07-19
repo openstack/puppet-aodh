@@ -36,6 +36,7 @@ describe 'aodh::api' do
     it 'configures api' do
       is_expected.to contain_aodh_config('api/host').with_value( params[:host] )
       is_expected.to contain_aodh_config('api/port').with_value( params[:port] )
+      is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value( 'services' )
       is_expected.to contain_aodh_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
     end
 
@@ -76,6 +77,13 @@ describe 'aodh::api' do
       it { is_expected.to contain_aodh_config('oslo_middleware/enable_proxy_headers_parsing').with_value(true) }
     end
 
+    context 'with gnocchi_external_project_owner' do
+      before do
+        params.merge!({:gnocchi_external_project_owner => 'gnocchi-project' })
+      end
+
+      it { is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value('gnocchi-project') }
+    end
     context 'with disabled service managing' do
       before do
         params.merge!({
