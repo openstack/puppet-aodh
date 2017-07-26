@@ -16,7 +16,7 @@ Puppet::Type.type(:aodh_api_paste_ini).provide(
   end
 
   def self.file_path
-    '/etc/aodh/api_paste.ini'
+    '/etc/aodh/api-paste.ini'
   end
 
   # added for backwards compatibility with older versions of inifile

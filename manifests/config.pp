@@ -18,7 +18,7 @@
 #       value: barValue
 #
 # [*aodh_api_paste_ini*]
-#   (optional) Allow configuration of /etc/aodh/api_paste.ini options.
+#   (optional) Allow configuration of /etc/aodh/api-paste.ini options.
 #
 #   NOTE: The configuration MUST NOT be already handled by this module
 #   or Puppet catalog compilation will fail with duplicate resources.
