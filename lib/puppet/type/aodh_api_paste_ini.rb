@@ -3,7 +3,7 @@ Puppet::Type.newtype(:aodh_api_paste_ini) do
   ensurable
 
   newparam(:name, :namevar => true) do
-    desc 'Section/setting name to manage from /etc/aodh/api_paste.ini'
+    desc 'Section/setting name to manage from /etc/aodh/api-paste.ini'
     newvalues(/\S+\/\S+/)
   end
 
