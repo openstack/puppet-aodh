@@ -29,13 +29,6 @@
 #   option.
 #   Defaults to $::os_service_default
 #
-# [*rpc_backend*]
-#   (optional) The rpc backend implementation to use, can be:
-#     amqp (for AMQP 1.0 protocol)
-#     rabbit (for rabbitmq)
-#     zmq (for zeromq)
-#   Defaults to 'rabbit'
-#
 # [*rabbit_use_ssl*]
 #   (optional) Connect over SSL for RabbitMQ
 #   Defaults to $::os_service_default
@@ -264,13 +257,19 @@
 #   (optional) The state of aodh packages
 #   Defaults to undef
 #
+# [*rpc_backend*]
+#   (optional) The rpc backend implementation to use, can be:
+#     amqp (for AMQP 1.0 protocol)
+#     rabbit (for rabbitmq)
+#     zmq (for zeromq)
+#   Defaults to 'rabbit'
+#
 class aodh (
   $package_ensure                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
   $default_transport_url              = $::os_service_default,
   $rpc_response_timeout               = $::os_service_default,
   $control_exchange                   = $::os_service_default,
-  $rpc_backend                        = 'rabbit',
   $rabbit_use_ssl                     = $::os_service_default,
   $rabbit_heartbeat_timeout_threshold = $::os_service_default,
   $rabbit_heartbeat_rate              = $::os_service_default,
@@ -324,6 +323,7 @@ class aodh (
   $rabbit_userid                      = $::os_service_default,
   $rabbit_virtual_host                = $::os_service_default,
   $ensure_package                     = undef,
+  $rpc_backend                        = 'rabbit',
 ) inherits aodh::params {
 
   include ::aodh::deps
@@ -335,10 +335,12 @@ class aodh (
     !is_service_default($rabbit_password) or
     !is_service_default($rabbit_port) or
     !is_service_default($rabbit_userid) or
-    !is_service_default($rabbit_virtual_host) {
+    !is_service_default($rabbit_virtual_host) or
+    !is_service_default($rpc_backend) {
     warning("aodh::rabbit_host, aodh::rabbit_hosts, aodh::rabbit_password, \
-aodh::rabbit_port, aodh::rabbit_userid and aodh::rabbit_virtual_host are \
-deprecated. Please use aodh::default_transport_url instead.")
+aodh::rabbit_port, aodh::rabbit_userid, aodh::rabbit_virtual_host and \
+aodh::rpc_backend are deprecated. Please use aodh::default_transport_url \
+instead.")
   }
 
   if $ensure_package {
@@ -359,46 +361,43 @@ the future release. Please use aodh::package_ensure instead.")
     purge  => $purge_config,
   }
 
-  if $rpc_backend == 'rabbit' {
-    oslo::messaging::rabbit { 'aodh_config':
-      rabbit_userid               => $rabbit_userid,
-      rabbit_password             => $rabbit_password,
-      rabbit_virtual_host         => $rabbit_virtual_host,
-      rabbit_host                 => $rabbit_host,
-      rabbit_port                 => $rabbit_port,
-      rabbit_hosts                => $rabbit_hosts,
-      rabbit_ha_queues            => $rabbit_ha_queues,
-      heartbeat_timeout_threshold => $rabbit_heartbeat_timeout_threshold,
-      heartbeat_rate              => $rabbit_heartbeat_rate,
-      rabbit_use_ssl              => $rabbit_use_ssl,
-      kombu_reconnect_delay       => $kombu_reconnect_delay,
-      kombu_ssl_version           => $kombu_ssl_version,
-      kombu_ssl_keyfile           => $kombu_ssl_keyfile,
-      kombu_ssl_certfile          => $kombu_ssl_certfile,
-      kombu_ssl_ca_certs          => $kombu_ssl_ca_certs,
-      kombu_compression           => $kombu_compression,
-      amqp_durable_queues         => $amqp_durable_queues,
-    }
+  oslo::messaging::rabbit { 'aodh_config':
+    rabbit_userid               => $rabbit_userid,
+    rabbit_password             => $rabbit_password,
+    rabbit_virtual_host         => $rabbit_virtual_host,
+    rabbit_host                 => $rabbit_host,
+    rabbit_port                 => $rabbit_port,
+    rabbit_hosts                => $rabbit_hosts,
+    rabbit_ha_queues            => $rabbit_ha_queues,
+    heartbeat_timeout_threshold => $rabbit_heartbeat_timeout_threshold,
+    heartbeat_rate              => $rabbit_heartbeat_rate,
+    rabbit_use_ssl              => $rabbit_use_ssl,
+    kombu_reconnect_delay       => $kombu_reconnect_delay,
+    kombu_ssl_version           => $kombu_ssl_version,
+    kombu_ssl_keyfile           => $kombu_ssl_keyfile,
+    kombu_ssl_certfile          => $kombu_ssl_certfile,
+    kombu_ssl_ca_certs          => $kombu_ssl_ca_certs,
+    kombu_compression           => $kombu_compression,
+    amqp_durable_queues         => $amqp_durable_queues,
   }
-  elsif $rpc_backend == 'amqp' {
-    oslo::messaging::amqp { 'aodh_config':
-      server_request_prefix  => $amqp_server_request_prefix,
-      broadcast_prefix       => $amqp_broadcast_prefix,
-      group_request_prefix   => $amqp_group_request_prefix,
-      container_name         => $amqp_container_name,
-      idle_timeout           => $amqp_idle_timeout,
-      trace                  => $amqp_trace,
-      ssl_ca_file            => $amqp_ssl_ca_file,
-      ssl_cert_file          => $amqp_ssl_cert_file,
-      ssl_key_file           => $amqp_ssl_key_file,
-      ssl_key_password       => $amqp_ssl_key_password,
-      allow_insecure_clients => $amqp_allow_insecure_clients,
-      sasl_mechanisms        => $amqp_sasl_mechanisms,
-      sasl_config_dir        => $amqp_sasl_config_dir,
-      sasl_config_name       => $amqp_sasl_config_name,
-      username               => $amqp_username,
-      password               => $amqp_password,
-    }
+
+  oslo::messaging::amqp { 'aodh_config':
+    server_request_prefix  => $amqp_server_request_prefix,
+    broadcast_prefix       => $amqp_broadcast_prefix,
+    group_request_prefix   => $amqp_group_request_prefix,
+    container_name         => $amqp_container_name,
+    idle_timeout           => $amqp_idle_timeout,
+    trace                  => $amqp_trace,
+    ssl_ca_file            => $amqp_ssl_ca_file,
+    ssl_cert_file          => $amqp_ssl_cert_file,
+    ssl_key_file           => $amqp_ssl_key_file,
+    ssl_key_password       => $amqp_ssl_key_password,
+    allow_insecure_clients => $amqp_allow_insecure_clients,
+    sasl_mechanisms        => $amqp_sasl_mechanisms,
+    sasl_config_dir        => $amqp_sasl_config_dir,
+    sasl_config_name       => $amqp_sasl_config_name,
+    username               => $amqp_username,
+    password               => $amqp_password,
   }
 
   oslo::messaging::default { 'aodh_config':
