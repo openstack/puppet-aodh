@@ -26,7 +26,6 @@ describe 'aodh' do
       end
 
       it 'configures rabbit' do
-        is_expected.to contain_aodh_config('DEFAULT/rpc_backend').with_value('rabbit')
         is_expected.to contain_aodh_config('DEFAULT/transport_url').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('DEFAULT/rpc_response_timeout').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('DEFAULT/control_exchange').with_value('<SERVICE DEFAULT>')
@@ -74,7 +73,6 @@ describe 'aodh' do
       end
 
       it 'configures rabbit' do
-        is_expected.to contain_aodh_config('DEFAULT/rpc_backend').with_value('rabbit')
         is_expected.to contain_aodh_config('DEFAULT/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_host').with_value('rabbit')
         is_expected.to contain_aodh_config('oslo_messaging_rabbit/rabbit_password').with_value('password').with_secret(true)
