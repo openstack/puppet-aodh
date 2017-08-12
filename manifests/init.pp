@@ -262,7 +262,7 @@
 #     amqp (for AMQP 1.0 protocol)
 #     rabbit (for rabbitmq)
 #     zmq (for zeromq)
-#   Defaults to 'rabbit'
+#   Defaults to undef
 #
 class aodh (
   $package_ensure                     = 'present',
@@ -323,7 +323,7 @@ class aodh (
   $rabbit_userid                      = $::os_service_default,
   $rabbit_virtual_host                = $::os_service_default,
   $ensure_package                     = undef,
-  $rpc_backend                        = 'rabbit',
+  $rpc_backend                        = undef,
 ) inherits aodh::params {
 
   include ::aodh::deps
@@ -336,7 +336,7 @@ class aodh (
     !is_service_default($rabbit_port) or
     !is_service_default($rabbit_userid) or
     !is_service_default($rabbit_virtual_host) or
-    !is_service_default($rpc_backend) {
+    $rpc_backend {
     warning("aodh::rabbit_host, aodh::rabbit_hosts, aodh::rabbit_password, \
 aodh::rabbit_port, aodh::rabbit_userid, aodh::rabbit_virtual_host and \
 aodh::rpc_backend are deprecated. Please use aodh::default_transport_url \
