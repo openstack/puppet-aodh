@@ -44,6 +44,10 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# [*paste_config*]
+#   (Optional) Configuration file for WSGI definition of API
+#   Defaults to $::os_service_default.
+#
 # [*gnocchi_external_project_owner*]
 #   (optional) Gnocchi external project owner (usually Ceilometer project name)
 #   Defaults to 'services'
@@ -58,6 +62,7 @@ class aodh::api (
   $sync_db                        = false,
   $auth_strategy                  = 'keystone',
   $enable_proxy_headers_parsing   = $::os_service_default,
+  $paste_config                   = $::os_service_default,
   $gnocchi_external_project_owner = 'services',
 ) inherits aodh::params {
 
@@ -117,6 +122,7 @@ as a standalone service, or httpd for being run by a httpd server")
     'api/gnocchi_external_project_owner': value => $gnocchi_external_project_owner;
     'api/host':                           value => $host;
     'api/port':                           value => $port;
+    'api/paste_config':                   value => $paste_config;
   }
 
   oslo::middleware { 'aodh_config':
