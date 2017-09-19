@@ -1,6 +1,6 @@
 {
   "name": "openstack-aodh",
-  "version": "9.5.0",
+  "version": "9.6.0",
   "author": "OpenStack Contributors",
   "summary": "Puppet module for OpenStack Aodh",
   "license": "Apache-2.0",
