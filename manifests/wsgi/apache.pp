@@ -69,6 +69,14 @@
 #   [*ssl_certs_dir*]
 #     apache::vhost ssl parameters.
 #     Optional. Default to apache::vhost 'ssl_*' defaults.
+#  [*custom_wsgi_process_options*]
+#    (optional) gives you the oportunity to add custom process options or to
+#    overwrite the default options for the WSGI main process.
+#    eg. to use a virtual python environment for the WSGI process
+#    you could set it to:
+#    { python-path => '/my/python/virtualenv' }
+#    Defaults to {}
+#
 #
 # == Dependencies
 #
@@ -81,22 +89,23 @@
 #   class { 'aodh::wsgi::apache': }
 #
 class aodh::wsgi::apache (
-  $servername                 = $::fqdn,
-  $port                       = 8042,
-  $bind_host                  = undef,
-  $path                       = '/',
-  $ssl                        = true,
-  $workers                    = 1,
-  $ssl_cert                   = undef,
-  $ssl_key                    = undef,
-  $ssl_chain                  = undef,
-  $ssl_ca                     = undef,
-  $ssl_crl_path               = undef,
-  $ssl_crl                    = undef,
-  $ssl_certs_dir              = undef,
-  $wsgi_process_display_name  = undef,
-  $threads                    = $::os_workers,
-  $priority                   = '10',
+  $servername                  = $::fqdn,
+  $port                        = 8042,
+  $bind_host                   = undef,
+  $path                        = '/',
+  $ssl                         = true,
+  $workers                     = 1,
+  $ssl_cert                    = undef,
+  $ssl_key                     = undef,
+  $ssl_chain                   = undef,
+  $ssl_ca                      = undef,
+  $ssl_crl_path                = undef,
+  $ssl_crl                     = undef,
+  $ssl_certs_dir               = undef,
+  $wsgi_process_display_name   = undef,
+  $threads                     = $::os_workers,
+  $priority                    = '10',
+  $custom_wsgi_process_options = {},
 ) {
 
   include ::aodh::deps
@@ -112,28 +121,29 @@ class aodh::wsgi::apache (
   Anchor['aodh::install::end'] -> Class['apache']
 
   ::openstacklib::wsgi::apache { 'aodh_wsgi':
-    bind_host                 => $bind_host,
-    bind_port                 => $port,
-    group                     => 'aodh',
-    path                      => $path,
-    priority                  => $priority,
-    servername                => $servername,
-    ssl                       => $ssl,
-    ssl_ca                    => $ssl_ca,
-    ssl_cert                  => $ssl_cert,
-    ssl_certs_dir             => $ssl_certs_dir,
-    ssl_chain                 => $ssl_chain,
-    ssl_crl                   => $ssl_crl,
-    ssl_crl_path              => $ssl_crl_path,
-    ssl_key                   => $ssl_key,
-    threads                   => $threads,
-    user                      => 'aodh',
-    workers                   => $workers,
-    wsgi_daemon_process       => 'aodh',
-    wsgi_process_display_name => $wsgi_process_display_name,
-    wsgi_process_group        => 'aodh',
-    wsgi_script_dir           => $::aodh::params::aodh_wsgi_script_path,
-    wsgi_script_file          => 'app',
-    wsgi_script_source        => $::aodh::params::aodh_wsgi_script_source,
+    bind_host                   => $bind_host,
+    bind_port                   => $port,
+    group                       => 'aodh',
+    path                        => $path,
+    priority                    => $priority,
+    servername                  => $servername,
+    ssl                         => $ssl,
+    ssl_ca                      => $ssl_ca,
+    ssl_cert                    => $ssl_cert,
+    ssl_certs_dir               => $ssl_certs_dir,
+    ssl_chain                   => $ssl_chain,
+    ssl_crl                     => $ssl_crl,
+    ssl_crl_path                => $ssl_crl_path,
+    ssl_key                     => $ssl_key,
+    threads                     => $threads,
+    user                        => 'aodh',
+    workers                     => $workers,
+    wsgi_daemon_process         => 'aodh',
+    wsgi_process_display_name   => $wsgi_process_display_name,
+    wsgi_process_group          => 'aodh',
+    wsgi_script_dir             => $::aodh::params::aodh_wsgi_script_path,
+    wsgi_script_file            => 'app',
+    wsgi_script_source          => $::aodh::params::aodh_wsgi_script_source,
+    custom_wsgi_process_options => $custom_wsgi_process_options,
   }
 }
