@@ -49,7 +49,7 @@
 #
 class aodh::auth (
   $auth_password,
-  $auth_url           = 'http://localhost:5000/v2.0',
+  $auth_url           = 'http://localhost:5000/v3',
   $auth_region        = 'RegionOne',
   $auth_user          = 'aodh',
   $auth_tenant_name   = 'services',
