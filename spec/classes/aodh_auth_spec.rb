@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'aodh::auth' do
 
   let :params do
-    { :auth_url         => 'http://localhost:5000/v2.0',
+    { :auth_url         => 'http://localhost:5000/v3',
       :auth_region      => 'RegionOne',
       :auth_user        => 'aodh',
       :auth_password    => 'password',
@@ -14,7 +14,7 @@ describe 'aodh::auth' do
   shared_examples_for 'aodh-auth' do
 
     it 'configures authentication' do
-      is_expected.to contain_aodh_config('service_credentials/auth_url').with_value('http://localhost:5000/v2.0')
+      is_expected.to contain_aodh_config('service_credentials/auth_url').with_value('http://localhost:5000/v3')
       is_expected.to contain_aodh_config('service_credentials/region_name').with_value('RegionOne')
       is_expected.to contain_aodh_config('service_credentials/project_domain_id').with_value('default')
       is_expected.to contain_aodh_config('service_credentials/user_domain_id').with_value('default')

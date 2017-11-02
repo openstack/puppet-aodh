@@ -51,7 +51,7 @@ describe 'basic aodh' do
         ssl => false,
       }
       class { '::aodh::auth':
-        auth_url      => 'http://127.0.0.1:5000/v2.0',
+        auth_url      => 'http://127.0.0.1:5000/v3',
         auth_password => 'a_big_secret',
       }
       class { '::aodh::client': }
