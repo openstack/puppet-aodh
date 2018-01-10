@@ -4,6 +4,7 @@ class aodh::params {
   include ::openstacklib::defaults
 
   $client_package_name = 'python-aodhclient'
+  $group               = 'aodh'
 
   case $::osfamily {
     'RedHat': {
