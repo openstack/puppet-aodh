@@ -25,6 +25,7 @@ class aodh::db::sync (
       Anchor['aodh::dbsync::begin']
     ],
     notify      => Anchor['aodh::dbsync::end'],
+    tag         => 'openstack-db',
   }
 
 }
