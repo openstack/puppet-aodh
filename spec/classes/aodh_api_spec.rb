@@ -38,7 +38,9 @@ describe 'aodh::api' do
       is_expected.to contain_aodh_config('api/port').with_value( params[:port] )
       is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value( 'services' )
       is_expected.to contain_aodh_config('api/paste_config').with_value('<SERVICE DEFAULT>')
-      is_expected.to contain_aodh_config('oslo_middleware/enable_proxy_headers_parsing').with_value('<SERVICE DEFAULT>')
+      is_expected.to contain_oslo__middleware('aodh_config').with(
+        :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
+      )
     end
 
     [{:enabled => true}, {:enabled => false}].each do |param_hash|
@@ -75,7 +77,9 @@ describe 'aodh::api' do
         params.merge!({:enable_proxy_headers_parsing => true })
       end
 
-      it { is_expected.to contain_aodh_config('oslo_middleware/enable_proxy_headers_parsing').with_value(true) }
+      it { is_expected.to contain_oslo__middleware('aodh_config').with(
+        :enable_proxy_headers_parsing => true,
+      )}
     end
 
     context 'with paste_config' do
