@@ -14,6 +14,7 @@ describe 'aodh::db' do
         :max_retries    => '<SERVICE DEFAULT>',
         :retry_interval => '<SERVICE DEFAULT>',
         :max_overflow   => '<SERVICE DEFAULT>',
+        :pool_timeout   => '<SERVICE DEFAULT>',
       )}
 
     end
@@ -28,6 +29,7 @@ describe 'aodh::db' do
           :database_max_retries    => '11',
           :database_retry_interval => '11',
           :database_max_overflow   => '21',
+          :database_pool_timeout   => '21',
         }
       end
       it { is_expected.to contain_oslo__db('aodh_config').with(
@@ -39,6 +41,7 @@ describe 'aodh::db' do
         :max_retries    => '11',
         :retry_interval => '11',
         :max_overflow   => '21',
+        :pool_timeout   => '21',
       )}
 
     end
