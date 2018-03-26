@@ -101,7 +101,7 @@ describe 'aodh::wsgi::apache' do
             :httpd_service_name => 'httpd',
             :httpd_ports_file   => '/etc/httpd/conf/ports.conf',
             :wsgi_script_path   => '/var/www/cgi-bin/aodh',
-            :wsgi_script_source => '/usr/lib/python2.7/site-packages/aodh/api/app.wsgi'
+            :wsgi_script_source => '/usr/bin/aodh-api'
           }
 
         end

@@ -24,7 +24,7 @@ class aodh::params {
       $listener_package_name   = 'openstack-aodh-listener'
       $listener_service_name   = 'openstack-aodh-listener'
       $aodh_wsgi_script_path   = '/var/www/cgi-bin/aodh'
-      $aodh_wsgi_script_source = '/usr/lib/python2.7/site-packages/aodh/api/app.wsgi'
+      $aodh_wsgi_script_source = '/usr/bin/aodh-api'
       $redis_package_name      = 'python-redis'
     }
     'Debian': {
