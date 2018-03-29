@@ -259,10 +259,6 @@
 #   (optional) The RabbitMQ virtual host.
 #   Defaults to $::os_service_default
 #
-# [*ensure_package*]
-#   (optional) The state of aodh packages
-#   Defaults to undef
-#
 # [*rpc_backend*]
 #   (optional) The rpc backend implementation to use, can be:
 #     amqp (for AMQP 1.0 protocol)
@@ -329,7 +325,6 @@ class aodh (
   $rabbit_port                        = $::os_service_default,
   $rabbit_userid                      = $::os_service_default,
   $rabbit_virtual_host                = $::os_service_default,
-  $ensure_package                     = undef,
   $rpc_backend                        = undef,
 ) inherits aodh::params {
 
@@ -350,16 +345,8 @@ aodh::rpc_backend are deprecated. Please use aodh::default_transport_url \
 instead.")
   }
 
-  if $ensure_package {
-    warning("aodh::ensure_package is deprecated and will be removed in \
-the future release. Please use aodh::package_ensure instead.")
-    $package_ensure_real = $ensure_package
-  } else {
-    $package_ensure_real = $package_ensure
-  }
-
   package { 'aodh':
-    ensure => $package_ensure_real,
+    ensure => $package_ensure,
     name   => $::aodh::params::common_package_name,
     tag    => ['openstack', 'aodh-package'],
   }
