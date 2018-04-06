@@ -24,6 +24,19 @@ describe 'aodh::client' do
         facts.merge!(OSDefaults.get_facts())
       end
 
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          if facts[:os_package_type] == 'debian'
+            { :client_package_name => 'python3-aodhclient' }
+          else
+            { :client_package_name => 'python-aodhclient' }
+          end
+        when 'RedHat'
+          { :client_package_name => 'python-aodhclient' }
+        end
+      end
+
       it_configures 'aodh client'
     end
   end
