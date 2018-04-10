@@ -3,7 +3,13 @@
 class aodh::params {
   include ::openstacklib::defaults
 
-  $client_package_name = 'python-aodhclient'
+  if ($::os_package_type == 'debian') {
+    $pyvers = '3'
+  } else {
+    $pyvers = ''
+  }
+
+  $client_package_name = "python${pyvers}-aodhclient"
   $group               = 'aodh'
 
   case $::osfamily {
@@ -45,7 +51,7 @@ class aodh::params {
       $listener_service_name   = 'aodh-listener'
       $aodh_wsgi_script_path   = '/usr/lib/cgi-bin/aodh'
       $aodh_wsgi_script_source = '/usr/share/aodh/app.wsgi'
-      $redis_package_name      = 'python-redis'
+      $redis_package_name      = "python${pyvers}-redis"
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem")
