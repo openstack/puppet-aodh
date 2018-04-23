@@ -14,6 +14,8 @@ describe 'aodh::config' do
       { :aodh_config => config_hash }
     end
 
+    it { is_expected.to contain_class('aodh::deps') }
+
     it 'configures arbitrary aodh-config configurations' do
       is_expected.to contain_aodh_config('DEFAULT/foo').with_value('fooValue')
       is_expected.to contain_aodh_config('DEFAULT/bar').with_value('barValue')
