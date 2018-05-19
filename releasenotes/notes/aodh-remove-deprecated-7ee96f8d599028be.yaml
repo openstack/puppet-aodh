@@ -1,0 +1,8 @@
+---
+upgrade:
+  - |
+    The deprecated parameters aodh::rabbit_host, aodh::rabbit_hosts, aodh::rabbit_password,
+    aodh::rabbit_userid, aodh::rabbit_port and aodh::rabbit_virtual_host is removed.
+    Please use aodh::default_transport_url instead.
+  - |
+    The deprecated parameter aodh::rpc_backend is removed.
