@@ -82,3 +82,8 @@ Contributors
 ------------
 
 * https://github.com/openstack/puppet-aodh/graphs/contributors
+
+Release Notes
+-------------
+
+* https://docs.openstack.org/releasenotes/puppet-aodh/
