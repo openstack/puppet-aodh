@@ -42,6 +42,13 @@
 #    Certificate chain for SSL validation.
 #    Optional. Defaults to $::os_service_default
 #
+#  [*interface*]
+#    Type of endpoint in Identity service catalog to use for
+#    communication with OpenStack services.
+#    Optional. Defaults to $::os_service_default.
+#
+# DEPRECATED PARAMETERS
+#
 #  [*auth_endpoint_type*]
 #    Type of endpoint in Identity service catalog to use for
 #    communication with OpenStack services.
@@ -58,10 +65,17 @@ class aodh::auth (
   $auth_type          = 'password',
   $auth_tenant_id     = $::os_service_default,
   $auth_cacert        = $::os_service_default,
-  $auth_endpoint_type = $::os_service_default,
+  $interface          = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $auth_endpoint_type = undef,
 ) {
 
   include ::aodh::deps
+
+  if $auth_endpoint_type {
+    warning('The auth_endpoint_type parameter is deprecated. Please use interface instead.')
+  }
+  $interface_real = pick($auth_endpoint_type, $interface)
 
   aodh_config {
     'service_credentials/auth_url'          : value => $auth_url;
@@ -71,7 +85,7 @@ class aodh::auth (
     'service_credentials/project_name'      : value => $auth_tenant_name;
     'service_credentials/cacert'            : value => $auth_cacert;
     'service_credentials/tenant_id'         : value => $auth_tenant_id;
-    'service_credentials/endpoint_type'     : value => $auth_endpoint_type;
+    'service_credentials/interface'         : value => $interface_real;
     'service_credentials/project_domain_id' : value => $project_domain_id;
     'service_credentials/user_domain_id'    : value => $user_domain_id;
     'service_credentials/auth_type'         : value => $auth_type;

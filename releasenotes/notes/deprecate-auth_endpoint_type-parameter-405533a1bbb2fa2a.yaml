@@ -1,0 +1,8 @@
+---
+fixes:
+  - When trying to specify the endpoint type in the identity service catalog to
+    use for communication with OpenStack services an outdated configuration
+    option was written.
+deprecations:
+  - aodh::auth::auth_endpoint_type is deprecated and will be removed in a future
+    release. Please use aodh::auth::interface instead.
