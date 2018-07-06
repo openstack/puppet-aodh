@@ -10,14 +10,6 @@
 #   (optional) Whether the service should be managed by Puppet.
 #   Defaults to true.
 #
-# [*host*]
-#   (optional) The aodh api bind address.
-#   Defaults to 0.0.0.0
-#
-# [*port*]
-#   (optional) The aodh api port.
-#   Defaults to 8042
-#
 # [*package_ensure*]
 #   (optional) ensure state for package.
 #   Defaults to 'present'
@@ -52,18 +44,29 @@
 #   (optional) Gnocchi external project owner (usually Ceilometer project name)
 #   Defaults to 'services'
 #
+# DEPRECATED PARAMETERS
+#
+# [*host*]
+#   (optional) The aodh api bind address.
+#   Defaults to undef
+#
+# [*port*]
+#   (optional) The aodh api port.
+#   Defaults to undef
+#
 class aodh::api (
   $manage_service                 = true,
   $enabled                        = true,
   $package_ensure                 = 'present',
-  $host                           = '0.0.0.0',
-  $port                           = '8042',
   $service_name                   = $::aodh::params::api_service_name,
   $sync_db                        = false,
   $auth_strategy                  = 'keystone',
   $enable_proxy_headers_parsing   = $::os_service_default,
   $paste_config                   = $::os_service_default,
   $gnocchi_external_project_owner = 'services',
+  # DEPRECATED PARAMETERS
+  $host                           = undef,
+  $port                           = undef,
 ) inherits aodh::params {
 
 
@@ -73,6 +76,15 @@ class aodh::api (
 
   if $auth_strategy == 'keystone' {
     include ::aodh::keystone::authtoken
+  }
+
+  if $host {
+    warning('host has no effect as of Newton and will be removed in a future \
+release. aodh::wsgi::apache supports setting a host via bind_host.')
+  }
+  if $port {
+    warning('port has no effect as of Newton and will be removed in a future \
+release. aodh::wsgi::apache supports setting a port.')
   }
 
   package { 'aodh-api':
@@ -120,8 +132,6 @@ as a standalone service, or httpd for being run by a httpd server")
 
   aodh_config {
     'api/gnocchi_external_project_owner': value => $gnocchi_external_project_owner;
-    'api/host':                           value => $host;
-    'api/port':                           value => $port;
     'api/paste_config':                   value => $paste_config;
   }
 

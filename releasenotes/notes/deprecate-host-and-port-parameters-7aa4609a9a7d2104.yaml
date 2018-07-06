@@ -1,0 +1,6 @@
+---
+deprecations:
+  - aodh::api::host and aodh::api::port are deprecated and will be removed in a
+    future release. aodh-api itself is for testing only and does not use these
+    parameters. The production-ready alternative aodh::wsgi::apache supports
+    setting host and port via the bind_host and port parameters.

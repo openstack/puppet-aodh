@@ -14,8 +14,6 @@ describe 'aodh::api' do
     { :enabled           => true,
       :manage_service    => true,
       :package_ensure    => 'latest',
-      :port              => '8042',
-      :host              => '0.0.0.0',
     }
   end
 
@@ -34,8 +32,6 @@ describe 'aodh::api' do
     end
 
     it 'configures api' do
-      is_expected.to contain_aodh_config('api/host').with_value( params[:host] )
-      is_expected.to contain_aodh_config('api/port').with_value( params[:port] )
       is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value( 'services' )
       is_expected.to contain_aodh_config('api/paste_config').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_oslo__middleware('aodh_config').with(
