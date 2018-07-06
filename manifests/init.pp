@@ -224,14 +224,16 @@
 #   (optional) If set, use this value for max_overflow with sqlalchemy.
 #   Defaults to: undef.
 #
-# [*gnocchi_url*]
-#   (optional) URL to Gnocchi.
-#   Defaults to: $::os_service_default.
-#
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
 #   in the aodh config.
 #   Defaults to false.
+#
+# DEPRECATED PARAMETERS
+#
+# [*gnocchi_url*]
+#   (optional) URL to Gnocchi.
+#   Defaults to undef.
 #
 class aodh (
   $package_ensure                     = 'present',
@@ -283,13 +285,18 @@ class aodh (
   $database_max_retries               = undef,
   $database_retry_interval            = undef,
   $database_max_overflow              = undef,
-  $gnocchi_url                        = $::os_service_default,
   $purge_config                       = false,
+  # DEPRECATED PARAMETERS
+  $gnocchi_url                        = $undef,
 ) inherits aodh::params {
 
   include ::aodh::deps
   include ::aodh::db
   include ::aodh::logging
+
+  if $gnocchi_url {
+    warning('gnocchi_url has no effect as of Newton and will be removed in a future release')
+  }
 
   package { 'aodh':
     ensure => $package_ensure,
@@ -348,7 +355,6 @@ class aodh (
   }
 
   aodh_config {
-    'DEFAULT/gnocchi_url':                 value => $gnocchi_url;
     'database/alarm_history_time_to_live': value => $alarm_history_time_to_live;
   }
 }

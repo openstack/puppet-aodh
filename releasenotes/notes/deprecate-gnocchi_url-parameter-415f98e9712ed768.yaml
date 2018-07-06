@@ -1,0 +1,5 @@
+---
+deprecations:
+  - aodh::gnocchi_url is deprecated and will be removed in a future
+    release. The correct URL is automatically retrieved from the indentity
+    service's service catalog.
