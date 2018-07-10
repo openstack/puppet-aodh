@@ -55,7 +55,6 @@ describe 'aodh' do
           :rabbit_heartbeat_rate              => '10',
           :kombu_compression                  => 'gzip',
           :package_ensure                     => '2012.1.1-15.el6',
-          :gnocchi_url                        => 'http://127.0.0.1:8041',
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
           :notification_topics                => 'openstack',
@@ -75,7 +74,6 @@ describe 'aodh' do
         is_expected.to contain_aodh_config('oslo_messaging_notifications/transport_url').with_value('rabbit://rabbit_user:password@localhost:5673')
         is_expected.to contain_aodh_config('oslo_messaging_notifications/driver').with_value('ceilometer.compute.aodh_notifier')
         is_expected.to contain_aodh_config('oslo_messaging_notifications/topics').with_value('openstack')
-        is_expected.to contain_aodh_config('DEFAULT/gnocchi_url').with_value('http://127.0.0.1:8041')
       end
 
       context 'with multiple notification_driver' do
