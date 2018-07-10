@@ -28,12 +28,12 @@ describe 'aodh::auth' do
     context 'when overriding parameters' do
       before do
         params.merge!(
-          :auth_cacert        => '/tmp/dummy.pem',
-          :auth_endpoint_type => 'internalURL',
+          :auth_cacert => '/tmp/dummy.pem',
+          :interface   => 'internalURL',
         )
       end
       it { is_expected.to contain_aodh_config('service_credentials/cacert').with_value(params[:auth_cacert]) }
-      it { is_expected.to contain_aodh_config('service_credentials/endpoint_type').with_value(params[:auth_endpoint_type]) }
+      it { is_expected.to contain_aodh_config('service_credentials/interface').with_value(params[:interface]) }
     end
 
   end
