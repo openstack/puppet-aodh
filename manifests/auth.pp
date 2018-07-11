@@ -3,7 +3,7 @@
 # == Parameters
 #  [*auth_url*]
 #    the keystone public endpoint
-#    Optional. Defaults to 'http://localhost:5000/v2.0'
+#    Optional. Defaults to 'http://localhost:5000/v3'
 #
 #  [*auth_region*]
 #    the keystone region of this node
