@@ -124,9 +124,9 @@ release. aodh::wsgi::apache supports setting a port.')
     }
 
     # we need to make sure aodh-api/eventlet is stopped before trying to start apache
-    Service['aodh-api'] -> Service[$::apache::params::service_name]
+    Service['aodh-api'] -> Service[$service_name]
     # the apache service is untagged so add it to the service section manually
-    Anchor['aodh::service::begin'] ~> Service[$::apache::params::service_name]
+    Anchor['aodh::service::begin'] ~> Service[$service_name]
   } else {
     fail("Invalid service_name. Either aodh/openstack-aodh-api for running \
 as a standalone service, or httpd for being run by a httpd server")
