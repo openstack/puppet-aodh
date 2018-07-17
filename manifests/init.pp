@@ -8,20 +8,20 @@
 #   (optional) The state of aodh packages
 #   Defaults to 'present'
 #
-#  [*alarm_history_time_to_live*]
-#    (Optional) Number of seconds that alarm histories are kept in the database for
-#    (<= 0 means forever)
-#    Defaults to $::os_service_default
+# [*alarm_history_time_to_live*]
+#   (Optional) Number of seconds that alarm histories are kept in the database for
+#   (<= 0 means forever)
+#   Defaults to $::os_service_default
 #
 # [*default_transport_url*]
-#    (optional) A URL representing the messaging driver to use and its full
-#    configuration. Transport URLs take the form:
-#      transport://user:pass@host1:port[,hostN:portN]/virtual_host
-#    Defaults to $::os_service_default
+#   (optional) A URL representing the messaging driver to use and its full
+#   configuration. Transport URLs take the form:
+#     transport://user:pass@host1:port[,hostN:portN]/virtual_host
+#   Defaults to $::os_service_default
 #
 # [*rpc_response_timeout*]
-#  (Optional) Seconds to wait for a response from a call.
-#  Defaults to $::os_service_default
+#   (Optional) Seconds to wait for a response from a call.
+#   Defaults to $::os_service_default
 #
 # [*control_exchange*]
 #   (Optional) The default exchange under which topics are scoped. May be
