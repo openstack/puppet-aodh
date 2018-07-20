@@ -13,6 +13,10 @@
 #   Url used to connect to database.
 #   (Optional) Defaults to "sqlite:////var/lib/aodh/aodh.sqlite".
 #
+# [*slave_connection*]
+#   (optional) Connection url to connect to aodh slave database (read-only).
+#   Defaults to $::os_service_default.
+#
 # [*database_idle_timeout*]
 #   Timeout when db connections should be reaped.
 #   (Optional) Defaults to $::os_service_default.
@@ -45,6 +49,7 @@
 class aodh::db (
   $database_db_max_retries = $::os_service_default,
   $database_connection     = 'sqlite:////var/lib/aodh/aodh.sqlite',
+  $slave_connection        = $::os_service_default,
   $database_idle_timeout   = $::os_service_default,
   $database_min_pool_size  = $::os_service_default,
   $database_max_pool_size  = $::os_service_default,
@@ -57,6 +62,7 @@ class aodh::db (
   include ::aodh::deps
 
   $database_connection_real = pick($::aodh::database_connection, $database_connection)
+  $slave_connection_real = pick($::aodh::slave_connection, $slave_connection)
   $database_idle_timeout_real = pick($::aodh::database_idle_timeout, $database_idle_timeout)
   $database_min_pool_size_real = pick($::aodh::database_min_pool_size, $database_min_pool_size)
   $database_max_pool_size_real = pick($::aodh::database_max_pool_size, $database_max_pool_size)
@@ -65,14 +71,15 @@ class aodh::db (
   $database_max_overflow_real = pick($::aodh::database_max_overflow, $database_max_overflow)
 
   oslo::db { 'aodh_config':
-    db_max_retries => $database_db_max_retries,
-    connection     => $database_connection_real,
-    idle_timeout   => $database_idle_timeout_real,
-    min_pool_size  => $database_min_pool_size_real,
-    max_pool_size  => $database_max_pool_size_real,
-    max_retries    => $database_max_retries_real,
-    retry_interval => $database_retry_interval_real,
-    max_overflow   => $database_max_overflow_real,
-    pool_timeout   => $database_pool_timeout,
+    db_max_retries   => $database_db_max_retries,
+    connection       => $database_connection_real,
+    slave_connection => $slave_connection_real,
+    idle_timeout     => $database_idle_timeout_real,
+    min_pool_size    => $database_min_pool_size_real,
+    max_pool_size    => $database_max_pool_size_real,
+    max_retries      => $database_max_retries_real,
+    retry_interval   => $database_retry_interval_real,
+    max_overflow     => $database_max_overflow_real,
+    pool_timeout     => $database_pool_timeout,
   }
 }

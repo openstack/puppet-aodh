@@ -23,6 +23,7 @@ describe 'aodh::db' do
       let :params do
         { :database_db_max_retries => '-1',
           :database_connection     => 'mysql+pymysql://aodh:aodh@localhost/aodh',
+          :slave_connection        => 'mysql+pymysql://aodh:aodh@localhost2/aodh',
           :database_idle_timeout   => '3601',
           :database_min_pool_size  => '2',
           :database_max_pool_size  => '11',
@@ -33,15 +34,16 @@ describe 'aodh::db' do
         }
       end
       it { is_expected.to contain_oslo__db('aodh_config').with(
-        :db_max_retries => '-1',
-        :connection     => 'mysql+pymysql://aodh:aodh@localhost/aodh',
-        :idle_timeout   => '3601',
-        :min_pool_size  => '2',
-        :max_pool_size  => '11',
-        :max_retries    => '11',
-        :retry_interval => '11',
-        :max_overflow   => '21',
-        :pool_timeout   => '21',
+        :db_max_retries   => '-1',
+        :connection       => 'mysql+pymysql://aodh:aodh@localhost/aodh',
+        :slave_connection => 'mysql+pymysql://aodh:aodh@localhost2/aodh',
+        :idle_timeout     => '3601',
+        :min_pool_size    => '2',
+        :max_pool_size    => '11',
+        :max_retries      => '11',
+        :retry_interval   => '11',
+        :max_overflow     => '21',
+        :pool_timeout     => '21',
       )}
 
     end
