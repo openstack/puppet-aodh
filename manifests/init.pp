@@ -287,7 +287,7 @@ class aodh (
   $database_max_overflow              = undef,
   $purge_config                       = false,
   # DEPRECATED PARAMETERS
-  $gnocchi_url                        = $undef,
+  $gnocchi_url                        = undef,
 ) inherits aodh::params {
 
   include ::aodh::deps
