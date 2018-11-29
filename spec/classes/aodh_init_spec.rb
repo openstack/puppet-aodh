@@ -6,15 +6,10 @@ describe 'aodh' do
 
     it { is_expected.to contain_class('aodh::deps') }
     it { is_expected.to contain_class('aodh::db') }
-    it { is_expected.to contain_class('aodh::logging') }
 
     context 'with default parameters' do
       let :params do
         { :purge_config => false  }
-      end
-
-      it 'contains the logging class' do
-        is_expected.to contain_class('aodh::logging')
       end
 
       it 'installs packages' do
@@ -48,7 +43,6 @@ describe 'aodh' do
     context 'with overridden parameters' do
       let :params do
         {
-          :debug                              => true,
           :default_transport_url              => 'rabbit://rabbit_user:password@localhost:5673',
           :rabbit_ha_queues                   => 'undef',
           :rabbit_heartbeat_timeout_threshold => '60',
