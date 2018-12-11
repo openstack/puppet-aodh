@@ -32,7 +32,7 @@ class aodh::params {
       $listener_service_name   = 'openstack-aodh-listener'
       $aodh_wsgi_script_path   = '/var/www/cgi-bin/aodh'
       $aodh_wsgi_script_source = '/usr/bin/aodh-api'
-      $redis_package_name      = 'python-redis'
+      $redis_package_name      = "python${pyvers}-redis"
     }
     'Debian': {
       $common_package_name     = 'aodh-common'
