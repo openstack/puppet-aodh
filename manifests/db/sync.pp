@@ -2,7 +2,7 @@
 # Class to execute "aodh-dbsync"
 #
 # [*user*]
-#   (optional) User to run dbsync command.
+#   (Optional) User to run dbsync command.
 #   Defaults to 'aodh'
 #
 class aodh::db::sync (
@@ -27,5 +27,4 @@ class aodh::db::sync (
     notify      => Anchor['aodh::dbsync::end'],
     tag         => 'openstack-db',
   }
-
 }
