@@ -22,7 +22,7 @@ describe 'aodh::evaluator' do
       end
 
       it 'installs python-redis package' do
-        is_expected.to contain_package(platform_params[:redis_package_name]).with(
+        is_expected.to contain_package('python-redis').with(
           :name => platform_params[:redis_package_name],
 	  :tag  => 'openstack'
         )
@@ -116,7 +116,7 @@ describe 'aodh::evaluator' do
         when 'Debian'
           { :evaluator_package_name => 'aodh-evaluator',
             :evaluator_service_name => 'aodh-evaluator',
-            :redis_package_name     => 'python-redis' }
+            :redis_package_name     => 'python3-redis' }
         when 'RedHat'
           { :evaluator_package_name => 'openstack-aodh-evaluator',
             :evaluator_service_name => 'openstack-aodh-evaluator',
