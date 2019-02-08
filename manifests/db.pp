@@ -70,7 +70,12 @@ class aodh::db (
 
   include aodh::deps
 
-  if $::aodh::database_min_pool_size or $database_min_pool_size {
+  if defined('$::aodh::database_min_pool_size') {
+    $database_min_pool_size_real = $::aodh::database_min_pool_size
+  } else {
+    $database_min_pool_size_real = $database_min_pool_size
+  }
+  if $database_min_pool_size_real {
     warning('The database_min_pool_size parameter is deprecated, and will be removed in a future release.')
   }
 

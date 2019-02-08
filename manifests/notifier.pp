@@ -33,14 +33,14 @@ class aodh::notifier (
     } else {
       $service_ensure = 'stopped'
     }
-  }
 
-  service { 'aodh-notifier':
-    ensure     => $service_ensure,
-    name       => $::aodh::params::notifier_service_name,
-    enable     => $enabled,
-    hasstatus  => true,
-    hasrestart => true,
-    tag        => 'aodh-service',
+    service { 'aodh-notifier':
+      ensure     => $service_ensure,
+      name       => $::aodh::params::notifier_service_name,
+      enable     => $enabled,
+      hasstatus  => true,
+      hasrestart => true,
+      tag        => 'aodh-service',
+    }
   }
 }

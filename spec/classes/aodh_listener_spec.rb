@@ -56,15 +56,8 @@ describe 'aodh::listener' do
           :manage_service => false }
       end
 
-      it 'configures aodh-listener service' do
-        is_expected.to contain_service('aodh-listener').with(
-          :ensure     => nil,
-          :name       => platform_params[:listener_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => 'aodh-service',
-        )
+      it 'should not configure aodh-listener service' do
+        is_expected.to_not contain_service('aodh-listener')
       end
     end
   end
