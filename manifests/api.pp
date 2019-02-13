@@ -100,6 +100,7 @@ class aodh::api (
       enable => false,
       tag    => 'aodh-service',
     }
+    Service <| title == 'httpd' |> { tag +> 'aodh-service' }
 
     # we need to make sure aodh-api/eventlet is stopped before trying to start apache
     Service['aodh-api'] -> Service[$service_name]
