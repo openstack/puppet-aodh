@@ -30,8 +30,8 @@ class aodh::config (
 
   include ::aodh::deps
 
-  validate_hash($aodh_config)
-  validate_hash($aodh_api_paste_ini)
+  validate_legacy(Hash, 'validate_hash', $aodh_config)
+  validate_legacy(Hash, 'validate_hash', $aodh_api_paste_ini)
 
   create_resources('aodh_config', $aodh_config)
   create_resources('aodh_api_paste_ini', $aodh_api_paste_ini)
