@@ -84,7 +84,7 @@ Developer documentation for the entire puppet-openstack project.
 Repository
 ----------
 
-* https://git.openstack.org/cgit/openstack/puppet-aodh/
+* https://opendev.org/openstack/puppet-aodh/
 
 Contributors
 ------------
