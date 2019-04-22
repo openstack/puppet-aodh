@@ -49,7 +49,8 @@ class aodh::params {
       $redis_package_name      = "python${pyvers}-redis"
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem")
+      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
+module ${module_name} only support osfamily RedHat and Debian")
     }
 
   } # Case $::osfamily
