@@ -19,5 +19,7 @@ class aodh::client (
     tag    => 'openstack',
   }
 
+  include '::openstacklib::openstackclient'
+
 }
 
