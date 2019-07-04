@@ -36,6 +36,10 @@
 #   HTTPProxyToWSGI middleware.
 #   Defaults to $::os_service_default.
 #
+# [*max_request_body_size*]
+#   (Optional) Set max request body size
+#   Defaults to $::os_service_default.
+#
 # [*paste_config*]
 #   (Optional) Configuration file for WSGI definition of API
 #   Defaults to $::os_service_default.
@@ -62,6 +66,7 @@ class aodh::api (
   $sync_db                        = false,
   $auth_strategy                  = 'keystone',
   $enable_proxy_headers_parsing   = $::os_service_default,
+  $max_request_body_size          = $::os_service_default,
   $paste_config                   = $::os_service_default,
   $gnocchi_external_project_owner = 'services',
   # DEPRECATED PARAMETERS
@@ -138,5 +143,6 @@ as a standalone service, or httpd for being run by a httpd server")
 
   oslo::middleware { 'aodh_config':
     enable_proxy_headers_parsing => $enable_proxy_headers_parsing,
+    max_request_body_size        => $max_request_body_size,
   }
 }

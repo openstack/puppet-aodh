@@ -36,6 +36,7 @@ describe 'aodh::api' do
       is_expected.to contain_aodh_config('api/paste_config').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_oslo__middleware('aodh_config').with(
         :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
+        :max_request_body_size        => '<SERVICE DEFAULT>',
       )
     end
 
@@ -75,6 +76,16 @@ describe 'aodh::api' do
 
       it { is_expected.to contain_oslo__middleware('aodh_config').with(
         :enable_proxy_headers_parsing => true,
+      )}
+    end
+
+    context 'with max_request_body_size' do
+      before do
+        params.merge!({:max_request_body_size => '102400' })
+      end
+
+      it { is_expected.to contain_oslo__middleware('aodh_config').with(
+        :max_request_body_size => '102400',
       )}
     end
 
