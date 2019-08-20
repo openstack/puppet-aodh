@@ -207,12 +207,6 @@
 #   in the aodh config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*gnocchi_url*]
-#   (optional) URL to Gnocchi.
-#   Defaults to undef.
-#
 class aodh (
   $package_ensure                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
@@ -259,16 +253,10 @@ class aodh (
   $database_retry_interval            = undef,
   $database_max_overflow              = undef,
   $purge_config                       = false,
-  # DEPRECATED PARAMETERS
-  $gnocchi_url                        = undef,
 ) inherits aodh::params {
 
   include ::aodh::deps
   include ::aodh::db
-
-  if $gnocchi_url {
-    warning('gnocchi_url has no effect as of Newton and will be removed in a future release')
-  }
 
   package { 'aodh':
     ensure => $package_ensure,

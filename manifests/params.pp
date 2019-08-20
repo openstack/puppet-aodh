@@ -17,10 +17,6 @@ class aodh::params {
       $evaluator_package_name  = 'openstack-aodh-evaluator'
       $evaluator_service_name  = 'openstack-aodh-evaluator'
       $expirer_package_name    = 'openstack-aodh-expirer'
-
-      # Deprecated in N, replaced with expirer_service_name
-      $expirer_package_serice  = 'openstack-aodh-expirer'
-
       $expirer_service_name    = 'openstack-aodh-expirer'
       $listener_package_name   = 'openstack-aodh-listener'
       $listener_service_name   = 'openstack-aodh-listener'
@@ -37,10 +33,6 @@ class aodh::params {
       $evaluator_package_name  = 'aodh-evaluator'
       $evaluator_service_name  = 'aodh-evaluator'
       $expirer_package_name    = 'aodh-expirer'
-
-      # Deprecated in N, replaced with expirer_service_name
-      $expirer_package_serice  = 'aodh-expirer'
-
       $expirer_service_name    = 'aodh-expirer'
       $listener_package_name   = 'aodh-listener'
       $listener_service_name   = 'aodh-listener'

@@ -48,16 +48,6 @@
 #   (optional) Gnocchi external project owner (usually Ceilometer project name)
 #   Defaults to 'services'
 #
-# DEPRECATED PARAMETERS
-#
-# [*host*]
-#   (optional) The aodh api bind address.
-#   Defaults to undef
-#
-# [*port*]
-#   (optional) The aodh api port.
-#   Defaults to undef
-#
 class aodh::api (
   $manage_service                 = true,
   $enabled                        = true,
@@ -69,9 +59,6 @@ class aodh::api (
   $max_request_body_size          = $::os_service_default,
   $paste_config                   = $::os_service_default,
   $gnocchi_external_project_owner = 'services',
-  # DEPRECATED PARAMETERS
-  $host                           = undef,
-  $port                           = undef,
 ) inherits aodh::params {
 
 
@@ -81,15 +68,6 @@ class aodh::api (
 
   if $auth_strategy == 'keystone' {
     include ::aodh::keystone::authtoken
-  }
-
-  if $host {
-    warning('host has no effect as of Newton and will be removed in a future \
-release. aodh::wsgi::apache supports setting a host via bind_host.')
-  }
-  if $port {
-    warning('port has no effect as of Newton and will be removed in a future \
-release. aodh::wsgi::apache supports setting a port.')
   }
 
   package { 'aodh-api':

@@ -17,7 +17,7 @@ describe 'aodh::api' do
     }
   end
 
-  shared_examples_for 'aodh-api' do
+  shared_examples 'aodh::api' do
 
     it { is_expected.to contain_class('aodh::deps') }
     it { is_expected.to contain_class('aodh::params') }
@@ -166,7 +166,7 @@ describe 'aodh::api' do
   end
 
   on_supported_os({
-    :supported_os   => OSDefaults.get_supported_os
+    :supported_os => OSDefaults.get_supported_os
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
@@ -186,7 +186,8 @@ describe 'aodh::api' do
             :api_service_name => 'openstack-aodh-api' }
         end
       end
-      it_configures 'aodh-api'
+
+      it_behaves_like 'aodh::api'
     end
   end
 

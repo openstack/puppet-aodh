@@ -1,0 +1,9 @@
+---
+upgrade:
+  - |
+    The deprecated parameters heat::api::host and heat::api::port is removed.
+  - |
+    The deprecated parameter auth_endpoint_type in heat::auth is removed.
+    Please use interface parameter instead.
+  - |
+    The deprecated parameter heat::gnocchi_url is removed.
