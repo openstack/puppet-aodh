@@ -13,6 +13,10 @@
 #   (<= 0 means forever)
 #   Defaults to $::os_service_default
 #
+# [*executor_thread_pool_size*]
+#   (optional) Size of executor thread pool when executor is threading or eventlet.
+#   Defaults to $::os_service_default.
+#
 # [*default_transport_url*]
 #   (optional) A URL representing the messaging driver to use and its full
 #   configuration. Transport URLs take the form:
@@ -220,6 +224,7 @@
 class aodh (
   $package_ensure                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
+  $executor_thread_pool_size          = $::os_service_default,
   $default_transport_url              = $::os_service_default,
   $rpc_response_timeout               = $::os_service_default,
   $control_exchange                   = $::os_service_default,
@@ -315,9 +320,10 @@ class aodh (
   }
 
   oslo::messaging::default { 'aodh_config':
-    transport_url        => $default_transport_url,
-    rpc_response_timeout => $rpc_response_timeout,
-    control_exchange     => $control_exchange,
+    executor_thread_pool_size => $executor_thread_pool_size,
+    transport_url             => $default_transport_url,
+    rpc_response_timeout      => $rpc_response_timeout,
+    control_exchange          => $control_exchange,
   }
 
   oslo::messaging::notifications { 'aodh_config':
