@@ -120,7 +120,7 @@ class aodh::logging(
   $log_date_format               = $::os_service_default,
 ) {
 
-  include ::aodh::deps
+  include aodh::deps
 
   oslo::log { 'aodh_config':
     debug                         => $debug,

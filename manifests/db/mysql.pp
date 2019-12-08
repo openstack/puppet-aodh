@@ -43,11 +43,11 @@ class aodh::db::mysql(
   $allowed_hosts = undef
 ) {
 
-  include ::aodh::deps
+  include aodh::deps
 
   validate_legacy(String, 'validate_string', $password)
 
-  ::openstacklib::db::mysql { 'aodh':
+  openstacklib::db::mysql { 'aodh':
     user          => $user,
     password_hash => mysql::password($password),
     dbname        => $dbname,

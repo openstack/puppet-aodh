@@ -124,19 +124,19 @@ class aodh::wsgi::apache (
   $custom_wsgi_process_options = {},
 ) {
 
-  include ::aodh::deps
-  include ::aodh::params
-  include ::apache
-  include ::apache::mod::wsgi
+  include aodh::deps
+  include aodh::params
+  include apache
+  include apache::mod::wsgi
   if $ssl {
-    include ::apache::mod::ssl
+    include apache::mod::ssl
   }
 
   # NOTE(aschultz): needed because the packaging may introduce some apache
   # configuration files that apache may remove. See LP#1657847
   Anchor['aodh::install::end'] -> Class['apache']
 
-  ::openstacklib::wsgi::apache { 'aodh_wsgi':
+  openstacklib::wsgi::apache { 'aodh_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
     group                       => 'aodh',

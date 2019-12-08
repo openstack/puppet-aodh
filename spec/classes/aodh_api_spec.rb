@@ -4,8 +4,8 @@ describe 'aodh::api' do
 
   let :pre_condition do
     "class { 'aodh': }
-     include ::aodh::db
-     class { '::aodh::keystone::authtoken':
+     include aodh::db
+     class { 'aodh::keystone::authtoken':
        password => 'a_big_secret',
      }"
   end
@@ -129,10 +129,10 @@ describe 'aodh::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::aodh::db
+        "include apache
+         include aodh::db
          class { 'aodh': }
-         class { '::aodh::keystone::authtoken':
+         class { 'aodh::keystone::authtoken':
            password => 'a_big_secret',
          }"
       end
@@ -153,10 +153,10 @@ describe 'aodh::api' do
       end
 
       let :pre_condition do
-        "include ::apache
-         include ::aodh::db
+        "include apache
+         include aodh::db
          class { 'aodh': }
-         class { '::aodh::keystone::authtoken':
+         class { 'aodh::keystone::authtoken':
            password => 'a_big_secret',
          }"
       end

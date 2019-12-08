@@ -32,9 +32,9 @@ class aodh::db::postgresql(
   $privileges = 'ALL',
 ) {
 
-  include ::aodh::deps
+  include aodh::deps
 
-  ::openstacklib::db::postgresql { 'aodh':
+  openstacklib::db::postgresql { 'aodh':
     password_hash => postgresql_password($user, $password),
     dbname        => $dbname,
     user          => $user,

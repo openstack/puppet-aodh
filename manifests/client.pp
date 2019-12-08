@@ -10,8 +10,8 @@ class aodh::client (
   $ensure = 'present'
 ) {
 
-  include ::aodh::deps
-  include ::aodh::params
+  include aodh::deps
+  include aodh::params
 
   package { 'python-aodhclient':
     ensure => $ensure,
@@ -19,7 +19,6 @@ class aodh::client (
     tag    => 'openstack',
   }
 
-  include '::openstacklib::openstackclient'
+  include openstacklib::openstackclient
 
 }
-

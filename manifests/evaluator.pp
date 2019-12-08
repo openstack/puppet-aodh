@@ -29,8 +29,8 @@ class aodh::evaluator (
   $evaluation_interval = $::os_service_default,
 ) {
 
-  include ::aodh::deps
-  include ::aodh::params
+  include aodh::deps
+  include aodh::params
 
   aodh_config {
     'DEFAULT/evaluation_interval' : value => $evaluation_interval;

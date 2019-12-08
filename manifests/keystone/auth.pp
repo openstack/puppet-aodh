@@ -79,7 +79,7 @@ class aodh::keystone::auth (
   $admin_url           = 'http://127.0.0.1:8042',
 ) {
 
-  include ::aodh::deps
+  include aodh::deps
 
   keystone::resource::service_identity { 'aodh':
     configure_user      => $configure_user,

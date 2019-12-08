@@ -271,8 +271,8 @@ class aodh (
   $purge_config                       = false,
 ) inherits aodh::params {
 
-  include ::aodh::deps
-  include ::aodh::db
+  include aodh::deps
+  include aodh::db
 
   package { 'aodh':
     ensure => $package_ensure,

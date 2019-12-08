@@ -19,8 +19,8 @@ class aodh::notifier (
   $package_ensure = 'present',
 ) {
 
-  include ::aodh::deps
-  include ::aodh::params
+  include aodh::deps
+  include aodh::params
 
   ensure_resource( 'package', [$::aodh::params::notifier_package_name],
     { ensure => $package_ensure,

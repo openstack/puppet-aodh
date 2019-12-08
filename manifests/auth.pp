@@ -61,7 +61,7 @@ class aodh::auth (
   $interface          = $::os_service_default,
 ) {
 
-  include ::aodh::deps
+  include aodh::deps
 
   aodh_config {
     'service_credentials/auth_url'          : value => $auth_url;

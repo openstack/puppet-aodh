@@ -62,12 +62,12 @@ class aodh::api (
 ) inherits aodh::params {
 
 
-  include ::aodh::deps
-  include ::aodh::params
-  include ::aodh::policy
+  include aodh::deps
+  include aodh::params
+  include aodh::policy
 
   if $auth_strategy == 'keystone' {
-    include ::aodh::keystone::authtoken
+    include aodh::keystone::authtoken
   }
 
   package { 'aodh-api':
@@ -85,7 +85,7 @@ class aodh::api (
   }
 
   if $sync_db {
-    include ::aodh::db::sync
+    include aodh::db::sync
   }
 
   if $service_name == $::aodh::params::api_service_name {
@@ -98,7 +98,7 @@ class aodh::api (
       tag        => 'aodh-service',
     }
   } elsif $service_name == 'httpd' {
-    include ::apache::params
+    include apache::params
     service { 'aodh-api':
       ensure => 'stopped',
       name   => $::aodh::params::api_service_name,

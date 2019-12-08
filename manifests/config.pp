@@ -28,7 +28,7 @@ class aodh::config (
   $aodh_api_paste_ini = {},
 ) {
 
-  include ::aodh::deps
+  include aodh::deps
 
   validate_legacy(Hash, 'validate_hash', $aodh_config)
   validate_legacy(Hash, 'validate_hash', $aodh_api_paste_ini)

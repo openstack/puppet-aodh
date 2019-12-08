@@ -9,7 +9,7 @@ class aodh::db::sync (
   $user = 'aodh',
 ){
 
-  include ::aodh::deps
+  include aodh::deps
 
   exec { 'aodh-db-sync':
     command     => 'aodh-dbsync --config-file /etc/aodh/aodh.conf',

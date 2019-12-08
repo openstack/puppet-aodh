@@ -19,8 +19,8 @@ class aodh::listener (
   $package_ensure = 'present',
 ) {
 
-  include ::aodh::deps
-  include ::aodh::params
+  include aodh::deps
+  include aodh::params
 
   ensure_resource( 'package', [$::aodh::params::listener_package_name],
     { ensure => $package_ensure,

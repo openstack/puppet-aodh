@@ -28,8 +28,8 @@ class aodh::policy (
   $policy_path = '/etc/aodh/policy.json',
 ) {
 
-  include ::aodh::deps
-  include ::aodh::params
+  include aodh::deps
+  include aodh::params
 
   validate_legacy(Hash, 'validate_hash', $policies)
 
