@@ -90,6 +90,14 @@
 #    { python-path => '/my/python/virtualenv' }
 #    Defaults to {}
 #
+#   [*wsgi_script_dir*]
+#     (optional) The directory to install the WSGI script for apache to read
+#     Optional. Defaults to $::aodh::params::aodh_wsgi_script_path
+#
+#   [*wsgi_script_source*]
+#     (optional) The location of the aodh WSGI script
+#     Optional. Defaults to $::aodh::params::aodh_wsgi_script_source
+#
 #
 # == Dependencies
 #
@@ -122,6 +130,8 @@ class aodh::wsgi::apache (
   $access_log_format           = false,
   $error_log_file              = undef,
   $custom_wsgi_process_options = {},
+  $wsgi_script_dir             = undef,
+  $wsgi_script_source          = undef,
 ) {
 
   include aodh::deps
@@ -131,6 +141,9 @@ class aodh::wsgi::apache (
   if $ssl {
     include apache::mod::ssl
   }
+
+  $wsgi_script_dir_real = pick($wsgi_script_dir, $::aodh::params::aodh_wsgi_script_path)
+  $wsgi_script_source_real = pick($wsgi_script_source, $::aodh::params::aodh_wsgi_script_source)
 
   # NOTE(aschultz): needed because the packaging may introduce some apache
   # configuration files that apache may remove. See LP#1657847
@@ -157,9 +170,9 @@ class aodh::wsgi::apache (
     wsgi_daemon_process         => 'aodh',
     wsgi_process_display_name   => $wsgi_process_display_name,
     wsgi_process_group          => 'aodh',
-    wsgi_script_dir             => $::aodh::params::aodh_wsgi_script_path,
+    wsgi_script_dir             => $wsgi_script_dir_real,
     wsgi_script_file            => 'app',
-    wsgi_script_source          => $::aodh::params::aodh_wsgi_script_source,
+    wsgi_script_source          => $wsgi_script_source_real,
     custom_wsgi_process_options => $custom_wsgi_process_options,
     access_log_file             => $access_log_file,
     access_log_format           => $access_log_format,

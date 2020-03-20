@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    It is now possible to specify `aodh::wsgi::apache::wsgi_script_dir`
+    and `aodh::wsgi::apache::wsgi_script_source` to override operating
+    system defaults.
