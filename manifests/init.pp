@@ -204,10 +204,6 @@
 #   (optional) Interval between retries of opening a database connection.
 #   Defaults to undef.
 #
-# [*database_min_pool_size*]
-#   (optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
-#
 # [*database_max_pool_size*]
 #   (optional) Maximum number of SQL connections to keep open in a pool.
 #   Defaults to undef.
@@ -220,6 +216,12 @@
 #   (optional) Whether to set only the specified config options
 #   in the aodh config.
 #   Defaults to false.
+#
+# DEPRECATED PARAMETERS
+#
+# [*database_min_pool_size*]
+#   (optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to undef.
 #
 class aodh (
   $package_ensure                     = 'present',
@@ -263,12 +265,13 @@ class aodh (
   $database_connection                = undef,
   $slave_connection                   = undef,
   $database_idle_timeout              = undef,
-  $database_min_pool_size             = undef,
   $database_max_pool_size             = undef,
   $database_max_retries               = undef,
   $database_retry_interval            = undef,
   $database_max_overflow              = undef,
   $purge_config                       = false,
+  # DEPRECATED PARAMETERS
+  $database_min_pool_size             = undef,
 ) inherits aodh::params {
 
   include aodh::deps

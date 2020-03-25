@@ -21,10 +21,6 @@
 #   Timeout when db connections should be reaped.
 #   (Optional) Defaults to $::os_service_default.
 #
-# [*database_min_pool_size*]
-#   Minimum number of SQL connections to keep open in a pool.
-#   (Optional) Defaults to $::os_service_default.
-#
 # [*database_max_pool_size*]
 #   Maximum number of SQL connections to keep open in a pool.
 #   (Optional) Defaults to $::os_service_default.
@@ -46,24 +42,34 @@
 #   (Optional) If set, use this value for pool_timeout with SQLAlchemy.
 #   Defaults to $::os_service_default
 #
+# DEPRECATED PARAMETERS
+#
+# [*database_min_pool_size*]
+#   Minimum number of SQL connections to keep open in a pool.
+#   (Optional) Defaults to undef.
+#
 class aodh::db (
   $database_db_max_retries          = $::os_service_default,
   $database_connection              = 'sqlite:////var/lib/aodh/aodh.sqlite',
   $slave_connection                 = $::os_service_default,
   $database_connection_recycle_time = $::os_service_default,
-  $database_min_pool_size           = $::os_service_default,
   $database_max_pool_size           = $::os_service_default,
   $database_max_retries             = $::os_service_default,
   $database_retry_interval          = $::os_service_default,
   $database_max_overflow            = $::os_service_default,
   $database_pool_timeout            = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $database_min_pool_size           = undef,
 ) {
 
   include aodh::deps
 
+  if $::aodh::database_min_pool_size or $database_min_pool_size {
+    warning('The database_min_pool_size parameter is deprecated, and will be removed in a future release.')
+  }
+
   $database_connection_real = pick($::aodh::database_connection, $database_connection)
   $slave_connection_real = pick($::aodh::slave_connection, $slave_connection)
-  $database_min_pool_size_real = pick($::aodh::database_min_pool_size, $database_min_pool_size)
   $database_max_pool_size_real = pick($::aodh::database_max_pool_size, $database_max_pool_size)
   $database_max_retries_real = pick($::aodh::database_max_retries, $database_max_retries)
   $database_retry_interval_real = pick($::aodh::database_retry_interval, $database_retry_interval)
@@ -75,7 +81,6 @@ class aodh::db (
     connection              => $database_connection_real,
     slave_connection        => $slave_connection_real,
     connection_recycle_time => $database_connection_recycle_time_real,
-    min_pool_size           => $database_min_pool_size_real,
     max_pool_size           => $database_max_pool_size_real,
     max_retries             => $database_max_retries_real,
     retry_interval          => $database_retry_interval_real,
