@@ -42,7 +42,9 @@ describe 'aodh::wsgi::apache' do
           },
           :access_log_file             => '/var/log/httpd/access_log',
           :access_log_format           => 'some format',
-          :error_log_file              => '/var/log/httpd/error_log'
+          :error_log_file              => '/var/log/httpd/error_log',
+          :wsgi_script_dir             => '/var/lib/openstack/cgi-bin/aodh',
+          :wsgi_script_source          => '/my/path/app.wsgi'
         }
       end
       it { is_expected.to contain_class('aodh::params') }
@@ -62,9 +64,9 @@ describe 'aodh::wsgi::apache' do
         :wsgi_daemon_process       => 'aodh',
         :wsgi_process_display_name => 'aodh',
         :wsgi_process_group        => 'aodh',
-        :wsgi_script_dir           => platform_params[:wsgi_script_path],
+        :wsgi_script_dir           => '/var/lib/openstack/cgi-bin/aodh',
         :wsgi_script_file          => 'app',
-        :wsgi_script_source        => platform_params[:wsgi_script_source],
+        :wsgi_script_source        => '/my/path/app.wsgi',
         :custom_wsgi_process_options => {
           'python_path' => '/my/python/path',
         },
