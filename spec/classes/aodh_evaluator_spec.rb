@@ -118,9 +118,21 @@ describe 'aodh::evaluator' do
             :evaluator_service_name => 'aodh-evaluator',
             :redis_package_name     => 'python3-redis' }
         when 'RedHat'
-          { :evaluator_package_name => 'openstack-aodh-evaluator',
-            :evaluator_service_name => 'openstack-aodh-evaluator',
-            :redis_package_name     => 'python-redis' }
+          if facts[:operatingsystem] == 'Fedora'
+            { :evaluator_package_name => 'openstack-aodh-evaluator',
+              :evaluator_service_name => 'openstack-aodh-evaluator',
+              :redis_package_name     => 'python3-redis' }
+          else
+            if facts[:operatingsystemmajrelease] > '7'
+              { :evaluator_package_name => 'openstack-aodh-evaluator',
+                :evaluator_service_name => 'openstack-aodh-evaluator',
+                :redis_package_name     => 'python3-redis' }
+            else
+              { :evaluator_package_name => 'openstack-aodh-evaluator',
+                :evaluator_service_name => 'openstack-aodh-evaluator',
+                :redis_package_name     => 'python-redis' }
+            end
+          end
         end
       end
       it_configures 'aodh-evaluator'
