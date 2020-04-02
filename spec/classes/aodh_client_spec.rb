@@ -31,10 +31,14 @@ describe 'aodh::client' do
         when 'Debian'
           { :client_package_name => 'python3-aodhclient' }
         when 'RedHat'
-          if facts[:operatingsystemmajrelease] > '7'
+          if facts[:operatingsystem] == 'Fedora'
             { :client_package_name => 'python3-aodhclient' }
           else
-            { :client_package_name => 'python-aodhclient' }
+            if facts[:operatingsystemmajrelease] > '7'
+              { :client_package_name => 'python3-aodhclient' }
+            else
+              { :client_package_name => 'python-aodhclient' }
+            end
           end
         end
       end
