@@ -80,7 +80,7 @@ describe 'aodh' do
         before { params.merge!( :notification_driver => ['ceilometer.compute.aodh_notifier', 'aodh.openstack.common.notifier.rpc_notifier']) }
 
         it { is_expected.to contain_aodh_config('oslo_messaging_notifications/driver').with_value(
-          'ceilometer.compute.aodh_notifier,aodh.openstack.common.notifier.rpc_notifier'
+          ['ceilometer.compute.aodh_notifier', 'aodh.openstack.common.notifier.rpc_notifier']
         ) }
       end
 
