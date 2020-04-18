@@ -3,11 +3,11 @@ require 'spec_helper'
 describe 'aodh::auth' do
 
   let :params do
-    { :auth_url         => 'http://localhost:5000/v3',
-      :auth_region      => 'RegionOne',
-      :auth_user        => 'aodh',
-      :auth_password    => 'password',
-      :auth_tenant_name => 'services',
+    { :auth_url          => 'http://localhost:5000/v3',
+      :auth_region       => 'RegionOne',
+      :auth_user         => 'aodh',
+      :auth_password     => 'password',
+      :auth_project_name => 'services',
     }
   end
 

@@ -17,7 +17,7 @@
 #    the keystone password for aodh services
 #    Required.
 #
-#  [*auth_tenant_name*]
+#  [*auth_project_name*]
 #    the keystone tenant name for aodh services
 #    Optional. Defaults to 'services'
 #
@@ -28,10 +28,6 @@
 #  [*user_domain_name*]
 #    the keystone user domain name for aodh services
 #    Optional. Defaults to 'Default'
-#
-#  [*auth_tenant_id*]
-#    the keystone tenant id for aodh services.
-#    Optional. Defaults to $::os_service_default.
 #
 #  [*auth_type*]
 #    An authentication type to use with an OpenStack Identity server.
@@ -57,33 +53,53 @@
 #    the keystone user domain id for aodh services
 #    Optional. Defaults to undef
 #
+#  [*auth_tenant_name*]
+#    the keystone tenant name for aodh services
+#    Optional. Defaults to 'services'
+#
+#  [*auth_tenant_id*]
+#    the keystone tenant id for aodh services.
+#    Optional. Defaults to $::os_service_default.
+#
 class aodh::auth (
   $auth_password,
   $auth_url            = 'http://localhost:5000/v3',
   $auth_region         = 'RegionOne',
   $auth_user           = 'aodh',
-  $auth_tenant_name    = 'services',
+  $auth_project_name   = 'services',
   $project_domain_name = 'Default',
   $user_domain_name    = 'Default',
   $auth_type           = 'password',
-  $auth_tenant_id      = $::os_service_default,
   $auth_cacert         = $::os_service_default,
   $interface           = $::os_service_default,
   # DEPRECATED PARAMETERS
   $project_domain_id   = undef,
   $user_domain_id      = undef,
+  $auth_tenant_name    = undef,
+  $auth_tenant_id      = undef,
 ) {
 
   include aodh::deps
+
+  if $auth_tenant_name != undef {
+    warning('aodh::auth::auth_tenant_name is deprecated and will be removed \
+in a future release. Use auth_project_name instead.')
+    $auth_project_name_real = $auth_tenant_name
+  } else {
+    $auth_project_name_real = $auth_project_name
+  }
+
+  if $auth_tenant_id != undef {
+    warning('aodh::auth::auth_tenant_id is deprecated and has no effect')
+  }
 
   aodh_config {
     'service_credentials/auth_url'          : value => $auth_url;
     'service_credentials/region_name'       : value => $auth_region;
     'service_credentials/username'          : value => $auth_user;
     'service_credentials/password'          : value => $auth_password, secret => true;
-    'service_credentials/project_name'      : value => $auth_tenant_name;
+    'service_credentials/project_name'      : value => $auth_project_name_real;
     'service_credentials/cacert'            : value => $auth_cacert;
-    'service_credentials/tenant_id'         : value => $auth_tenant_id;
     'service_credentials/interface'         : value => $interface;
     'service_credentials/auth_type'         : value => $auth_type;
   }

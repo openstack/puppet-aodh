@@ -1,0 +1,8 @@
+---
+deprecations:
+  - |
+    The ``aodh::auth::tenant_name`` parameter is deprecated and will be removed
+    in a future release. Use ``aodh::auth:project_name`` instead.
+  - |
+    The ``aodh::auth::tenant_id`` parameter is deprecated and has no effect
+    now, since the actual parameter in aodh is no more valid.
