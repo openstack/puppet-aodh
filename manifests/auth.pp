@@ -21,13 +21,13 @@
 #    the keystone tenant name for aodh services
 #    Optional. Defaults to 'services'
 #
-#  [*project_domain_id*]
-#    the keystone project domain id for aodh services
-#    Optional. Defaults to 'default'
+#  [*project_domain_name*]
+#    the keystone project domain name for aodh services
+#    Optional. Defaults to 'Default'
 #
-#  [*user_domain_id*]
-#    the keystone user domain id for aodh services
-#    Optional. Defaults to 'default'
+#  [*user_domain_name*]
+#    the keystone user domain name for aodh services
+#    Optional. Defaults to 'Default'
 #
 #  [*auth_tenant_id*]
 #    the keystone tenant id for aodh services.
@@ -47,18 +47,31 @@
 #    communication with OpenStack services.
 #    Optional. Defaults to $::os_service_default.
 #
+# DEPRECATED PARAMETERS
+#
+#  [*project_domain_id*]
+#    the keystone project domain id for aodh services
+#    Optional. Defaults to undef
+#
+#  [*user_domain_id*]
+#    the keystone user domain id for aodh services
+#    Optional. Defaults to undef
+#
 class aodh::auth (
   $auth_password,
-  $auth_url           = 'http://localhost:5000/v3',
-  $auth_region        = 'RegionOne',
-  $auth_user          = 'aodh',
-  $auth_tenant_name   = 'services',
-  $project_domain_id  = 'default',
-  $user_domain_id     = 'default',
-  $auth_type          = 'password',
-  $auth_tenant_id     = $::os_service_default,
-  $auth_cacert        = $::os_service_default,
-  $interface          = $::os_service_default,
+  $auth_url            = 'http://localhost:5000/v3',
+  $auth_region         = 'RegionOne',
+  $auth_user           = 'aodh',
+  $auth_tenant_name    = 'services',
+  $project_domain_name = 'Default',
+  $user_domain_name    = 'Default',
+  $auth_type           = 'password',
+  $auth_tenant_id      = $::os_service_default,
+  $auth_cacert         = $::os_service_default,
+  $interface           = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $project_domain_id   = undef,
+  $user_domain_id      = undef,
 ) {
 
   include aodh::deps
@@ -72,9 +85,31 @@ class aodh::auth (
     'service_credentials/cacert'            : value => $auth_cacert;
     'service_credentials/tenant_id'         : value => $auth_tenant_id;
     'service_credentials/interface'         : value => $interface;
-    'service_credentials/project_domain_id' : value => $project_domain_id;
-    'service_credentials/user_domain_id'    : value => $user_domain_id;
     'service_credentials/auth_type'         : value => $auth_type;
+  }
+
+  if $project_domain_id != undef {
+    warning('aodh::auth::project_domain_id is deprecated and will be removed \
+in a future release. Use project_domain_name instead.')
+    aodh_config{
+      'service_credentials/project_domain_id' : value => $project_domain_id;
+    }
+  } else {
+    aodh_config{
+      'service_credentials/project_domain_name' : value => $project_domain_name;
+    }
+  }
+
+  if $user_domain_id != undef {
+    warning('aodh::auth::user_domain_id is deprecated and will be removed \
+in a future release. Use user_domain_name instead.')
+    aodh_config{
+      'service_credentials/user_domain_id' : value => $user_domain_id;
+    }
+  } else {
+    aodh_config{
+      'service_credentials/user_domain_name' : value => $user_domain_name;
+    }
   }
 
 }

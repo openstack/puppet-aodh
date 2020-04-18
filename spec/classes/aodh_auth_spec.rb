@@ -16,13 +16,31 @@ describe 'aodh::auth' do
     it 'configures authentication' do
       is_expected.to contain_aodh_config('service_credentials/auth_url').with_value('http://localhost:5000/v3')
       is_expected.to contain_aodh_config('service_credentials/region_name').with_value('RegionOne')
-      is_expected.to contain_aodh_config('service_credentials/project_domain_id').with_value('default')
-      is_expected.to contain_aodh_config('service_credentials/user_domain_id').with_value('default')
+      is_expected.to contain_aodh_config('service_credentials/project_domain_name').with_value('Default')
+      is_expected.to_not contain_aodh_config('service_credentials/project_domain_id')
+      is_expected.to contain_aodh_config('service_credentials/user_domain_name').with_value('Default')
+      is_expected.to_not contain_aodh_config('service_credentials/user_domain_id')
       is_expected.to contain_aodh_config('service_credentials/auth_type').with_value('password')
       is_expected.to contain_aodh_config('service_credentials/username').with_value('aodh')
       is_expected.to contain_aodh_config('service_credentials/password').with_value('password').with_secret(true)
       is_expected.to contain_aodh_config('service_credentials/project_name').with_value('services')
       is_expected.to contain_aodh_config('service_credentials/cacert').with(:value => '<SERVICE DEFAULT>')
+    end
+
+    context 'when deprecated domain_id is set' do
+      before do
+        params.merge!(
+          :user_domain_id    => 'default',
+          :project_domain_id => 'default',
+        )
+      end
+
+      it 'configures domain_id instead of domain_name' do
+        is_expected.to_not contain_aodh_config('service_credentials/project_domain_name')
+        is_expected.to contain_aodh_config('service_credentials/project_domain_id').with_value('default')
+        is_expected.to_not contain_aodh_config('service_credentials/user_domain_name')
+        is_expected.to contain_aodh_config('service_credentials/user_domain_id').with_value('default')
+      end
     end
 
     context 'when overriding parameters' do
