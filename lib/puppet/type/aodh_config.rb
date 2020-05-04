@@ -44,8 +44,8 @@ Puppet::Type.newtype(:aodh_config) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'aodh'
+  autorequire(:anchor) do
+    ['aodh::install::end']
   end
 
 end

@@ -45,8 +45,8 @@ Puppet::Type.newtype(:aodh_api_paste_ini) do
     defaultto('<SERVICE DEFAULT>')
   end
 
-  autorequire(:package) do
-    'aodh-common'
+  autorequire(:anchor) do
+    ['aodh::install::end']
   end
 
 end
