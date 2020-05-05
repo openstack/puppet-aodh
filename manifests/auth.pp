@@ -55,11 +55,11 @@
 #
 #  [*auth_tenant_name*]
 #    the keystone tenant name for aodh services
-#    Optional. Defaults to 'services'
+#    Optional. Defaults to undef
 #
 #  [*auth_tenant_id*]
 #    the keystone tenant id for aodh services.
-#    Optional. Defaults to $::os_service_default.
+#    Optional. Defaults to undef
 #
 class aodh::auth (
   $auth_password,
