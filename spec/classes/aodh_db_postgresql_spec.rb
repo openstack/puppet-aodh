@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'aodh::db::postgresql' do
 
   let :req_params do
-    { :password => 'pw' }
+    { :password => 'aodhpass' }
   end
 
   let :pre_condition do
@@ -16,9 +16,12 @@ describe 'aodh::db::postgresql' do
         req_params
       end
 
-      it { is_expected.to contain_postgresql__server__db('aodh').with(
-        :user     => 'aodh',
-        :password => 'md534e5dd092d680f3d8c11c62951fb5c19'
+      it { is_expected.to contain_openstacklib__db__postgresql('aodh').with(
+        :user       => 'aodh',
+        :password   => 'aodhpass',
+        :dbname     => 'aodh',
+        :encoding   => nil,
+        :privileges => 'ALL',
       )}
     end
 
