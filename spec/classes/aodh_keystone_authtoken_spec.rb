@@ -44,6 +44,7 @@ describe 'aodh::keystone::authtoken' do
         is_expected.to contain_aodh_config('keystone_authtoken/token_cache_time').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('keystone_authtoken/service_token_roles').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('keystone_authtoken/service_token_roles_required').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('keystone_authtoken/interface').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -62,8 +63,7 @@ describe 'aodh::keystone::authtoken' do
           :auth_type                            => 'password',
           :auth_version                         => 'v3',
           :cache                                => 'somevalue',
-          :cafile                               =>
-'/opt/stack/data/cafile.pem',
+          :cafile                               => '/opt/stack/data/cafile.pem',
           :certfile                             => 'certfile.crt',
           :delay_auth_decision                  => false,
           :enforce_token_bind                   => 'permissive',
@@ -79,13 +79,13 @@ describe 'aodh::keystone::authtoken' do
           :memcache_secret_key                  => 'secret_key',
           :memcache_security_strategy           => 'ENCRYPT',
           :memcache_use_advanced_pool           => true,
-          :memcached_servers                    =>
-['memcached01:11211','memcached02:11211'],
+          :memcached_servers                    => ['memcached01:11211','memcached02:11211'],
           :manage_memcache_package              => true,
           :region_name                          => 'region2',
           :token_cache_time                     => '301',
           :service_token_roles                  => ['service'],
           :service_token_roles_required         => false,
+          :interface                            => 'internal',
         })
       end
 
@@ -123,6 +123,7 @@ describe 'aodh::keystone::authtoken' do
         is_expected.to contain_aodh_config('keystone_authtoken/token_cache_time').with_value(params[:token_cache_time])
         is_expected.to contain_aodh_config('keystone_authtoken/service_token_roles').with_value(params[:service_token_roles])
         is_expected.to contain_aodh_config('keystone_authtoken/service_token_roles_required').with_value(params[:service_token_roles_required])
+        is_expected.to contain_aodh_config('keystone_authtoken/interface').with_value(params[:interface])
       end
 
       it 'installs python memcache package' do
