@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The ``aodh::quota`` class has been added to support parameters to define
+    quota.
