@@ -98,6 +98,11 @@
 #     (optional) The location of the aodh WSGI script
 #     Optional. Defaults to $::aodh::params::aodh_wsgi_script_source
 #
+#   [*vhost_custom_fragment*]
+#     (optional) Passes a string of custom configuration
+#     directives to be placed at the end of the vhost configuration.
+#     Defaults to undef.
+#
 #
 # == Dependencies
 #
@@ -132,6 +137,7 @@ class aodh::wsgi::apache (
   $custom_wsgi_process_options = {},
   $wsgi_script_dir             = undef,
   $wsgi_script_source          = undef,
+  $vhost_custom_fragment       = undef,
 ) {
 
   include aodh::deps
@@ -166,6 +172,7 @@ class aodh::wsgi::apache (
     ssl_key                     => $ssl_key,
     threads                     => $threads,
     user                        => 'aodh',
+    vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'aodh',
     wsgi_process_display_name   => $wsgi_process_display_name,
