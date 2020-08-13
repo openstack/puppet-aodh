@@ -6,6 +6,7 @@ class aodh::params {
 
   $client_package_name = "python${pyvers}-aodhclient"
   $group               = 'aodh'
+  $expirer_command     = 'aodh-expirer'
 
   case $::osfamily {
     'RedHat': {

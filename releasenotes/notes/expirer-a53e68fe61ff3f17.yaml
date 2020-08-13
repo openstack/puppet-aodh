@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``aodh::expirer`` class has been added to support a cron job to run
+    aodh-expirer command.
