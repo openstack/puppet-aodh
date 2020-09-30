@@ -135,20 +135,29 @@ class aodh::wsgi::apache (
   $access_log_format           = false,
   $error_log_file              = undef,
   $custom_wsgi_process_options = {},
-  $wsgi_script_dir             = undef,
-  $wsgi_script_source          = undef,
+  $wsgi_script_dir             = $::aodh::params::aodh_wsgi_script_path,
+  $wsgi_script_source          = $::aodh::params::aodh_wsgi_script_source,
   $vhost_custom_fragment       = undef,
-) {
+) inherits aodh::params {
 
   include aodh::deps
-  include aodh::params
   include apache
   include apache::mod::wsgi
   if $ssl {
     include apache::mod::ssl
   }
 
+  # TODO(tkajinam): Remove the following compat codes in W-cycle.
+  if $wsgi_script_dir == undef {
+    warning('Usage of undef for the wsgi_script_dir paramaeter has been deprecated. \
+Use $::aodh::params::aodh_wsgi_script_path instead')
+  }
   $wsgi_script_dir_real = pick($wsgi_script_dir, $::aodh::params::aodh_wsgi_script_path)
+
+  if $wsgi_script_source == undef {
+    warning('Usage of undef for the wsgi_script_source paramaeter has been deprecated. \
+Use $::aodh::params::aodh_wsgi_script_source instead')
+  }
   $wsgi_script_source_real = pick($wsgi_script_source, $::aodh::params::aodh_wsgi_script_source)
 
   # NOTE(aschultz): needed because the packaging may introduce some apache
