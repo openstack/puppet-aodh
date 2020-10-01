@@ -87,15 +87,8 @@ describe 'aodh::evaluator' do
           :manage_service => false }
       end
 
-      it 'configures aodh-evaluator service' do
-        is_expected.to contain_service('aodh-evaluator').with(
-          :ensure     => nil,
-          :name       => platform_params[:evaluator_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => ['aodh-service','aodh-db-sync-service']
-        )
+      it 'should not configure aodh-evaluator service' do
+        is_expected.to_not contain_service('aodh-evaluator')
       end
     end
   end

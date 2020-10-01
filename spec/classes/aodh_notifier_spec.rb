@@ -56,15 +56,8 @@ describe 'aodh::notifier' do
           :manage_service => false }
       end
 
-      it 'configures aodh-notifier service' do
-        is_expected.to contain_service('aodh-notifier').with(
-          :ensure     => nil,
-          :name       => platform_params[:notifier_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => 'aodh-service',
-        )
+      it 'should not configure aodh-notifier service' do
+        is_expected.to_not contain_service('aodh-notifier')
       end
     end
   end

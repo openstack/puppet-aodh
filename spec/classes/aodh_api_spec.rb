@@ -111,15 +111,8 @@ describe 'aodh::api' do
           :enabled        => false })
       end
 
-      it 'configures aodh-api service' do
-        is_expected.to contain_service('aodh-api').with(
-          :ensure     => nil,
-          :name       => platform_params[:api_service_name],
-          :enable     => false,
-          :hasstatus  => true,
-          :hasrestart => true,
-          :tag        => 'aodh-service',
-        )
+      it 'should not configure aodh-api service' do
+        is_expected.to_not contain_service('aodh-api')
       end
     end
 
