@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    Now the ``aodh::expirer`` class installs aodh-expire package automatically.
+    The status of package can be defined by the ``package_ensure`` parameter.

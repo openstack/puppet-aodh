@@ -10,6 +10,13 @@ describe 'aodh::expirer' do
       it { is_expected.to contain_class('aodh::deps') }
       it { is_expected.to contain_class('aodh::params') }
 
+      it 'installs aodh-expirer package' do
+        is_expected.to contain_package(platform_params[:expirer_package_name]).with(
+          :ensure => 'present',
+          :tag    => ['openstack', 'aodh-package']
+        )
+      end
+
       it { is_expected.to contain_cron('aodh-expirer').with(
         :ensure      => 'present',
         :command     => 'aodh-expirer',
@@ -35,6 +42,13 @@ describe 'aodh::expirer' do
       it { is_expected.to contain_class('aodh::deps') }
       it { is_expected.to contain_class('aodh::params') }
 
+      it 'installs aodh-expirer package' do
+        is_expected.to contain_package(platform_params[:expirer_package_name]).with(
+          :ensure => 'present',
+          :tag    => ['openstack', 'aodh-package']
+        )
+      end
+
       it { is_expected.to contain_cron('aodh-expirer').with(
         :ensure      => 'absent',
         :command     => 'sleep `expr ${RANDOM} \\% 300`; aodh-expirer',
@@ -59,6 +73,14 @@ describe 'aodh::expirer' do
         facts.merge!(OSDefaults.get_facts())
       end
 
+      let(:platform_params) do
+        case facts[:osfamily]
+        when 'Debian'
+          { :expirer_package_name => 'aodh-expirer' }
+        when 'RedHat'
+          { :expirer_package_name => 'openstack-aodh-expirer' }
+        end
+      end
       it_behaves_like 'aodh::expirer'
     end
   end
