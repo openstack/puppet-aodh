@@ -21,7 +21,7 @@ class aodh::params {
       $expirer_service_name    = 'openstack-aodh-expirer'
       $listener_package_name   = 'openstack-aodh-listener'
       $listener_service_name   = 'openstack-aodh-listener'
-      $aodh_wsgi_script_path   = '/var/www/cgi-bin/aodh'
+      $aodh_wsgi_script_dir    = '/var/www/cgi-bin/aodh'
       $aodh_wsgi_script_source = '/usr/bin/aodh-api'
       $redis_package_name      = "python${pyvers}-redis"
     }
@@ -37,7 +37,7 @@ class aodh::params {
       $expirer_service_name    = 'aodh-expirer'
       $listener_package_name   = 'aodh-listener'
       $listener_service_name   = 'aodh-listener'
-      $aodh_wsgi_script_path   = '/usr/lib/cgi-bin/aodh'
+      $aodh_wsgi_script_dir    = '/usr/lib/cgi-bin/aodh'
       $aodh_wsgi_script_source = '/usr/share/aodh/app.wsgi'
       $redis_package_name      = "python${pyvers}-redis"
     }
