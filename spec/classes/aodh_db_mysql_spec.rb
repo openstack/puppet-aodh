@@ -16,6 +16,8 @@ describe 'aodh::db::mysql' do
   end
 
   shared_examples_for 'aodh::db::mysql' do
+    it { is_expected.to contain_class('aodh::deps') }
+
     context 'with only required params' do
       it { is_expected.to contain_openstacklib__db__mysql('aodh').with(
         'user'     => 'aodh',
