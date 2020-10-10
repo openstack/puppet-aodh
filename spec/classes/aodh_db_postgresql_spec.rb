@@ -16,6 +16,8 @@ describe 'aodh::db::postgresql' do
         req_params
       end
 
+      it { is_expected.to contain_class('aodh::deps') }
+
       it { is_expected.to contain_openstacklib__db__postgresql('aodh').with(
         :user       => 'aodh',
         :password   => 'aodhpass',
