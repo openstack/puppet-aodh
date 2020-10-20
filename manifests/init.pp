@@ -184,6 +184,17 @@
 #   (optional) AMQP topic used for OpenStack notifications
 #   Defaults to $::os_service_default
 #
+# [*purge_config*]
+#   (optional) Whether to set only the specified config options
+#   in the aodh config.
+#   Defaults to false.
+#
+# DEPRECATED PARAMETERS
+#
+# [*database_min_pool_size*]
+#   (optional) Minimum number of SQL connections to keep open in a pool.
+#   Defaults to undef.
+#
 # [*database_connection*]
 #   (optional) Connection url for the aodh database.
 #   Defaults to undef.
@@ -211,17 +222,6 @@
 # [*database_max_overflow*]
 #   (optional) If set, use this value for max_overflow with sqlalchemy.
 #   Defaults to: undef.
-#
-# [*purge_config*]
-#   (optional) Whether to set only the specified config options
-#   in the aodh config.
-#   Defaults to false.
-#
-# DEPRECATED PARAMETERS
-#
-# [*database_min_pool_size*]
-#   (optional) Minimum number of SQL connections to keep open in a pool.
-#   Defaults to undef.
 #
 class aodh (
   $package_ensure                     = 'present',
@@ -262,6 +262,9 @@ class aodh (
   $notification_transport_url         = $::os_service_default,
   $notification_driver                = $::os_service_default,
   $notification_topics                = $::os_service_default,
+  $purge_config                       = false,
+  # DEPRECATED PARAMETERS
+  $database_min_pool_size             = undef,
   $database_connection                = undef,
   $slave_connection                   = undef,
   $database_idle_timeout              = undef,
@@ -269,13 +272,46 @@ class aodh (
   $database_max_retries               = undef,
   $database_retry_interval            = undef,
   $database_max_overflow              = undef,
-  $purge_config                       = false,
-  # DEPRECATED PARAMETERS
-  $database_min_pool_size             = undef,
 ) inherits aodh::params {
 
   include aodh::deps
   include aodh::db
+
+  if $database_connection != undef {
+    warning('The database_connection parameter is deprecated and will be \
+removed in a future realse. Use aodh::db::database_connection instead')
+  }
+
+  if $slave_connection != undef {
+    warning('The slave_connection parameter is deprecated and will be \
+removed in a future realse. Use aodh::db::slave_connection instead')
+  }
+
+  if $database_idle_timeout != undef {
+    warning('The database_idle_timeout parameter is deprecated and will be \
+removed in a future realse. Use aodh::db::database_connection_recycle_time \
+instead')
+  }
+
+  if $database_max_pool_size != undef {
+    warning('The database_max_pool_size parameter is deprecated and will be \
+removed in a future realse. Use aodh::db::database_max_pool_size instead')
+  }
+
+  if $database_max_retries!= undef {
+    warning('The database_max_retries parameter is deprecated and will be \
+removed in a future realse. Use aodh::db::database_max_retries instead')
+  }
+
+  if $database_retry_interval != undef {
+    warning('The database_retry_interval parameter is deprecated and will be \
+removed in a future realse. Use aodh::db::database_retry_interval instead')
+  }
+
+  if $database_max_overflow != undef {
+    warning('The database_max_overflow parameter is deprecated and will be \
+removed in a future realse. Use aodh::db::database_max_overflow instead')
+  }
 
   package { 'aodh':
     ensure => $package_ensure,

@@ -1,0 +1,13 @@
+---
+deprecations:
+  - |
+    The following options have been deprecated, as those options have been
+    moved to aodh::db class.
+
+    - ``aodh::database_connection``
+    - ``aodh::slave_connection``
+    - ``aodh::database_idle_timeout``
+    - ``aodh::database_max_overflow``
+    - ``aodh::database_max_pool_size``
+    - ``aodh::database_max_retries``
+    - ``aodh::database_retry_interval``
