@@ -1,0 +1,6 @@
+---
+upgrade:
+  - |
+    The ``aodh::api`` class no longer supports standalone api service in
+    CentOS and Ubuntu, because these 2 distros don't provide standalone api
+    service and require that wsgi is used to run the api service.
