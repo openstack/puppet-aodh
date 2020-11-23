@@ -5,8 +5,13 @@
 #   (Optional) User to run dbsync command.
 #   Defaults to 'aodh'
 #
+# [*db_sync_timeout*]
+#   (Optional) Timeout for the execution of the db_sync
+#   Defaults to 300
+#
 class aodh::db::sync (
-  $user = 'aodh',
+  $user            = 'aodh',
+  $db_sync_timeout = 300,
 ){
 
   include aodh::deps
@@ -18,6 +23,7 @@ class aodh::db::sync (
     user        => $user,
     try_sleep   => 5,
     tries       => 10,
+    timeout     => $db_sync_timeout,
     logoutput   => on_failure,
     subscribe   => [
       Anchor['aodh::install::end'],
