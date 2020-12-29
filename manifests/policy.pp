@@ -20,12 +20,12 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (Optional) Path to the nova policy.json file
-#   Defaults to /etc/aodh/policy.json
+#   (Optional) Path to the nova policy.yaml file
+#   Defaults to /etc/aodh/policy.yaml
 #
 class aodh::policy (
   $policies    = {},
-  $policy_path = '/etc/aodh/policy.json',
+  $policy_path = '/etc/aodh/policy.yaml',
 ) {
 
   include aodh::deps
@@ -34,9 +34,10 @@ class aodh::policy (
   validate_legacy(Hash, 'validate_hash', $policies)
 
   Openstacklib::Policy::Base {
-    file_path  => $policy_path,
-    file_user  => 'root',
-    file_group => $::aodh::params::group,
+    file_path   => $policy_path,
+    file_user   => 'root',
+    file_group  => $::aodh::params::group,
+    file_format => 'yaml',
   }
 
   create_resources('openstacklib::policy::base', $policies)
