@@ -13,6 +13,10 @@
 #    (optional) ensure state for package.
 #    Defaults to 'present'
 #
+#  [*workers*]
+#    (optional) Number of workers for evaluator service.
+#    Defaults to $::os_workers.
+#
 #  [*coordination_url*]
 #    (optional) The url to use for distributed group membership coordination.
 #    Defaults to undef.
@@ -25,6 +29,7 @@ class aodh::evaluator (
   $manage_service      = true,
   $enabled             = true,
   $package_ensure      = 'present',
+  $workers             = $::os_workers,
   $coordination_url    = undef,
   $evaluation_interval = $::os_service_default,
 ) {
@@ -32,9 +37,18 @@ class aodh::evaluator (
   include aodh::deps
   include aodh::params
 
+  if $coordination_url == undef and !is_service_default($workers) and $workers > 1 {
+    warning('coordination_url should be set to use multiple workers')
+    $workers_real = $::os_service_default
+  } else {
+    $workers_real = $workers
+  }
+
   aodh_config {
     'DEFAULT/evaluation_interval' : value => $evaluation_interval;
+    'evaluator/workers'           : value => $workers_real;
   }
+
   if $coordination_url {
     aodh_config {
       'coordination/backend_url' : value => $coordination_url;
