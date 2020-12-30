@@ -1,0 +1,7 @@
+---
+deprecations:
+  - |
+    Default value of the ``aodh::evaluator::coordination_url`` parameter has
+    been changed from ``undef`` to ``$::os_service_default``. Usage of
+    ``undef`` or false value has been deprecated and will be removed in
+    a future release. Use ``$::os_service_default`` instead.

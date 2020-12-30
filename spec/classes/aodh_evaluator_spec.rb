@@ -92,6 +92,7 @@ describe 'aodh::evaluator' do
       it 'sets default values' do
         is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('evaluator/workers').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('coordination/backend_url').with_value('<SERVICE DEFAULT>')
       end
     end
 

@@ -19,7 +19,7 @@
 #
 #  [*coordination_url*]
 #    (optional) The url to use for distributed group membership coordination.
-#    Defaults to undef.
+#    Defaults to $::os_service_default.
 #
 #  [*evaluation_interval*]
 #    (optional) Period of evaluation cycle
@@ -30,14 +30,22 @@ class aodh::evaluator (
   $enabled             = true,
   $package_ensure      = 'present',
   $workers             = $::os_workers,
-  $coordination_url    = undef,
+  $coordination_url    = $::os_service_default,
   $evaluation_interval = $::os_service_default,
 ) {
 
   include aodh::deps
   include aodh::params
 
-  if $coordination_url == undef and !is_service_default($workers) and $workers > 1 {
+  if !$coordination_url {
+    warning('Use $::os_service_default for the coordination_url parameter. \
+The current behavior will be changed in a future release')
+    $coordination_url_real = $::os_service_default
+  } else {
+    $coordination_url_real = $coordination_url
+  }
+
+  if is_service_default($coordination_url_real) and !is_service_default($workers) and $workers > 1 {
     warning('coordination_url should be set to use multiple workers')
     $workers_real = $::os_service_default
   } else {
@@ -47,18 +55,14 @@ class aodh::evaluator (
   aodh_config {
     'DEFAULT/evaluation_interval' : value => $evaluation_interval;
     'evaluator/workers'           : value => $workers_real;
+    'coordination/backend_url'    : value => $coordination_url_real;
   }
 
-  if $coordination_url {
-    aodh_config {
-      'coordination/backend_url' : value => $coordination_url;
-    }
-    if ($coordination_url =~ /^redis/ ) {
-      ensure_resource('package', 'python-redis', {
-        name   => $::aodh::params::redis_package_name,
-        tag    => 'openstack',
-      })
-    }
+  if !is_service_default($coordination_url_real) and ($coordination_url_real =~ /^redis/ ) {
+    ensure_resource('package', 'python-redis', {
+      name   => $::aodh::params::redis_package_name,
+      tag    => 'openstack',
+    })
   }
 
   ensure_resource( 'package', [$::aodh::params::evaluator_package_name],
