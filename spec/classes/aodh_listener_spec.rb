@@ -8,6 +8,16 @@ describe 'aodh::listener' do
 
   shared_examples_for 'aodh-listener' do
 
+    context 'with workers' do
+      let :params do
+        { :workers => 8 }
+      end
+
+      it 'configures workers' do
+        is_expected.to contain_aodh_config('listener/workers').with_value(8)
+      end
+    end
+
     context 'when enabled' do
       it { is_expected.to contain_class('aodh::params') }
 
@@ -29,6 +39,9 @@ describe 'aodh::listener' do
         )
       end
 
+      it 'sets default values' do
+        is_expected.to contain_aodh_config('listener/workers').with_value(4)
+      end
     end
 
     context 'when disabled' do
@@ -67,7 +80,7 @@ describe 'aodh::listener' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts())
+        facts.merge!(OSDefaults.get_facts({ :os_workers => 4 }))
       end
 
       let(:platform_params) do

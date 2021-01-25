@@ -21,11 +21,32 @@ describe 'aodh::evaluator' do
         is_expected.to contain_aodh_config('coordination/backend_url').with_value('redis://localhost:6379')
       end
 
+      it 'configures workers' do
+        is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
+      end
+
       it 'installs python-redis package' do
         is_expected.to contain_package('python-redis').with(
           :name => platform_params[:redis_package_name],
-	  :tag  => 'openstack'
+          :tag  => 'openstack'
         )
+      end
+    end
+
+    context 'with coordination and workers' do
+      before do
+        params.merge!({
+          :coordination_url => 'redis://localhost:6379',
+          :workers          => 8,
+        })
+      end
+
+      it 'configures backend_url' do
+        is_expected.to contain_aodh_config('coordination/backend_url').with_value('redis://localhost:6379')
+      end
+
+      it 'configures workers' do
+        is_expected.to contain_aodh_config('evaluator/workers').with_value(8)
       end
     end
 
@@ -38,6 +59,14 @@ describe 'aodh::evaluator' do
       end
     end
 
+    context 'with workers' do
+      before do
+        params.merge!({ :workers => 8 })
+      end
+      it 'does not configure workers' do
+        is_expected.to contain_aodh_config('evaluator/workers').with_value('<SERVICE DEFAULT>')
+      end
+    end
 
     context 'when enabled' do
       it { is_expected.to contain_class('aodh::params') }
@@ -60,6 +89,10 @@ describe 'aodh::evaluator' do
         )
       end
 
+      it 'sets default values' do
+        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('evaluator/workers').with_value('<SERVICE DEFAULT>')
+      end
     end
 
     context 'when disabled' do
@@ -98,10 +131,7 @@ describe 'aodh::evaluator' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({
-          :fqdn           => 'some.host.tld',
-          :concat_basedir => '/var/lib/puppet/concat'
-        }))
+        facts.merge!(OSDefaults.get_facts({ :os_workers => 4 }))
       end
 
       let(:platform_params) do

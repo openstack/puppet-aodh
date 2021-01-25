@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The new parameters have been added to support workers option in each aodh
+    services.
+
+    - ``aodh::evaluator::workers``
+    - ``aodh::listener::workers``
+    - ``aodh::notifier::workers``

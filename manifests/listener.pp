@@ -13,14 +13,23 @@
 #    (optional) ensure state for package.
 #    Defaults to 'present'
 #
+#  [*workers*]
+#    (optional) Number of workers for evaluator service.
+#    Defaults to $::os_workers.
+#
 class aodh::listener (
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
+  $workers        = $::os_workers,
 ) {
 
   include aodh::deps
   include aodh::params
+
+  aodh_config {
+    'listener/workers': value => $workers
+  }
 
   ensure_resource( 'package', [$::aodh::params::listener_package_name],
     { ensure => $package_ensure,
