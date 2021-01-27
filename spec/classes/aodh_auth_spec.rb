@@ -27,22 +27,6 @@ describe 'aodh::auth' do
       is_expected.to contain_aodh_config('service_credentials/cacert').with(:value => '<SERVICE DEFAULT>')
     end
 
-    context 'when deprecated domain_id is set' do
-      before do
-        params.merge!(
-          :user_domain_id    => 'default',
-          :project_domain_id => 'default',
-        )
-      end
-
-      it 'configures domain_id instead of domain_name' do
-        is_expected.to_not contain_aodh_config('service_credentials/project_domain_name')
-        is_expected.to contain_aodh_config('service_credentials/project_domain_id').with_value('default')
-        is_expected.to_not contain_aodh_config('service_credentials/user_domain_name')
-        is_expected.to contain_aodh_config('service_credentials/user_domain_id').with_value('default')
-      end
-    end
-
     context 'when overriding parameters' do
       before do
         params.merge!(

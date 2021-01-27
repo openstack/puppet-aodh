@@ -1,0 +1,10 @@
+---
+upgrade:
+  - |
+    The following deprecated parameters of the ``aodh::auth`` class have been
+    removed.
+
+    - ``project_domain_id``
+    - ``user_domain_id``
+    - ``auth_tenant_name``
+    - ``auth_tenant_id``
