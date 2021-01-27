@@ -10,8 +10,8 @@ include apache
 class { 'aodh::wsgi::apache':
   ssl => false,
 }
-class { 'aodh::auth':
-  auth_password => 'a_big_secret',
+class { 'aodh::service_credentials':
+  password => 'a_big_secret',
 }
 class { 'aodh::evaluator': }
 class { 'aodh::notifier': }
