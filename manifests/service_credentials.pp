@@ -46,7 +46,7 @@
 #
 class aodh::service_credentials (
   # TODO(tkajinam): Make this required when we remove aodh::auth
-  $password            = undef,
+  $password            = false,
   $auth_url            = 'http://localhost:5000/v3',
   $region_name         = 'RegionOne',
   $username            = 'aodh',
