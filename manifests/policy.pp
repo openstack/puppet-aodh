@@ -4,6 +4,10 @@
 #
 # === Parameters
 #
+# [*enforce_scope*]
+#  (Optional) Whether or not to enforce scope when evaluating policies.
+#  Defaults to $::os_service_default.
+#
 # [*policies*]
 #   (Optional) Set of policies to configure for aodh
 #   Example :
@@ -20,12 +24,13 @@
 #   Defaults to empty hash.
 #
 # [*policy_path*]
-#   (Optional) Path to the nova policy.yaml file
+#   (Optional) Path to the aodh policy.yaml file
 #   Defaults to /etc/aodh/policy.yaml
 #
 class aodh::policy (
-  $policies    = {},
-  $policy_path = '/etc/aodh/policy.yaml',
+  $enforce_scope = $::os_service_default,
+  $policies      = {},
+  $policy_path   = '/etc/aodh/policy.yaml',
 ) {
 
   include aodh::deps
@@ -42,6 +47,9 @@ class aodh::policy (
 
   create_resources('openstacklib::policy::base', $policies)
 
-  oslo::policy { 'aodh_config': policy_file => $policy_path }
+  oslo::policy { 'aodh_config':
+    enforce_scope => $enforce_scope,
+    policy_file   => $policy_path
+  }
 
 }
