@@ -4,9 +4,10 @@ describe 'aodh::policy' do
   shared_examples 'aodh::policy' do
     let :params do
       {
-        :enforce_scope => false,
-        :policy_path   => '/etc/aodh/policy.yaml',
-        :policies      => {
+        :enforce_scope        => false,
+        :enforce_new_defaults => false,
+        :policy_path          => '/etc/aodh/policy.yaml',
+        :policies             => {
           'context_is_admin' => {
             'key'   => 'context_is_admin',
             'value' => 'foo:bar'
@@ -24,8 +25,9 @@ describe 'aodh::policy' do
         :file_format => 'yaml',
       })
       is_expected.to contain_oslo__policy('aodh_config').with(
-        :enforce_scope => false,
-        :policy_file   => '/etc/aodh/policy.yaml',
+        :enforce_scope        => false,
+        :enforce_new_defaults => false,
+        :policy_file          => '/etc/aodh/policy.yaml',
       )
     end
   end
