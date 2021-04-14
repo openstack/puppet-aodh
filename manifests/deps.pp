@@ -33,6 +33,11 @@ class aodh::deps {
   -> Openstacklib::Policy::Base<||>
   ~> Anchor['aodh::config::end']
 
+  # On any uwsgi config change, we must restart Aodh API.
+  Anchor['aodh::config::begin']
+  -> Aodh_api_uwsgi_config<||>
+  ~> Anchor['aodh::config::end']
+
   # Installation or config changes will always restart services.
   Anchor['aodh::install::end'] ~> Anchor['aodh::service::begin']
   Anchor['aodh::config::end']  ~> Anchor['aodh::service::begin']
