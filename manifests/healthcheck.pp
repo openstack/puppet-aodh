@@ -1,4 +1,4 @@
-# == Define: aodh::healthcheck
+# == Class: aodh::healthcheck
 #
 # Configure oslo_middleware options in healthcheck section
 #
