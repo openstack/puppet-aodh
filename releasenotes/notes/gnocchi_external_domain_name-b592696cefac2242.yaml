@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``aodh::api::gnocchi_external_domain_name`` parameter has been
+    added.

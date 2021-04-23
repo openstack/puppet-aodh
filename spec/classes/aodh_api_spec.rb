@@ -32,7 +32,8 @@ describe 'aodh::api' do
     end
 
     it 'configures api' do
-      is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value( 'services' )
+      is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value('services')
+      is_expected.to contain_aodh_config('api/gnocchi_external_domain_name').with_value('Default')
       is_expected.to contain_aodh_config('api/paste_config').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_oslo__middleware('aodh_config').with(
         :enable_proxy_headers_parsing => '<SERVICE DEFAULT>',
@@ -97,12 +98,18 @@ describe 'aodh::api' do
       it { is_expected.to contain_aodh_config('api/paste_config').with_value('/etc/aodh/api-paste.ini') }
     end
 
-    context 'with gnocchi_external_project_owner' do
+    context 'with gnocchi parameters' do
       before do
-        params.merge!({:gnocchi_external_project_owner => 'gnocchi-project' })
+        params.merge!({
+          :gnocchi_external_project_owner => 'gnocchi-project',
+          :gnocchi_external_domain_name   => 'MyDomain'
+        })
       end
 
-      it { is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value('gnocchi-project') }
+      it 'configures gnocchi parameters' do
+        is_expected.to contain_aodh_config('api/gnocchi_external_project_owner').with_value('gnocchi-project')
+        is_expected.to contain_aodh_config('api/gnocchi_external_domain_name').with_value('MyDomain')
+      end
     end
     context 'with disabled service managing' do
       before do

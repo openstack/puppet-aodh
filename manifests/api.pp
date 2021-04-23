@@ -48,6 +48,10 @@
 #   (optional) Gnocchi external project owner (usually Ceilometer project name)
 #   Defaults to 'services'
 #
+# [*gnocchi_external_domain_name*]
+#   (optional) Domain name of resources creator in Gnocchi.
+#   Defaults to 'Default'
+#
 class aodh::api (
   $manage_service                 = true,
   $enabled                        = true,
@@ -59,6 +63,7 @@ class aodh::api (
   $max_request_body_size          = $::os_service_default,
   $paste_config                   = $::os_service_default,
   $gnocchi_external_project_owner = 'services',
+  $gnocchi_external_domain_name   = 'Default',
 ) inherits aodh::params {
 
 
@@ -116,6 +121,7 @@ as a standalone service, or httpd for being run by a httpd server")
 
   aodh_config {
     'api/gnocchi_external_project_owner': value => $gnocchi_external_project_owner;
+    'api/gnocchi_external_domain_name':   value => $gnocchi_external_domain_name;
     'api/paste_config':                   value => $paste_config;
   }
 
