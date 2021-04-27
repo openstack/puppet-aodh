@@ -18,6 +18,20 @@ describe 'aodh::notifier' do
       end
     end
 
+    context 'with batch parameters' do
+      let :params do
+        {
+          :batch_size    => 100,
+          :batch_timeout => 60,
+        }
+      end
+
+      it 'configures batch options' do
+        is_expected.to contain_aodh_config('notifier/batch_size').with_value(100)
+        is_expected.to contain_aodh_config('notifier/batch_timeout').with_value(60)
+      end
+    end
+
     context 'when enabled' do
       it { is_expected.to contain_class('aodh::params') }
 
@@ -41,6 +55,8 @@ describe 'aodh::notifier' do
 
       it 'sets default values' do
         is_expected.to contain_aodh_config('notifier/workers').with_value(4)
+        is_expected.to contain_aodh_config('notifier/batch_size').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('notifier/batch_timeout').with_value('<SERVICE DEFAULT>')
       end
     end
 

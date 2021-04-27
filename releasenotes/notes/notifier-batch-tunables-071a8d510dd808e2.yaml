@@ -1,0 +1,8 @@
+---
+features:
+  - |
+    The following two parameters have been added to the ``aodh::notifier``
+    class.
+
+    - ``batch_size``
+    - ``batch_timeout``
