@@ -86,7 +86,8 @@ class aodh::api (
   }
 
   if $manage_service {
-    if $service_name == $::aodh::params::api_service_name {
+    $api_service_name = $::aodh::params::api_service_name
+    if $api_service_name != 'httpd' and $service_name == $api_service_name {
       if $enabled {
         $service_ensure = 'running'
       } else {
@@ -95,7 +96,7 @@ class aodh::api (
 
       service { 'aodh-api':
         ensure     => $service_ensure,
-        name       => $::aodh::params::api_service_name,
+        name       => $api_service_name,
         enable     => $enabled,
         hasstatus  => true,
         hasrestart => true,
@@ -103,19 +104,20 @@ class aodh::api (
       }
     } elsif $service_name == 'httpd' {
       include apache::params
-      service { 'aodh-api':
-        ensure => 'stopped',
-        name   => $::aodh::params::api_service_name,
-        enable => false,
-        tag    => 'aodh-service',
-      }
       Service <| title == 'httpd' |> { tag +> 'aodh-service' }
 
-      # we need to make sure aodh-api/eventlet is stopped before trying to start apache
-      Service['aodh-api'] -> Service[$service_name]
+      if $api_service_name != 'httpd' {
+        service { 'aodh-api':
+          ensure => 'stopped',
+          name   => $api_service_name,
+          enable => false,
+          tag    => 'aodh-service',
+        }
+        # we need to make sure aodh-api/eventlet is stopped before trying to start apache
+        Service['aodh-api'] -> Service[$service_name]
+      }
     } else {
-      fail("Invalid service_name. Either aodh/openstack-aodh-api for running \
-as a standalone service, or httpd for being run by a httpd server")
+      fail('Invalid service_name.')
     }
   }
 
