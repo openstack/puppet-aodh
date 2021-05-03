@@ -59,16 +59,16 @@ The current behavior will be changed in a future release')
   }
 
   if !is_service_default($coordination_url_real) and ($coordination_url_real =~ /^redis/ ) {
-    ensure_resource('package', 'python-redis', {
+    ensure_packages('python-redis', {
       name   => $::aodh::params::redis_package_name,
       tag    => 'openstack',
     })
   }
 
-  ensure_resource( 'package', [$::aodh::params::evaluator_package_name],
-    { ensure => $package_ensure,
-      tag    => ['openstack', 'aodh-package'] }
-  )
+  ensure_packages($::aodh::params::evaluator_package_name, {
+    ensure => $package_ensure,
+    tag    => ['openstack', 'aodh-package'],
+  })
 
   if $manage_service {
     if $enabled {
