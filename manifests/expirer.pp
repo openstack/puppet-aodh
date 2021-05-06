@@ -34,15 +34,20 @@
 #    all cron jobs at the same time on all hosts this job is configured.
 #    Defaults to 0.
 #
+#  [*alarm_histories_delete_batch_size*]
+#    (optional) Limit number of deleted alarm histories in single purge run
+#    Defaults to $::os_service_default.
+#
 class aodh::expirer (
-  $ensure         = 'present',
-  $package_ensure = 'present',
-  $minute         = 1,
-  $hour           = 0,
-  $monthday       = '*',
-  $month          = '*',
-  $weekday        = '*',
-  $maxdelay       = 0,
+  $ensure                            = 'present',
+  $package_ensure                    = 'present',
+  $minute                            = 1,
+  $hour                              = 0,
+  $monthday                          = '*',
+  $month                             = '*',
+  $weekday                           = '*',
+  $maxdelay                          = 0,
+  $alarm_histories_delete_batch_size = $::os_service_default,
 ) {
 
   include aodh::params
@@ -57,6 +62,10 @@ class aodh::expirer (
     $sleep = ''
   } else {
     $sleep = "sleep `expr \${RANDOM} \\% ${maxdelay}`; "
+  }
+
+  aodh_config { 'database/alarm_histories_delete_batch_size':
+    value => $alarm_histories_delete_batch_size
   }
 
   cron { 'aodh-expirer':

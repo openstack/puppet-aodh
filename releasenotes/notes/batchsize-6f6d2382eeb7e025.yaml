@@ -1,0 +1,6 @@
+---
+features:
+  - |
+    Added alarm_histories_delete_batch_size parameter to the expire class to
+    enable configuration of the parameter with the same name. It allows
+    limiting number of alarm histories purged by a single purge run.

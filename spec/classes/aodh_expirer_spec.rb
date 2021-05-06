@@ -9,6 +9,7 @@ describe 'aodh::expirer' do
     context 'with default' do
       it { is_expected.to contain_class('aodh::deps') }
       it { is_expected.to contain_class('aodh::params') }
+      it { is_expected.to contain_aodh_config('database/alarm_histories_delete_batch_size').with_value('<SERVICE DEFAULT>') }
 
       it 'installs aodh-expirer package' do
         is_expected.to contain_package(platform_params[:expirer_package_name]).with(
@@ -34,13 +35,15 @@ describe 'aodh::expirer' do
     context 'with overridden parameters' do
       before do
         params.merge!(
-          :ensure   => 'absent',
-          :maxdelay => 300
+          :ensure                            => 'absent',
+          :maxdelay                          => 300,
+          :alarm_histories_delete_batch_size => 500
         )
       end
 
       it { is_expected.to contain_class('aodh::deps') }
       it { is_expected.to contain_class('aodh::params') }
+      it { is_expected.to contain_aodh_config('database/alarm_histories_delete_batch_size').with_value(500) }
 
       it 'installs aodh-expirer package' do
         is_expected.to contain_package(platform_params[:expirer_package_name]).with(
