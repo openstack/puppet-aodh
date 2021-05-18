@@ -2,47 +2,22 @@ require 'spec_helper'
 
 describe 'aodh::evaluator' do
 
-  let :pre_condition do
-    "class { '::aodh': }"
-  end
-
   let :params do
     { :enabled => true }
   end
 
   shared_examples_for 'aodh-evaluator' do
 
-    context 'with coordination' do
-      before do
-        params.merge!({ :coordination_url => 'redis://localhost:6379' })
-      end
-
-      it 'configures backend_url' do
-        is_expected.to contain_aodh_config('coordination/backend_url').with_value('redis://localhost:6379')
-      end
-
-      it 'configures workers' do
+    context 'with defaults' do
+      it 'configures defaults' do
         is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
-      end
-
-      it 'installs python-redis package' do
-        is_expected.to contain_package('python-redis').with(
-          :name => platform_params[:redis_package_name],
-          :tag  => 'openstack'
-        )
+        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('<SERVICE DEFAULT>')
       end
     end
 
-    context 'with coordination and workers' do
+    context 'with workers' do
       before do
-        params.merge!({
-          :coordination_url => 'redis://localhost:6379',
-          :workers          => 8,
-        })
-      end
-
-      it 'configures backend_url' do
-        is_expected.to contain_aodh_config('coordination/backend_url').with_value('redis://localhost:6379')
+        params.merge!({ :workers => 8 })
       end
 
       it 'configures workers' do
@@ -59,12 +34,13 @@ describe 'aodh::evaluator' do
       end
     end
 
-    context 'with workers' do
+    context 'with deprecated coordination_url' do
       before do
-        params.merge!({ :workers => 8 })
+        params.merge!({ :coordination_url => 'redis://localhost:6379' })
       end
-      it 'does not configure workers' do
-        is_expected.to contain_aodh_config('evaluator/workers').with_value('<SERVICE DEFAULT>')
+      it 'configures coordination and workers' do
+        is_expected.to contain_aodh_config('coordination/backend_url').with_value('redis://localhost:6379')
+        is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
       end
     end
 
@@ -91,8 +67,7 @@ describe 'aodh::evaluator' do
 
       it 'sets default values' do
         is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_aodh_config('evaluator/workers').with_value('<SERVICE DEFAULT>')
-        is_expected.to contain_aodh_config('coordination/backend_url').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
       end
     end
 
@@ -139,12 +114,10 @@ describe 'aodh::evaluator' do
         case facts[:osfamily]
         when 'Debian'
           { :evaluator_package_name => 'aodh-evaluator',
-            :evaluator_service_name => 'aodh-evaluator',
-            :redis_package_name     => 'python3-redis' }
+            :evaluator_service_name => 'aodh-evaluator' }
         when 'RedHat'
           { :evaluator_package_name => 'openstack-aodh-evaluator',
-            :evaluator_service_name => 'openstack-aodh-evaluator',
-            :redis_package_name     => 'python3-redis' }
+            :evaluator_service_name => 'openstack-aodh-evaluator' }
         end
       end
       it_configures 'aodh-evaluator'
