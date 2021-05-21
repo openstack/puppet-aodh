@@ -10,7 +10,7 @@ describe 'aodh::client' do
     it 'installs aodh client package' do
       is_expected.to contain_package('python-aodhclient').with(
         :ensure => 'present',
-        :name   => platform_params[:client_package_name],
+        :name   => 'python3-aodhclient',
         :tag    => 'openstack',
       )
     end
@@ -31,15 +31,7 @@ describe 'aodh::client' do
         when 'Debian'
           { :client_package_name => 'python3-aodhclient' }
         when 'RedHat'
-          if facts[:operatingsystem] == 'Fedora'
-            { :client_package_name => 'python3-aodhclient' }
-          else
-            if facts[:operatingsystemmajrelease] > '7'
-              { :client_package_name => 'python3-aodhclient' }
-            else
-              { :client_package_name => 'python-aodhclient' }
-            end
-          end
+          { :client_package_name => 'python3-aodhclient' }
         end
       end
 
