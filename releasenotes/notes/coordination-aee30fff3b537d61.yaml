@@ -1,0 +1,15 @@
+---
+features:
+  - |
+    The new ``aodh::coordination`` class has been added.
+
+upgrade:
+  - |
+    The ``aodh::evaluator`` class no longer adjust workers based on
+    the ``coordination_url`` parameter. Please set the corrdination backend
+    if multiple workers are used.
+
+deprecations:
+  - |
+    The ``aodh::evaluator::coordination_url`` parameter has been deprecated in
+    favor of the new ``aodh::coordination`` class.

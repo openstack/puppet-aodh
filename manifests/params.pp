@@ -22,7 +22,6 @@ class aodh::params {
       $listener_service_name   = 'openstack-aodh-listener'
       $aodh_wsgi_script_dir    = '/var/www/cgi-bin/aodh'
       $aodh_wsgi_script_source = '/usr/bin/aodh-api'
-      $redis_package_name      = 'python3-redis'
     }
     'Debian': {
       $common_package_name     = 'aodh-common'
@@ -45,7 +44,6 @@ class aodh::params {
       $listener_service_name   = 'aodh-listener'
       $aodh_wsgi_script_dir    = '/usr/lib/cgi-bin/aodh'
       $aodh_wsgi_script_source = '/usr/share/aodh/app.wsgi'
-      $redis_package_name      = 'python3-redis'
     }
     default: {
       fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \

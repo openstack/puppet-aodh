@@ -17,52 +17,37 @@
 #    (optional) Number of workers for evaluator service.
 #    Defaults to $::os_workers.
 #
-#  [*coordination_url*]
-#    (optional) The url to use for distributed group membership coordination.
-#    Defaults to $::os_service_default.
-#
 #  [*evaluation_interval*]
 #    (optional) Period of evaluation cycle
 #    Defaults to $::os_service_default.
+#
+# DEPRECATED PARAMETERS
+#
+#  [*coordination_url*]
+#    (optional) The url to use for distributed group membership coordination.
+#    Defaults to undef.
 #
 class aodh::evaluator (
   $manage_service      = true,
   $enabled             = true,
   $package_ensure      = 'present',
   $workers             = $::os_workers,
-  $coordination_url    = $::os_service_default,
   $evaluation_interval = $::os_service_default,
+  # DEPRECATED PARAMETERS
+  $coordination_url    = undef,
 ) {
 
   include aodh::deps
   include aodh::params
 
-  if !$coordination_url {
-    warning('Use $::os_service_default for the coordination_url parameter. \
-The current behavior will be changed in a future release')
-    $coordination_url_real = $::os_service_default
-  } else {
-    $coordination_url_real = $coordination_url
-  }
-
-  if is_service_default($coordination_url_real) and !is_service_default($workers) and $workers > 1 {
-    warning('coordination_url should be set to use multiple workers')
-    $workers_real = $::os_service_default
-  } else {
-    $workers_real = $workers
+  if $coordination_url != undef {
+    warning('The coordination_url parameter is deprecated. Use the aodh::coordination class instead')
+    include aodh::coordination
   }
 
   aodh_config {
     'DEFAULT/evaluation_interval' : value => $evaluation_interval;
-    'evaluator/workers'           : value => $workers_real;
-    'coordination/backend_url'    : value => $coordination_url_real;
-  }
-
-  if !is_service_default($coordination_url_real) and ($coordination_url_real =~ /^redis/ ) {
-    ensure_packages('python-redis', {
-      name   => $::aodh::params::redis_package_name,
-      tag    => 'openstack',
-    })
+    'evaluator/workers'           : value => $workers;
   }
 
   ensure_packages($::aodh::params::evaluator_package_name, {
