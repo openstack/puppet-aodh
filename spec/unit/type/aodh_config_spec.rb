@@ -30,12 +30,12 @@ describe 'Puppet::Type.type(:aodh_config)' do
 
   it 'should accept a valid value' do
     @aodh_config[:value] = 'bar'
-    expect(@aodh_config[:value]).to eq('bar')
+    expect(@aodh_config[:value]).to eq(['bar'])
   end
 
   it 'should not accept a value with whitespace' do
     @aodh_config[:value] = 'b ar'
-    expect(@aodh_config[:value]).to eq('b ar')
+    expect(@aodh_config[:value]).to eq(['b ar'])
   end
 
   it 'should accept valid ensure values' do
