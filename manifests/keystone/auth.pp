@@ -19,6 +19,18 @@
 #   (Optional) Tenant for aodh user.
 #   Defaults to 'services'.
 #
+# [*roles*]
+#   (Optional) List of roles assigned to aodh user.
+#   Defaults to ['admin']
+#
+# [*system_scope*]
+#   (Optional) Scope for system operations.
+#   Defaults to 'all'
+#
+# [*system_roles*]
+#   (Optional) List of system roles assigned to aodh user.
+#   Defaults to []
+#
 # [*configure_endpoint*]
 #   (Optional) Should aodh endpoint be configured?
 #   Defaults to true.
@@ -67,6 +79,9 @@ class aodh::keystone::auth (
   $auth_name           = 'aodh',
   $email               = 'aodh@localhost',
   $tenant              = 'services',
+  $roles               = ['admin'],
+  $system_scope        = 'all',
+  $system_roles        = [],
   $configure_endpoint  = true,
   $configure_user      = true,
   $configure_user_role = true,
@@ -81,6 +96,13 @@ class aodh::keystone::auth (
 
   include aodh::deps
 
+  Keystone_user_role<| name == "${auth_name}@${tenant}" |> -> Anchor['aodh::service::end']
+  Keystone_user_role<| name == "${auth_name}@::::${system_scope}" |> -> Anchor['aodh::service::end']
+
+  if $configure_endpoint {
+    Keystone_endpoint["${region}/${service_name}::${service_type}"] -> Anchor['aodh::service::end']
+  }
+
   keystone::resource::service_identity { 'aodh':
     configure_user      => $configure_user,
     configure_user_role => $configure_user_role,
@@ -93,6 +115,9 @@ class aodh::keystone::auth (
     password            => $password,
     email               => $email,
     tenant              => $tenant,
+    roles               => $roles,
+    system_scope        => $system_scope,
+    system_roles        => $system_roles,
     public_url          => $public_url,
     internal_url        => $internal_url,
     admin_url           => $admin_url,

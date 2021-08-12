@@ -1,0 +1,13 @@
+---
+features:
+  - |
+    The ``system_scope`` parameter has been added to
+    the ``aodh::keystone::authtoken`` class.
+
+  - |
+    The ``aodh::keystone::auth`` class now supports customizing roles assigned
+    to the aodh service user.
+
+  - |
+    The ``aodh::keystone::auth`` class now supports defining assignmet of
+    system-scoped roles to the aodh service user.
