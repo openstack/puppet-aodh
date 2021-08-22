@@ -66,8 +66,8 @@ class aodh::service_credentials (
   }
 
   $auth_url_real = pick($::aodh::auth::auth_url, $auth_url)
-  $region_name_real = pick($::aodh::auth_region, $region_name)
-  $username_real = pick($::aodh::auth_user, $username)
+  $region_name_real = pick($::aodh::auth::auth_region, $region_name)
+  $username_real = pick($::aodh::auth::auth_user, $username)
   $project_name_real = pick($::aodh::auth::auth_project_name, $project_name)
   $project_domain_name_real = pick($::aodh::auth::project_domain_name, $project_domain_name)
   $user_domain_name_real = pick($::aodh::auth::user_domain_name, $user_domain_name)
