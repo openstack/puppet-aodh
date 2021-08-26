@@ -11,7 +11,7 @@ describe 'aodh::keystone::authtoken' do
     context 'with default parameters' do
 
       it 'configure keystone_authtoken' do
-        contain_keystone__resources__authtoken('aodh_config').with(
+        is_expected.to contain_keystone__resource__authtoken('aodh_config').with(
           :username                       => 'aodh',
           :password                       => 'aodh_password',
           :auth_url                       => 'http://localhost:5000',
@@ -58,7 +58,7 @@ describe 'aodh::keystone::authtoken' do
           :www_authenticate_uri                 => 'https://10.0.0.1:9999/',
           :username                             => 'myuser',
           :password                             => 'mypasswd',
-          :auth_url                             => 'http://:127.0.0.1:5000',
+          :auth_url                             => 'http://127.0.0.1:5000',
           :project_name                         => 'service_project',
           :user_domain_name                     => 'domainX',
           :project_domain_name                  => 'domainX',
@@ -95,11 +95,11 @@ describe 'aodh::keystone::authtoken' do
       end
 
       it 'configure keystone_authtoken' do
-        contain_keystone__resources__authtoken('aodh_config').with(
+        is_expected.to contain_keystone__resource__authtoken('aodh_config').with(
           :www_authenticate_uri                 => 'https://10.0.0.1:9999/',
           :username                             => 'myuser',
           :password                             => 'mypasswd',
-          :auth_url                             => 'http://:127.0.0.1:5000',
+          :auth_url                             => 'http://127.0.0.1:5000',
           :project_name                         => 'service_project',
           :user_domain_name                     => 'domainX',
           :project_domain_name                  => 'domainX',
@@ -145,7 +145,7 @@ describe 'aodh::keystone::authtoken' do
       end
 
       it 'configure keystone_authtoken' do
-        contain_keystone__resources__authtoken('aodh_config').with(
+        is_expected.to contain_keystone__resource__authtoken('aodh_config').with(
           :username => 'myotheruser',
         )
       end
