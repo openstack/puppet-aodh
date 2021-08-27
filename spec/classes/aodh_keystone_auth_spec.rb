@@ -8,109 +8,61 @@ describe 'aodh::keystone::auth' do
   shared_examples_for 'aodh::keystone::auth' do
     context 'with default class parameters' do
       let :params do
-        { :password => 'aodh_password',
-          :tenant   => 'foobar' }
+        { :password => 'aodh_password' }
       end
 
-      it { is_expected.to contain_keystone_user('aodh').with(
-        :ensure   => 'present',
-        :password => 'aodh_password',
-      ) }
-
-      it { is_expected.to contain_keystone_user_role('aodh@foobar').with(
-        :ensure  => 'present',
-        :roles   => ['admin']
-      )}
-
-      it { is_expected.to contain_keystone_service('aodh::alarming').with(
-        :ensure      => 'present',
-        :description => 'OpenStack Alarming Service'
-      ) }
-
-      it { is_expected.to contain_keystone_endpoint('RegionOne/aodh::alarming').with(
-        :ensure       => 'present',
-        :public_url   => 'http://127.0.0.1:8042',
-        :admin_url    => 'http://127.0.0.1:8042',
-        :internal_url => 'http://127.0.0.1:8042',
+      it { is_expected.to contain_keystone__resource__service_identity('aodh').with(
+        :configure_user      => true,
+        :configure_user_role => true,
+        :configure_endpoint  => true,
+        :service_name        => 'aodh',
+        :service_type        => 'alarming',
+        :service_description => 'OpenStack Alarming Service',
+        :region              => 'RegionOne',
+        :auth_name           => 'aodh',
+        :password            => 'aodh_password',
+        :email               => 'aodh@localhost',
+        :tenant              => 'services',
+        :public_url          => 'http://127.0.0.1:8042',
+        :internal_url        => 'http://127.0.0.1:8042',
+        :admin_url           => 'http://127.0.0.1:8042',
       ) }
     end
 
-    context 'when overriding URL parameters' do
+    context 'when overriding parameters' do
       let :params do
-        { :password     => 'aodh_password',
-          :public_url   => 'https://10.10.10.10:80',
-          :internal_url => 'http://10.10.10.11:81',
-          :admin_url    => 'http://10.10.10.12:81' }
-      end
-
-      it { is_expected.to contain_keystone_endpoint('RegionOne/aodh::alarming').with(
-        :ensure       => 'present',
-        :public_url   => 'https://10.10.10.10:80',
-        :internal_url => 'http://10.10.10.11:81',
-        :admin_url    => 'http://10.10.10.12:81'
-      ) }
-    end
-
-    context 'when overriding auth name' do
-      let :params do
-        { :password => 'foo',
-          :auth_name => 'aodhany' }
-      end
-
-      it { is_expected.to contain_keystone_user('aodhany') }
-      it { is_expected.to contain_keystone_user_role('aodhany@services') }
-      it { is_expected.to contain_keystone_service('aodh::alarming') }
-      it { is_expected.to contain_keystone_endpoint('RegionOne/aodh::alarming') }
-    end
-
-    context 'when overriding service name' do
-      let :params do
-        { :service_name => 'aodh_service',
-          :auth_name    => 'aodh',
-          :password     => 'aodh_password' }
-      end
-
-      it { is_expected.to contain_keystone_user('aodh') }
-      it { is_expected.to contain_keystone_user_role('aodh@services') }
-      it { is_expected.to contain_keystone_service('aodh_service::alarming') }
-      it { is_expected.to contain_keystone_endpoint('RegionOne/aodh_service::alarming') }
-    end
-
-    context 'when disabling user configuration' do
-
-      let :params do
-        {
-          :password       => 'aodh_password',
-          :configure_user => false
-        }
-      end
-
-      it { is_expected.not_to contain_keystone_user('aodh') }
-      it { is_expected.to contain_keystone_user_role('aodh@services') }
-      it { is_expected.to contain_keystone_service('aodh::alarming').with(
-        :ensure      => 'present',
-        :description => 'OpenStack Alarming Service'
-      ) }
-
-    end
-
-    context 'when disabling user and user role configuration' do
-
-      let :params do
-        {
-          :password            => 'aodh_password',
+        { :password            => 'aodh_password',
+          :auth_name           => 'alt_aodh',
+          :email               => 'alt_aodh@alt_localhost',
+          :tenant              => 'alt_service',
+          :configure_endpoint  => false,
           :configure_user      => false,
-          :configure_user_role => false
-        }
+          :configure_user_role => false,
+          :service_description => 'Alternative OpenStack Alarming Service',
+          :service_name        => 'alt_service',
+          :service_type        => 'alt_alarming',
+          :region              => 'RegionTwo',
+          :public_url          => 'https://10.10.10.10:80',
+          :internal_url        => 'http://10.10.10.11:81',
+          :admin_url           => 'http://10.10.10.12:81' }
       end
 
-      it { is_expected.not_to contain_keystone_user('aodh') }
-      it { is_expected.not_to contain_keystone_user_role('aodh@services') }
-      it { is_expected.to contain_keystone_service('aodh::alarming').with(
-        :ensure      => 'present',
-        :description => 'OpenStack Alarming Service'
+      it { is_expected.to contain_keystone__resource__service_identity('aodh').with(
+        :configure_user      => false,
+        :configure_user_role => false,
+        :configure_endpoint  => false,
+        :service_name        => 'alt_service',
+        :service_type        => 'alt_alarming',
+        :service_description => 'Alternative OpenStack Alarming Service',
+        :region              => 'RegionTwo',
+        :auth_name           => 'alt_aodh',
+        :password            => 'aodh_password',
+        :email               => 'alt_aodh@alt_localhost',
+        :tenant              => 'alt_service',
+        :public_url          => 'https://10.10.10.10:80',
+        :internal_url        => 'http://10.10.10.11:81',
+        :admin_url           => 'http://10.10.10.12:81',
       ) }
-
     end
   end
 
