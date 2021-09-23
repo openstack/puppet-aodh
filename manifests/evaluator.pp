@@ -50,10 +50,10 @@ class aodh::evaluator (
     'evaluator/workers'           : value => $workers;
   }
 
-  ensure_packages($::aodh::params::evaluator_package_name, {
-    ensure => $package_ensure,
-    tag    => ['openstack', 'aodh-package'],
-  })
+  ensure_resource( 'package', [$::aodh::params::evaluator_package_name],
+    { ensure => $package_ensure,
+      tag    => ['openstack', 'aodh-package'] }
+  )
 
   if $manage_service {
     if $enabled {
