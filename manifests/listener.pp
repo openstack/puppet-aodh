@@ -31,10 +31,11 @@ class aodh::listener (
     'listener/workers': value => $workers
   }
 
-  ensure_resource( 'package', [$::aodh::params::listener_package_name],
-    { ensure => $package_ensure,
-      tag    => ['openstack', 'aodh-package'] }
-  )
+  package { 'aodh-listener':
+    ensure => $package_ensure,
+    name   => $::aodh::params::listener_package_name,
+    tag    => ['openstack', 'aodh-package']
+  }
 
   if $manage_service {
     if $enabled {

@@ -12,8 +12,9 @@ describe 'aodh::expirer' do
       it { is_expected.to contain_aodh_config('database/alarm_histories_delete_batch_size').with_value('<SERVICE DEFAULT>') }
 
       it 'installs aodh-expirer package' do
-        is_expected.to contain_package(platform_params[:expirer_package_name]).with(
+        is_expected.to contain_package('aodh-expirer').with(
           :ensure => 'present',
+          :name   => platform_params[:expirer_package_name],
           :tag    => ['openstack', 'aodh-package']
         )
       end
@@ -46,8 +47,9 @@ describe 'aodh::expirer' do
       it { is_expected.to contain_aodh_config('database/alarm_histories_delete_batch_size').with_value(500) }
 
       it 'installs aodh-expirer package' do
-        is_expected.to contain_package(platform_params[:expirer_package_name]).with(
+        is_expected.to contain_package('aodh-expirer').with(
           :ensure => 'present',
+          :name   => platform_params[:expirer_package_name],
           :tag    => ['openstack', 'aodh-package']
         )
       end

@@ -36,8 +36,9 @@ describe 'aodh::notifier' do
       it { is_expected.to contain_class('aodh::params') }
 
       it 'installs aodh-notifier package' do
-        is_expected.to contain_package(platform_params[:notifier_package_name]).with(
+        is_expected.to contain_package('aodh-notifier').with(
           :ensure => 'present',
+          :name   => platform_params[:notifier_package_name],
           :tag    => ['openstack', 'aodh-package']
         )
       end

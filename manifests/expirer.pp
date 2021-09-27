@@ -53,10 +53,11 @@ class aodh::expirer (
   include aodh::params
   include aodh::deps
 
-  ensure_resource( 'package', [$::aodh::params::expirer_package_name],
-    { ensure => $package_ensure,
-      tag    => ['openstack', 'aodh-package'] }
-  )
+  package { 'aodh-expirer':
+    ensure => $package_ensure,
+    name   => $::aodh::params::expirer_package_name,
+    tag    => ['openstack', 'aodh-package']
+  }
 
   if $maxdelay == 0 {
     $sleep = ''
