@@ -7,7 +7,7 @@ describe 'aodh::coordination' do
         is_expected.to contain_oslo__coordination('aodh_config').with(
           :backend_url => '<SERVICE DEFAULT>'
         )
-        is_expected.to contain_aodh_config('coordination/heartbeat').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('coordination/heartbeat_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('coordination/retry_backoff').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('coordination/max_retry_interval').with_value('<SERVICE DEFAULT>')
       }
@@ -17,7 +17,7 @@ describe 'aodh::coordination' do
       let :params do
         {
           :backend_url        => 'etcd3+http://127.0.0.1:2379',
-          :heartbeat          => 1,
+          :heartbeat_interval => 1,
           :retry_backoff      => 1,
           :max_retry_interval => 30,
         }
@@ -27,7 +27,7 @@ describe 'aodh::coordination' do
         is_expected.to contain_oslo__coordination('aodh_config').with(
           :backend_url => 'etcd3+http://127.0.0.1:2379'
         )
-        is_expected.to contain_aodh_config('coordination/heartbeat').with_value(1)
+        is_expected.to contain_aodh_config('coordination/heartbeat_interval').with_value(1)
         is_expected.to contain_aodh_config('coordination/retry_backoff').with_value(1)
         is_expected.to contain_aodh_config('coordination/max_retry_interval').with_value(30)
       }

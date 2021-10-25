@@ -1,0 +1,6 @@
+---
+deprecations:
+  - |
+    The ``aodh::coordination::heartbeat`` parameter has been deprecated. This
+    parameter is left to keep backword compatibility but will be fully
+    replaced by the new ``heartbeat_interval`` parameter.
