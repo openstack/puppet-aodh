@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``aodh::evaluator::additional_ingestion_lag`` parameter has been
+    added.
