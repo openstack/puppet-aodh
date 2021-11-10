@@ -12,6 +12,7 @@ describe 'aodh::evaluator' do
       it 'configures defaults' do
         is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
         is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('DEFAULT/event_alarm_cache_ttl').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -25,12 +26,16 @@ describe 'aodh::evaluator' do
       end
     end
 
-    context 'with evaluation interval' do
+    context 'with parameters defined' do
       before do
-        params.merge!({ :evaluation_interval => '10' })
+        params.merge!({
+          :evaluation_interval   => 10,
+          :event_alarm_cache_ttl => 60,
+        })
       end
-      it 'configures interval' do
-        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('10')
+      it 'configures parameters accordingly' do
+        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value(10)
+        is_expected.to contain_aodh_config('DEFAULT/event_alarm_cache_ttl').with_value(60)
       end
     end
 

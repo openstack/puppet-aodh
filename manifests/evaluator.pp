@@ -21,6 +21,10 @@
 #    (optional) Period of evaluation cycle
 #    Defaults to $::os_service_default.
 #
+#  [*event_alarm_cache_ttl*]
+#    (optional) TTL of event alram caches, in seconds.
+#    Defaults to $::os_service_default.
+#
 # DEPRECATED PARAMETERS
 #
 #  [*coordination_url*]
@@ -28,13 +32,14 @@
 #    Defaults to undef.
 #
 class aodh::evaluator (
-  $manage_service      = true,
-  $enabled             = true,
-  $package_ensure      = 'present',
-  $workers             = $::os_workers,
-  $evaluation_interval = $::os_service_default,
+  $manage_service        = true,
+  $enabled               = true,
+  $package_ensure        = 'present',
+  $workers               = $::os_workers,
+  $evaluation_interval   = $::os_service_default,
+  $event_alarm_cache_ttl = $::os_service_default,
   # DEPRECATED PARAMETERS
-  $coordination_url    = undef,
+  $coordination_url      = undef,
 ) {
 
   include aodh::deps
@@ -46,8 +51,9 @@ class aodh::evaluator (
   }
 
   aodh_config {
-    'DEFAULT/evaluation_interval' : value => $evaluation_interval;
-    'evaluator/workers'           : value => $workers;
+    'DEFAULT/evaluation_interval'  : value => $evaluation_interval;
+    'DEFAULT/event_alarm_cache_ttl': value => $event_alarm_cache_ttl;
+    'evaluator/workers'            : value => $workers;
   }
 
   package { 'aodh-evaluator':

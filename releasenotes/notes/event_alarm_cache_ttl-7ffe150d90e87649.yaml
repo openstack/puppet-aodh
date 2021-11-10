@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``aodh::evaluator::event_alarm_cache_ttl`` parameter has been
+    added.
