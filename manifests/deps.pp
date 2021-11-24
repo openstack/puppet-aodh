@@ -24,6 +24,11 @@ class aodh::deps {
   ~> Service<| tag == 'aodh-service' |>
   ~> anchor { 'aodh::service::end': }
 
+  # paste-api.ini config should occur in the config block also.
+  Anchor['aodh::config::begin']
+  -> Aodh_api_paste_ini<||>
+  ~> Anchor['aodh::config::end']
+
   # all db settings should be applied and all packages should be installed
   # before dbsync starts
   Oslo::Db<||> -> Anchor['aodh::dbsync::begin']
