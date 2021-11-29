@@ -29,6 +29,10 @@ class aodh::deps {
   -> Aodh_api_paste_ini<||>
   ~> Anchor['aodh::config::end']
 
+  # all coordination settings should be applied and all packages should be
+  # installed before service startup
+  Oslo::Coordination<||> -> Anchor['aodh::service::begin']
+
   # all db settings should be applied and all packages should be installed
   # before dbsync starts
   Oslo::Db<||> -> Anchor['aodh::dbsync::begin']
