@@ -30,7 +30,7 @@ class aodh::deps {
 
   # policy config should occur in the config block also.
   Anchor['aodh::config::begin']
-  -> Openstacklib::Policy::Base<||>
+  -> Openstacklib::Policy<||>
   ~> Anchor['aodh::config::end']
 
   # On any uwsgi config change, we must restart Aodh API.
