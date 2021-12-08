@@ -6,8 +6,6 @@ describe 'aodh::wsgi::apache' do
     context 'with default parameters' do
       it { is_expected.to contain_class('aodh::params') }
       it { is_expected.to contain_class('apache') }
-      it { is_expected.to contain_class('apache::mod::wsgi') }
-      it { is_expected.to contain_class('apache::mod::ssl') }
       it { is_expected.to contain_openstacklib__wsgi__apache('aodh_wsgi').with(
         :bind_port                   => 8042,
         :group                       => 'aodh',
@@ -50,8 +48,6 @@ describe 'aodh::wsgi::apache' do
       end
       it { is_expected.to contain_class('aodh::params') }
       it { is_expected.to contain_class('apache') }
-      it { is_expected.to contain_class('apache::mod::wsgi') }
-      it { is_expected.to_not contain_class('apache::mod::ssl') }
       it { is_expected.to contain_openstacklib__wsgi__apache('aodh_wsgi').with(
         :bind_host                 => '10.42.51.1',
         :bind_port                 => 12345,
@@ -95,15 +91,11 @@ describe 'aodh::wsgi::apache' do
         case facts[:osfamily]
         when 'Debian'
           {
-            :httpd_service_name => 'apache2',
-            :httpd_ports_file   => '/etc/apache2/ports.conf',
             :wsgi_script_path   => '/usr/lib/cgi-bin/aodh',
             :wsgi_script_source => '/usr/share/aodh/app.wsgi'
           }
         when 'RedHat'
           {
-            :httpd_service_name => 'httpd',
-            :httpd_ports_file   => '/etc/httpd/conf/ports.conf',
             :wsgi_script_path   => '/var/www/cgi-bin/aodh',
             :wsgi_script_source => '/usr/bin/aodh-api'
           }

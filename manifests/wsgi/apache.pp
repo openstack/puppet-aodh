@@ -146,11 +146,6 @@ class aodh::wsgi::apache (
   $ssl_real = pick($ssl, true)
 
   include aodh::deps
-  include apache
-  include apache::mod::wsgi
-  if $ssl_real {
-    include apache::mod::ssl
-  }
 
   # TODO(tkajinam): Remove the following compat codes in W-cycle.
   if $wsgi_script_dir == undef {
