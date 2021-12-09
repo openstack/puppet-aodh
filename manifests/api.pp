@@ -103,7 +103,6 @@ class aodh::api (
         tag        => 'aodh-service',
       }
     } elsif $service_name == 'httpd' {
-      include apache::params
       Service <| title == 'httpd' |> { tag +> 'aodh-service' }
 
       if $api_service_name != 'httpd' {
