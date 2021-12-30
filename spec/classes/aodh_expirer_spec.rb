@@ -29,7 +29,7 @@ describe 'aodh::expirer' do
         :monthday    => '*',
         :month       => '*',
         :weekday     => '*',
-        :require     => 'Anchor[aodh::install::end]'
+        :require     => 'Anchor[aodh::dbsync::end]'
       )}
     end
 
@@ -64,7 +64,7 @@ describe 'aodh::expirer' do
         :monthday    => '*',
         :month       => '*',
         :weekday     => '*',
-        :require     => 'Anchor[aodh::install::end]'
+        :require     => 'Anchor[aodh::dbsync::end]'
       )}
     end
 

@@ -79,7 +79,7 @@ class aodh::expirer (
     monthday    => $monthday,
     month       => $month,
     weekday     => $weekday,
-    require     => Anchor['aodh::install::end'],
+    require     => Anchor['aodh::dbsync::end'],
   }
 
 }
