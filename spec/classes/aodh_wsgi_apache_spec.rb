@@ -5,7 +5,6 @@ describe 'aodh::wsgi::apache' do
   shared_examples_for 'apache serving aodh with mod_wsgi' do
     context 'with default parameters' do
       it { is_expected.to contain_class('aodh::params') }
-      it { is_expected.to contain_class('apache') }
       it { is_expected.to contain_openstacklib__wsgi__apache('aodh_wsgi').with(
         :bind_port                   => 8042,
         :group                       => 'aodh',
@@ -47,7 +46,6 @@ describe 'aodh::wsgi::apache' do
         }
       end
       it { is_expected.to contain_class('aodh::params') }
-      it { is_expected.to contain_class('apache') }
       it { is_expected.to contain_openstacklib__wsgi__apache('aodh_wsgi').with(
         :bind_host                 => '10.42.51.1',
         :bind_port                 => 12345,
