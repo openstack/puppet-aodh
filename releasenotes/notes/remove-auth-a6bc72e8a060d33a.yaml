@@ -1,0 +1,5 @@
+---
+upgrade:
+  - |
+    The deprecated ``aodh::auth`` class has been removed. Use
+    the ``aodh::service_credentials`` class instead.
