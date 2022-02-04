@@ -90,7 +90,7 @@ describe 'aodh::wsgi::apache' do
         when 'Debian'
           {
             :wsgi_script_path   => '/usr/lib/cgi-bin/aodh',
-            :wsgi_script_source => '/usr/share/aodh/app.wsgi'
+            :wsgi_script_source => '/usr/bin/aodh-api'
           }
         when 'RedHat'
           {
