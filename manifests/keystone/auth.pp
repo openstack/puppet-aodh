@@ -96,12 +96,7 @@ class aodh::keystone::auth (
 
   include aodh::deps
 
-  Keystone_user_role<| name == "${auth_name}@${tenant}" |> -> Anchor['aodh::service::end']
-  Keystone_user_role<| name == "${auth_name}@::::${system_scope}" |> -> Anchor['aodh::service::end']
-
-  if $configure_endpoint {
-    Keystone_endpoint["${region}/${service_name}::${service_type}"] -> Anchor['aodh::service::end']
-  }
+  Keystone::Resource::Service_identity['aodh'] -> Anchor['aodh::service::end']
 
   keystone::resource::service_identity { 'aodh':
     configure_user      => $configure_user,
