@@ -185,12 +185,6 @@
 #   in the aodh config.
 #   Defaults to false.
 #
-# DEPRECATED PARAMETERS
-#
-# [*amqp_allow_insecure_clients*]
-#   (Optional) Accept clients using either SSL or plain TCP
-#   Defaults to undef.
-#
 class aodh (
   $package_ensure                     = 'present',
   $alarm_history_time_to_live         = $::os_service_default,
@@ -230,17 +224,10 @@ class aodh (
   $notification_driver                = $::os_service_default,
   $notification_topics                = $::os_service_default,
   $purge_config                       = false,
-  # DEPRECATED PARAMETERS
-  $amqp_allow_insecure_clients        = undef,
 ) inherits aodh::params {
 
   include aodh::deps
   include aodh::db
-
-  if $amqp_allow_insecure_clients != undef {
-    warning('The amqp_allow_insecure_clients parameter is deprecated and \
-will be removed in a future release.')
-  }
 
   package { 'aodh':
     ensure => $package_ensure,
