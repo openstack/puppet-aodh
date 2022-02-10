@@ -41,7 +41,11 @@ class aodh::coordination (
 
   include aodh::deps
 
-  $backend_url_real = pick($::aodh::evaluator::coordination_url, $backend_url)
+  if defined('$::aodh::evaluator::coordination_url') {
+    $backend_url_real = pick($::aodh::evaluator::coordination_url, $backend_url)
+  } else {
+    $backend_url_real = $backend_url
+  }
 
   if $heartbeat != undef {
     warning('The heartbeat parmaeter is deprecated. Use the heartbeat_interval parameter instead')
