@@ -39,7 +39,10 @@ describe 'aodh::db::postgresql' do
         }))
       end
 
-      it_configures 'aodh::db::postgresql'
+      # TODO(tkajinam): Remove this once puppet-postgresql supports CentOS 9
+      unless facts[:osfamily] == 'RedHat' and facts[:operatingsystemmajrelease].to_i >= 9
+        it_configures 'aodh::db::postgresql'
+      end
     end
   end
 
