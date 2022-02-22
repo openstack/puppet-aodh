@@ -154,7 +154,7 @@ class aodh::wsgi::apache (
   openstacklib::wsgi::apache { 'aodh_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
-    group                       => 'aodh',
+    group                       => $::aodh::params::group,
     path                        => $path,
     priority                    => $priority,
     servername                  => $servername,
@@ -167,7 +167,7 @@ class aodh::wsgi::apache (
     ssl_crl_path                => $ssl_crl_path,
     ssl_key                     => $ssl_key,
     threads                     => $threads,
-    user                        => 'aodh',
+    user                        => $::aodh::params::user,
     vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'aodh',

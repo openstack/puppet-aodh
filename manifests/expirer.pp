@@ -73,7 +73,7 @@ class aodh::expirer (
     ensure      => $ensure,
     command     => "${sleep}${aodh::params::expirer_command}",
     environment => 'PATH=/bin:/usr/bin:/usr/sbin SHELL=/bin/sh',
-    user        => 'aodh',
+    user        => $::aodh::params::user,
     minute      => $minute,
     hour        => $hour,
     monthday    => $monthday,

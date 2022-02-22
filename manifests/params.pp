@@ -4,6 +4,7 @@ class aodh::params {
   include openstacklib::defaults
 
   $client_package_name = 'python3-aodhclient'
+  $user                = 'aodh'
   $group               = 'aodh'
   $expirer_command     = 'aodh-expirer'
 

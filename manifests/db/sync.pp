@@ -3,16 +3,16 @@
 #
 # [*user*]
 #   (Optional) User to run dbsync command.
-#   Defaults to 'aodh'
+#   Defaults to $::aodh::params::user
 #
 # [*db_sync_timeout*]
 #   (Optional) Timeout for the execution of the db_sync
 #   Defaults to 300
 #
 class aodh::db::sync (
-  $user            = 'aodh',
+  $user            = $::aodh::params::user,
   $db_sync_timeout = 300,
-){
+) inherits aodh::params {
 
   include aodh::deps
 
