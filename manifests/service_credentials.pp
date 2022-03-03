@@ -3,47 +3,50 @@
 #
 # == Parameters
 #
-#  [*password*]
-#    the keystone password for aodh services
-#    Required.
+# [*password*]
+#  (Required) the keystone password for aodh services
 #
-#  [*auth_url*]
-#    the keystone public endpoint
-#    Optional. Defaults to 'http://localhost:5000/v3'
+# [*auth_url*]
+#  (Optional) the keystone public endpoint
+#  Defaults to 'http://localhost:5000/v3'
 #
-#  [*region_name*]
-#    the keystone region of this node
-#    Optional. Defaults to 'RegionOne'
+# [*region_name*]
+#  (Optional) the keystone region of this node
+#  Defaults to 'RegionOne'
 #
-#  [*username*]
-#    the keystone user for aodh services
-#    Optional. Defaults to 'aodh'
+# [*username*]
+#  (Optional) the keystone user for aodh services
+#  Defaults to 'aodh'
 #
-#  [*project_name*]
-#    the keystone tenant name for aodh services
-#    Optional. Defaults to 'services'
+# [*project_name*]
+#  (Optional) the keystone tenant name for aodh services
+#  Defaults to 'services'
 #
-#  [*project_domain_name*]
-#    the keystone project domain name for aodh services
-#    Optional. Defaults to 'Default'
+# [*project_domain_name*]
+#  (Optional) the keystone project domain name for aodh services
+#  Defaults to 'Default'
 #
-#  [*user_domain_name*]
-#    the keystone user domain name for aodh services
-#    Optional. Defaults to 'Default'
+# [*user_domain_name*]
+#  (Optional) the keystone user domain name for aodh services
+#  Defaults to 'Default'
 #
-#  [*auth_type*]
-#    An authentication type to use with an OpenStack Identity server.
-#    The value should contain auth plugin name.
-#    Optional. Defaults to 'password'.
+# [*system_scope*]
+#  (Optional) Scope for system operations.
+#  Defaults to $::os_service_default
 #
-#  [*cacert*]
-#    Certificate chain for SSL validation.
-#    Optional. Defaults to $::os_service_default
+# [*auth_type*]
+#  (Optional) An authentication type to use with an OpenStack Identity server.
+#  The value should contain auth plugin name.
+#  Defaults to 'password'.
 #
-#  [*interface*]
-#    Type of endpoint in Identity service catalog to use for
-#    communication with OpenStack services.
-#    Optional. Defaults to $::os_service_default.
+# [*cacert*]
+#  (Optional) Certificate chain for SSL validation.
+#  Defaults to $::os_service_default
+#
+# [*interface*]
+#  (Optional) Type of endpoint in Identity service catalog to use for
+#  communication with OpenStack services.
+#  Optional. Defaults to $::os_service_default.
 #
 class aodh::service_credentials (
   $password,
@@ -53,6 +56,7 @@ class aodh::service_credentials (
   $project_name        = 'services',
   $project_domain_name = 'Default',
   $user_domain_name    = 'Default',
+  $system_scope        = $::os_service_default,
   $auth_type           = 'password',
   $cacert              = $::os_service_default,
   $interface           = $::os_service_default,
@@ -60,13 +64,22 @@ class aodh::service_credentials (
 
   include aodh::deps
 
+  if is_service_default($system_scope) {
+    $project_name_real = $project_name
+    $project_domain_name_real = $project_domain_name
+  } else {
+    $project_name_real = $::os_service_default
+    $project_domain_name_real = $::os_service_default
+  }
+
   aodh_config {
     'service_credentials/auth_url'            : value => $auth_url;
     'service_credentials/region_name'         : value => $region_name;
     'service_credentials/username'            : value => $username;
     'service_credentials/password'            : value => $password, secret => true;
-    'service_credentials/project_name'        : value => $project_name;
-    'service_credentials/project_domain_name' : value => $project_domain_name;
+    'service_credentials/project_name'        : value => $project_name_real;
+    'service_credentials/project_domain_name' : value => $project_domain_name_real;
+    'service_credentials/system_scope'        : value => $system_scope;
     'service_credentials/user_domain_name'    : value => $user_domain_name;
     'service_credentials/cacert'              : value => $cacert;
     'service_credentials/interface'           : value => $interface;
