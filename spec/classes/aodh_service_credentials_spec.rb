@@ -3,11 +3,8 @@ require 'spec_helper'
 describe 'aodh::service_credentials' do
 
   let :params do
-    { :auth_url     => 'http://localhost:5000/v3',
-      :region_name  => 'RegionOne',
-      :username     => 'aodh',
-      :password     => 'password',
-      :project_name => 'services',
+    {
+      :password => 'password',
     }
   end
 
@@ -17,9 +14,8 @@ describe 'aodh::service_credentials' do
       is_expected.to contain_aodh_config('service_credentials/auth_url').with_value('http://localhost:5000/v3')
       is_expected.to contain_aodh_config('service_credentials/region_name').with_value('RegionOne')
       is_expected.to contain_aodh_config('service_credentials/project_domain_name').with_value('Default')
-      is_expected.to_not contain_aodh_config('service_credentials/project_domain_id')
       is_expected.to contain_aodh_config('service_credentials/user_domain_name').with_value('Default')
-      is_expected.to_not contain_aodh_config('service_credentials/user_domain_id')
+      is_expected.to contain_aodh_config('service_credentials/system_scope').with_value('<SERVICE DEFAULT>')
       is_expected.to contain_aodh_config('service_credentials/auth_type').with_value('password')
       is_expected.to contain_aodh_config('service_credentials/username').with_value('aodh')
       is_expected.to contain_aodh_config('service_credentials/password').with_value('password').with_secret(true)
@@ -38,6 +34,18 @@ describe 'aodh::service_credentials' do
       it { is_expected.to contain_aodh_config('service_credentials/interface').with_value(params[:interface]) }
     end
 
+    context 'when system_scope is set' do
+      before do
+        params.merge!(
+          :system_scope => 'all'
+        )
+      end
+      it 'configures system-scoped credential' do
+        is_expected.to contain_aodh_config('service_credentials/project_domain_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('service_credentials/project_name').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('service_credentials/system_scope').with_value('all')
+      end
+    end
   end
 
   on_supported_os({
