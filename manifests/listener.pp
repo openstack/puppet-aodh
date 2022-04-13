@@ -1,34 +1,53 @@
 # Installs the aodh listener service
 #
 # == Params
-#  [*enabled*]
-#    (optional) Should the service be enabled.
-#    Defaults to true.
+# [*enabled*]
+#   (optional) Should the service be enabled.
+#   Defaults to true.
 #
-#  [*manage_service*]
-#    (optional)  Whether the service should be managed by Puppet.
-#    Defaults to true.
+# [*manage_service*]
+#   (optional)  Whether the service should be managed by Puppet.
+#   Defaults to true.
 #
-#  [*package_ensure*]
-#    (optional) ensure state for package.
-#    Defaults to 'present'
+# [*package_ensure*]
+#   (optional) ensure state for package.
+#   Defaults to 'present'
 #
-#  [*workers*]
-#    (optional) Number of workers for evaluator service.
-#    Defaults to $::os_workers.
+# [*workers*]
+#   (optional) Number of workers for evaluator service.
+#   Defaults to $::os_workers.
+#
+# [*event_alarm_topic*]
+#   (optional) The topic that aodh uses for event alarm evaluation.
+#   Defualts to $::os_service_default.
+#
+# [*batch_size*]
+#   (optional) Number of notification messages to wait before dispatching them.
+#   Defaults to $::os_service_default.
+#
+# [*batch_timeout*]
+#   (optional) Number of seconds to wait before dispatching samples when
+#   batch_size is not reached.
+#   Defaults to $::os_service_default.
 #
 class aodh::listener (
-  $manage_service = true,
-  $enabled        = true,
-  $package_ensure = 'present',
-  $workers        = $::os_workers,
+  $manage_service    = true,
+  $enabled           = true,
+  $package_ensure    = 'present',
+  $workers           = $::os_workers,
+  $event_alarm_topic = $::os_service_default,
+  $batch_size        = $::os_service_default,
+  $batch_timeout     = $::os_service_default,
 ) {
 
   include aodh::deps
   include aodh::params
 
   aodh_config {
-    'listener/workers': value => $workers
+    'listener/workers':           value => $workers;
+    'listener/event_alarm_topic': value => $event_alarm_topic;
+    'listener/batch_size':        value => $batch_size;
+    'listener/batch_timeout':     value => $batch_timeout;
   }
 
   package { 'aodh-listener':

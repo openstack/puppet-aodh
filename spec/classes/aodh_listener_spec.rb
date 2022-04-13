@@ -8,17 +8,7 @@ describe 'aodh::listener' do
 
   shared_examples_for 'aodh-listener' do
 
-    context 'with workers' do
-      let :params do
-        { :workers => 8 }
-      end
-
-      it 'configures workers' do
-        is_expected.to contain_aodh_config('listener/workers').with_value(8)
-      end
-    end
-
-    context 'when enabled' do
+    context 'with defaults' do
       it { is_expected.to contain_class('aodh::params') }
 
       it 'installs aodh-listener package' do
@@ -42,6 +32,9 @@ describe 'aodh::listener' do
 
       it 'sets default values' do
         is_expected.to contain_aodh_config('listener/workers').with_value(4)
+        is_expected.to contain_aodh_config('listener/event_alarm_topic').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('listener/batch_size').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('listener/batch_timeout').with_value('<SERVICE DEFAULT>')
       end
     end
 
@@ -72,6 +65,24 @@ describe 'aodh::listener' do
 
       it 'should not configure aodh-listener service' do
         is_expected.to_not contain_service('aodh-listener')
+      end
+    end
+
+    context 'with parameters' do
+      let :params do
+        {
+          :workers           => 8,
+          :event_alarm_topic => 'alarm.all',
+          :batch_size        => 1,
+          :batch_timeout     => 60,
+        }
+      end
+
+      it 'configures the given values' do
+        is_expected.to contain_aodh_config('listener/workers').with_value(8)
+        is_expected.to contain_aodh_config('listener/event_alarm_topic').with_value('alarm.all')
+        is_expected.to contain_aodh_config('listener/batch_size').with_value(1)
+        is_expected.to contain_aodh_config('listener/batch_timeout').with_value(60)
       end
     end
   end

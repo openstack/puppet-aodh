@@ -1,0 +1,9 @@
+---
+features:
+  - |
+    The ``aodh::listener`` class now supports the following three new
+    parameters.
+
+    - ``event_alarm_topic``
+    - ``batch_size``
+    - ``batch_timeout``
