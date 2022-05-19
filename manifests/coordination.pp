@@ -23,20 +23,11 @@
 #   group
 #   Defaults to $::os_service_default
 #
-# DEPRECATED PARAMETERS
-#
-# [*heartbeat*]
-#   (Optional) Number of seconds between hearbeats for distributed
-#   coordintation.
-#   Defaults to undef
-#
 class aodh::coordination (
   $backend_url        = $::os_service_default,
   $heartbeat_interval = $::os_service_default,
   $retry_backoff      = $::os_service_default,
   $max_retry_interval = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $heartbeat          = undef,
 ) {
 
   include aodh::deps
@@ -47,23 +38,13 @@ class aodh::coordination (
     $backend_url_real = $backend_url
   }
 
-  if $heartbeat != undef {
-    warning('The heartbeat parmaeter is deprecated. Use the heartbeat_interval parameter instead')
-  }
-  $heartbeat_interval_real = pick($heartbeat, $heartbeat_interval)
-
   oslo::coordination{ 'aodh_config':
     backend_url => $backend_url_real
   }
 
   aodh_config {
-    'coordination/heartbeat_interval': value => $heartbeat_interval_real;
+    'coordination/heartbeat_interval': value => $heartbeat_interval;
     'coordination/retry_backoff':      value => $retry_backoff;
     'coordination/max_retry_interval': value => $max_retry_interval;
-  }
-
-  # TODO(tkajinam): Remove this when the hearbeat parameter is removed.
-  aodh_config {
-    'coordination/heartbeat': ensure => absent;
   }
 }

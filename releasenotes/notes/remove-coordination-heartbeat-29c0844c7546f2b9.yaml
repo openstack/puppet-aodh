@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``aodh::coordination::heartbeat`` parameter has been removed.
