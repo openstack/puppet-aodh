@@ -11,7 +11,7 @@ describe 'aodh::evaluator' do
     context 'with defaults' do
       it 'configures defaults' do
         is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
-        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('evaluator/evaluation_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('DEFAULT/event_alarm_cache_ttl').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('DEFAULT/additional_ingestion_lag').with_value('<SERVICE DEFAULT>')
       end
@@ -36,7 +36,7 @@ describe 'aodh::evaluator' do
         })
       end
       it 'configures parameters accordingly' do
-        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value(10)
+        is_expected.to contain_aodh_config('evaluator/evaluation_interval').with_value(10)
         is_expected.to contain_aodh_config('DEFAULT/event_alarm_cache_ttl').with_value(60)
         is_expected.to contain_aodh_config('DEFAULT/additional_ingestion_lag').with_value(20)
       end
@@ -75,7 +75,7 @@ describe 'aodh::evaluator' do
       end
 
       it 'sets default values' do
-        is_expected.to contain_aodh_config('DEFAULT/evaluation_interval').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('evaluator/evaluation_interval').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
       end
     end

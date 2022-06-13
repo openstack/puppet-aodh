@@ -57,10 +57,15 @@ class aodh::evaluator (
   }
 
   aodh_config {
-    'DEFAULT/evaluation_interval':      value => $evaluation_interval;
+    'evaluator/evaluation_interval':    value => $evaluation_interval;
     'DEFAULT/event_alarm_cache_ttl':    value => $event_alarm_cache_ttl;
     'DEFAULT/additional_ingestion_lag': value => $additional_ingestion_lag;
     'evaluator/workers':                value => $workers;
+  }
+
+  # TODO(tkajinam): Remove this after Zed release.
+  aodh_config {
+    'DEFAULT/evaluation_interval': ensure => absent;
   }
 
   package { 'aodh-evaluator':
