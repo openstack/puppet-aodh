@@ -19,7 +19,7 @@
 #
 # [*event_alarm_topic*]
 #   (optional) The topic that aodh uses for event alarm evaluation.
-#   Defualts to $::os_service_default.
+#   Defaults to $::os_service_default.
 #
 # [*batch_size*]
 #   (optional) Number of notification messages to wait before dispatching them.

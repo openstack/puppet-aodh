@@ -9,8 +9,8 @@
 #   Defaults to $::os_service_default
 #
 # [*heartbeat_interval*]
-#   (Optional) Number of seconds between hearbeats for distributed
-#   coordintation.
+#   (Optional) Number of seconds between heartbeats for distributed
+#   coordination.
 #   Defaults to $::os_service_default
 #
 # [*retry_backoff*]

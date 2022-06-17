@@ -22,7 +22,7 @@
 #    Defaults to $::os_service_default.
 #
 #  [*event_alarm_cache_ttl*]
-#    (optional) TTL of event alram caches, in seconds.
+#    (optional) TTL of event alarm caches, in seconds.
 #    Defaults to $::os_service_default.
 #
 #  [*additional_ingestion_lag*]
