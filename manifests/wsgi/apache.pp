@@ -98,6 +98,14 @@
 #     (optional) The location of the aodh WSGI script
 #     Optional. Defaults to $::aodh::params::aodh_wsgi_script_source
 #
+#   [*headers*]
+#     (optional) Headers for the vhost.
+#     Defaults to undef
+#
+#   [*request_headers*]
+#     (optional) Modifies collected request headers in various ways.
+#     Defaults to undef
+#
 #   [*vhost_custom_fragment*]
 #     (optional) Passes a string of custom configuration
 #     directives to be placed at the end of the vhost configuration.
@@ -137,6 +145,8 @@ class aodh::wsgi::apache (
   $custom_wsgi_process_options = {},
   $wsgi_script_dir             = $::aodh::params::aodh_wsgi_script_dir,
   $wsgi_script_source          = $::aodh::params::aodh_wsgi_script_source,
+  $headers                     = undef,
+  $request_headers             = undef,
   $vhost_custom_fragment       = undef,
 ) inherits aodh::params {
 
@@ -171,6 +181,8 @@ class aodh::wsgi::apache (
     wsgi_script_dir             => $wsgi_script_dir,
     wsgi_script_file            => 'app',
     wsgi_script_source          => $wsgi_script_source,
+    headers                     => $headers,
+    request_headers             => $request_headers,
     custom_wsgi_process_options => $custom_wsgi_process_options,
     access_log_file             => $access_log_file,
     access_log_format           => $access_log_format,
