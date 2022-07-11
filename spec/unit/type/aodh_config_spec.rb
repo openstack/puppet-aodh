@@ -33,7 +33,7 @@ describe 'Puppet::Type.type(:aodh_config)' do
     expect(@aodh_config[:value]).to eq(['bar'])
   end
 
-  it 'should not accept a value with whitespace' do
+  it 'should accept a value with whitespace' do
     @aodh_config[:value] = 'b ar'
     expect(@aodh_config[:value]).to eq(['b ar'])
   end
