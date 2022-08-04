@@ -1,0 +1,4 @@
+---
+upgrade:
+  - |
+    The ``aodh::evaluator::coordination_url`` parameter has been removed.

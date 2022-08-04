@@ -30,12 +30,6 @@
 #    compensate the reporting/ingestion lag.
 #    Defaults to $::os_service_default.
 #
-# DEPRECATED PARAMETERS
-#
-#  [*coordination_url*]
-#    (optional) The url to use for distributed group membership coordination.
-#    Defaults to undef.
-#
 class aodh::evaluator (
   $manage_service           = true,
   $enabled                  = true,
@@ -44,17 +38,10 @@ class aodh::evaluator (
   $evaluation_interval      = $::os_service_default,
   $event_alarm_cache_ttl    = $::os_service_default,
   $additional_ingestion_lag = $::os_service_default,
-  # DEPRECATED PARAMETERS
-  $coordination_url         = undef,
 ) {
 
   include aodh::deps
   include aodh::params
-
-  if $coordination_url != undef {
-    warning('The coordination_url parameter is deprecated. Use the aodh::coordination class instead')
-    include aodh::coordination
-  }
 
   aodh_config {
     'evaluator/evaluation_interval':    value => $evaluation_interval;

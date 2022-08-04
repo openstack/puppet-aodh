@@ -42,16 +42,6 @@ describe 'aodh::evaluator' do
       end
     end
 
-    context 'with deprecated coordination_url' do
-      before do
-        params.merge!({ :coordination_url => 'redis://localhost:6379' })
-      end
-      it 'configures coordination and workers' do
-        is_expected.to contain_aodh_config('coordination/backend_url').with_value('redis://localhost:6379')
-        is_expected.to contain_aodh_config('evaluator/workers').with_value(4)
-      end
-    end
-
     context 'when enabled' do
       it { is_expected.to contain_class('aodh::params') }
 
