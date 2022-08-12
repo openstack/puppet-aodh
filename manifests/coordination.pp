@@ -32,14 +32,8 @@ class aodh::coordination (
 
   include aodh::deps
 
-  if defined('$::aodh::evaluator::coordination_url') {
-    $backend_url_real = pick($::aodh::evaluator::coordination_url, $backend_url)
-  } else {
-    $backend_url_real = $backend_url
-  }
-
   oslo::coordination{ 'aodh_config':
-    backend_url => $backend_url_real
+    backend_url => $backend_url
   }
 
   aodh_config {
