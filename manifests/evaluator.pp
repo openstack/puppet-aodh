@@ -50,11 +50,6 @@ class aodh::evaluator (
     'evaluator/workers':                value => $workers;
   }
 
-  # TODO(tkajinam): Remove this after Zed release.
-  aodh_config {
-    'DEFAULT/evaluation_interval': ensure => absent;
-  }
-
   package { 'aodh-evaluator':
     ensure => $package_ensure,
     name   => $::aodh::params::evaluator_package_name,
