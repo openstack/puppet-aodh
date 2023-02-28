@@ -39,6 +39,9 @@ class aodh::notifier (
   include aodh::deps
   include aodh::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   aodh_config {
     'notifier/workers':       value => $workers;
     'notifier/batch_size':    value => $batch_size;

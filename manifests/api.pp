@@ -66,10 +66,13 @@ class aodh::api (
   $gnocchi_external_domain_name   = 'Default',
 ) inherits aodh::params {
 
-
   include aodh::deps
   include aodh::params
   include aodh::policy
+
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+  validate_legacy(Boolean, 'validate_bool', $sync_db)
 
   if $auth_strategy == 'keystone' {
     include aodh::keystone::authtoken

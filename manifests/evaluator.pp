@@ -43,6 +43,9 @@ class aodh::evaluator (
   include aodh::deps
   include aodh::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   aodh_config {
     'evaluator/evaluation_interval':    value => $evaluation_interval;
     'DEFAULT/event_alarm_cache_ttl':    value => $event_alarm_cache_ttl;

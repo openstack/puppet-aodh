@@ -43,6 +43,9 @@ class aodh::listener (
   include aodh::deps
   include aodh::params
 
+  validate_legacy(Boolean, 'validate_bool', $manage_service)
+  validate_legacy(Boolean, 'validate_bool', $enabled)
+
   aodh_config {
     'listener/workers':           value => $workers;
     'listener/event_alarm_topic': value => $event_alarm_topic;
