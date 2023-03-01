@@ -36,7 +36,7 @@
 #
 #  [*alarm_histories_delete_batch_size*]
 #    (optional) Limit number of deleted alarm histories in single purge run
-#    Defaults to $::os_service_default.
+#    Defaults to $facts['os_service_default'].
 #
 class aodh::expirer (
   $ensure                            = 'present',
@@ -47,7 +47,7 @@ class aodh::expirer (
   $month                             = '*',
   $weekday                           = '*',
   $maxdelay                          = 0,
-  $alarm_histories_delete_batch_size = $::os_service_default,
+  $alarm_histories_delete_batch_size = $facts['os_service_default'],
 ) {
 
   include aodh::params

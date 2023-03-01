@@ -34,15 +34,15 @@
 # [*enable_proxy_headers_parsing*]
 #   (Optional) Enable paste middleware to handle SSL requests through
 #   HTTPProxyToWSGI middleware.
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*max_request_body_size*]
 #   (Optional) Set max request body size
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*paste_config*]
 #   (Optional) Configuration file for WSGI definition of API
-#   Defaults to $::os_service_default.
+#   Defaults to $facts['os_service_default'].
 #
 # [*gnocchi_external_project_owner*]
 #   (optional) Gnocchi external project owner (usually Ceilometer project name)
@@ -59,9 +59,9 @@ class aodh::api (
   $service_name                   = $::aodh::params::api_service_name,
   $sync_db                        = false,
   $auth_strategy                  = 'keystone',
-  $enable_proxy_headers_parsing   = $::os_service_default,
-  $max_request_body_size          = $::os_service_default,
-  $paste_config                   = $::os_service_default,
+  $enable_proxy_headers_parsing   = $facts['os_service_default'],
+  $max_request_body_size          = $facts['os_service_default'],
+  $paste_config                   = $facts['os_service_default'],
   $gnocchi_external_project_owner = 'services',
   $gnocchi_external_domain_name   = 'Default',
 ) inherits aodh::params {

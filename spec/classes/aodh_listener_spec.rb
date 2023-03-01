@@ -96,7 +96,7 @@ describe 'aodh::listener' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :listener_package_name => 'aodh-listener',
             :listener_service_name => 'aodh-listener' }

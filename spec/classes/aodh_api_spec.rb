@@ -191,16 +191,13 @@ describe 'aodh::api' do
   }).each do |os,facts|
     context "on #{os}" do
       let (:facts) do
-        facts.merge!(OSDefaults.get_facts({
-          :fqdn           => 'some.host.tld',
-          :concat_basedir => '/var/lib/puppet/concat'
-        }))
+        facts.merge!(OSDefaults.get_facts())
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
-          if facts[:operatingsystem] == 'Ubuntu'
+          if facts[:os]['name'] == 'Ubuntu'
             { :api_package_name => 'aodh-api',
               :api_service_name => 'httpd' }
           else
@@ -213,7 +210,7 @@ describe 'aodh::api' do
         end
       end
 
-      if facts[:osfamily] == 'Debian' and facts[:operatingsystem] != 'Ubuntu'
+      if facts[:os]['family'] == 'Debian' and facts[:os]['name'] != 'Ubuntu'
         it_behaves_like 'aodh-api with standalone service'
       else
         it_behaves_like 'aodh-api without standalone service'

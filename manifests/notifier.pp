@@ -15,25 +15,25 @@
 #
 #  [*workers*]
 #    (optional) Number of workers for notifier service.
-#    Defaults to $::os_workers.
+#    Defaults to $facts['os_workers'].
 #
 #  [*batch_size*]
 #    (optional) Number of notification messages to wait before dispatching
 #    them.
-#    Defaults to $::os_service_default.
+#    Defaults to $facts['os_service_default'].
 #
 #  [*batch_timeout*]
 #    (optional) Number of seconds to wait before dispatching samples when
 #    batch_size is not reached.
-#    Defaults to $::os_service_default
+#    Defaults to $facts['os_service_default']
 #
 class aodh::notifier (
   $manage_service = true,
   $enabled        = true,
   $package_ensure = 'present',
-  $workers        = $::os_workers,
-  $batch_size     = $::os_service_default,
-  $batch_timeout  = $::os_service_default,
+  $workers        = $facts['os_workers'],
+  $batch_size     = $facts['os_service_default'],
+  $batch_timeout  = $facts['os_service_default'],
 ) {
 
   include aodh::deps

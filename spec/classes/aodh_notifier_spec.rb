@@ -101,7 +101,7 @@ describe 'aodh::notifier' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :notifier_package_name => 'aodh-notifier',
             :notifier_service_name => 'aodh-notifier' }

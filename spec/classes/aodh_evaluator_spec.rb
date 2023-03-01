@@ -110,7 +110,7 @@ describe 'aodh::evaluator' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :evaluator_package_name => 'aodh-evaluator',
             :evaluator_service_name => 'aodh-evaluator' }

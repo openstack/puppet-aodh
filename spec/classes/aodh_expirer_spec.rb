@@ -79,7 +79,7 @@ describe 'aodh::expirer' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :expirer_package_name => 'aodh-expirer' }
         when 'RedHat'

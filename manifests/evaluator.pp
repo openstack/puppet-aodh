@@ -15,29 +15,29 @@
 #
 #  [*workers*]
 #    (optional) Number of workers for evaluator service.
-#    Defaults to $::os_workers.
+#    Defaults to $facts['os_workers'].
 #
 #  [*evaluation_interval*]
 #    (optional) Period of evaluation cycle
-#    Defaults to $::os_service_default.
+#    Defaults to $facts['os_service_default'].
 #
 #  [*event_alarm_cache_ttl*]
 #    (optional) TTL of event alarm caches, in seconds.
-#    Defaults to $::os_service_default.
+#    Defaults to $facts['os_service_default'].
 #
 #  [*additional_ingestion_lag*]
 #    (optional) The number of seconds to extend the evaluation windows to
 #    compensate the reporting/ingestion lag.
-#    Defaults to $::os_service_default.
+#    Defaults to $facts['os_service_default'].
 #
 class aodh::evaluator (
   $manage_service           = true,
   $enabled                  = true,
   $package_ensure           = 'present',
-  $workers                  = $::os_workers,
-  $evaluation_interval      = $::os_service_default,
-  $event_alarm_cache_ttl    = $::os_service_default,
-  $additional_ingestion_lag = $::os_service_default,
+  $workers                  = $facts['os_workers'],
+  $evaluation_interval      = $facts['os_service_default'],
+  $event_alarm_cache_ttl    = $facts['os_service_default'],
+  $additional_ingestion_lag = $facts['os_service_default'],
 ) {
 
   include aodh::deps

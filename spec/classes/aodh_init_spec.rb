@@ -164,7 +164,7 @@ describe 'aodh' do
       end
 
       let(:platform_params) do
-        case facts[:osfamily]
+        case facts[:os]['family']
         when 'Debian'
           { :aodh_common_package => 'aodh-common' }
         when 'RedHat'

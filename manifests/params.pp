@@ -8,7 +8,7 @@ class aodh::params {
   $group               = 'aodh'
   $expirer_command     = 'aodh-expirer'
 
-  case $::osfamily {
+  case $facts['os']['family'] {
     'RedHat': {
       $common_package_name     = 'openstack-aodh-common'
       $api_package_name        = 'openstack-aodh-api'
@@ -27,7 +27,7 @@ class aodh::params {
     'Debian': {
       $common_package_name     = 'aodh-common'
       $api_package_name        = 'aodh-api'
-      case $::operatingsystem {
+      case $facts['os']['name'] {
         'Ubuntu': {
           $api_service_name = 'httpd'
         }
@@ -47,9 +47,8 @@ class aodh::params {
       $aodh_wsgi_script_source = '/usr/bin/aodh-api'
     }
     default: {
-      fail("Unsupported osfamily: ${::osfamily} operatingsystem: ${::operatingsystem}, \
-module ${module_name} only support osfamily RedHat and Debian")
+      fail("Unsupported osfamily: ${facts['os']['family']}")
     }
 
-  } # Case $::osfamily
+  }
 }

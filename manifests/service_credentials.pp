@@ -32,7 +32,7 @@
 #
 # [*system_scope*]
 #  (Optional) Scope for system operations.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*auth_type*]
 #  (Optional) An authentication type to use with an OpenStack Identity server.
@@ -41,12 +41,12 @@
 #
 # [*cacert*]
 #  (Optional) Certificate chain for SSL validation.
-#  Defaults to $::os_service_default
+#  Defaults to $facts['os_service_default']
 #
 # [*interface*]
 #  (Optional) Type of endpoint in Identity service catalog to use for
 #  communication with OpenStack services.
-#  Optional. Defaults to $::os_service_default.
+#  Optional. Defaults to $facts['os_service_default'].
 #
 class aodh::service_credentials (
   $password,
@@ -56,10 +56,10 @@ class aodh::service_credentials (
   $project_name        = 'services',
   $project_domain_name = 'Default',
   $user_domain_name    = 'Default',
-  $system_scope        = $::os_service_default,
+  $system_scope        = $facts['os_service_default'],
   $auth_type           = 'password',
-  $cacert              = $::os_service_default,
-  $interface           = $::os_service_default,
+  $cacert              = $facts['os_service_default'],
+  $interface           = $facts['os_service_default'],
 ) {
 
   include aodh::deps
@@ -68,8 +68,8 @@ class aodh::service_credentials (
     $project_name_real = $project_name
     $project_domain_name_real = $project_domain_name
   } else {
-    $project_name_real = $::os_service_default
-    $project_domain_name_real = $::os_service_default
+    $project_name_real = $facts['os_service_default']
+    $project_domain_name_real = $facts['os_service_default']
   }
 
   aodh_config {
