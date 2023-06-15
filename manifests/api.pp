@@ -53,11 +53,11 @@
 #   Defaults to 'Default'
 #
 class aodh::api (
-  $manage_service                 = true,
-  $enabled                        = true,
+  Boolean $manage_service         = true,
+  Boolean $enabled                = true,
   $package_ensure                 = 'present',
   $service_name                   = $::aodh::params::api_service_name,
-  $sync_db                        = false,
+  Boolean $sync_db                = false,
   $auth_strategy                  = 'keystone',
   $enable_proxy_headers_parsing   = $facts['os_service_default'],
   $max_request_body_size          = $facts['os_service_default'],
@@ -69,10 +69,6 @@ class aodh::api (
   include aodh::deps
   include aodh::params
   include aodh::policy
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
-  validate_legacy(Boolean, 'validate_bool', $sync_db)
 
   if $auth_strategy == 'keystone' {
     include aodh::keystone::authtoken
