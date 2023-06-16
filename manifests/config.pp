@@ -24,14 +24,11 @@
 #   or Puppet catalog compilation will fail with duplicate resources.
 #
 class aodh::config (
-  $aodh_config        = {},
-  $aodh_api_paste_ini = {},
+  Hash $aodh_config        = {},
+  Hash $aodh_api_paste_ini = {},
 ) {
 
   include aodh::deps
-
-  validate_legacy(Hash, 'validate_hash', $aodh_config)
-  validate_legacy(Hash, 'validate_hash', $aodh_api_paste_ini)
 
   create_resources('aodh_config', $aodh_config)
   create_resources('aodh_api_paste_ini', $aodh_api_paste_ini)

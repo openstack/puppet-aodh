@@ -31,8 +31,8 @@
 #    Defaults to $facts['os_service_default'].
 #
 class aodh::evaluator (
-  $manage_service           = true,
-  $enabled                  = true,
+  Boolean $manage_service   = true,
+  Boolean $enabled          = true,
   $package_ensure           = 'present',
   $workers                  = $facts['os_workers'],
   $evaluation_interval      = $facts['os_service_default'],
@@ -42,9 +42,6 @@ class aodh::evaluator (
 
   include aodh::deps
   include aodh::params
-
-  validate_legacy(Boolean, 'validate_bool', $manage_service)
-  validate_legacy(Boolean, 'validate_bool', $enabled)
 
   aodh_config {
     'evaluator/evaluation_interval':    value => $evaluation_interval;

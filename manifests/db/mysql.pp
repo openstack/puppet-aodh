@@ -34,7 +34,7 @@
 #   Defaults to 'utf8_general_ci'
 #
 class aodh::db::mysql(
-  $password,
+  String[1] $password,
   $dbname        = 'aodh',
   $user          = 'aodh',
   $host          = '127.0.0.1',
@@ -44,8 +44,6 @@ class aodh::db::mysql(
 ) {
 
   include aodh::deps
-
-  validate_legacy(String, 'validate_string', $password)
 
   openstacklib::db::mysql { 'aodh':
     user          => $user,
