@@ -39,7 +39,7 @@
 #    Defaults to $facts['os_service_default'].
 #
 class aodh::expirer (
-  $ensure                            = 'present',
+  Enum['present', 'absent'] $ensure  = 'present',
   $package_ensure                    = 'present',
   $minute                            = 1,
   $hour                              = 0,
