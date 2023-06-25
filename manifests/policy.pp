@@ -62,6 +62,7 @@ class aodh::policy (
     file_group   => $::aodh::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
+    tag          => 'aodh',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
