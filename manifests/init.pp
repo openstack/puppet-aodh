@@ -223,7 +223,7 @@ class aodh (
   $notification_transport_url         = $facts['os_service_default'],
   $notification_driver                = $facts['os_service_default'],
   $notification_topics                = $facts['os_service_default'],
-  $purge_config                       = false,
+  Boolean $purge_config               = false,
 ) inherits aodh::params {
 
   include aodh::deps
