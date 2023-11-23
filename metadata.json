@@ -63,5 +63,5 @@
     ],
     "source": "https://opendev.org/openstack/puppet-aodh.git",
     "summary": "Puppet module for OpenStack Aodh",
-    "version": "20.3.0"
+    "version": "20.3.1"
 }
