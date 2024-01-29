@@ -41,4 +41,8 @@ class aodh::coordination (
     'coordination/retry_backoff':      value => $retry_backoff;
     'coordination/max_retry_interval': value => $max_retry_interval;
   }
+
+  # all coordination settings should be applied and all packages should be
+  # installed before service startup
+  Oslo::Coordination['aodh_config'] -> Anchor['aodh::service::begin']
 }

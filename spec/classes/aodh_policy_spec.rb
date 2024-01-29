@@ -33,7 +33,6 @@ describe 'aodh::policy' do
           :file_group   => 'aodh',
           :file_format  => 'yaml',
           :purge_config => false,
-          :tag          => 'aodh',
         )
         is_expected.to contain_oslo__policy('aodh_config').with(
           :enforce_scope        => false,
@@ -64,7 +63,6 @@ describe 'aodh::policy' do
           :file_group   => 'aodh',
           :file_format  => 'yaml',
           :purge_config => true,
-          :tag          => 'aodh',
         )
         is_expected.to contain_oslo__policy('aodh_config').with(
           :enforce_scope        => false,

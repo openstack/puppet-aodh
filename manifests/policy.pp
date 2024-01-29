@@ -65,10 +65,14 @@ class aodh::policy (
     file_group   => $::aodh::params::group,
     file_format  => 'yaml',
     purge_config => $purge_config,
-    tag          => 'aodh',
   }
 
   create_resources('openstacklib::policy', { $policy_path => $policy_parameters })
+
+  # policy config should occur in the config block also.
+  Anchor['aodh::config::begin']
+  -> Openstacklib::Policy[$policy_path]
+  -> Anchor['aodh::config::end']
 
   oslo::policy { 'aodh_config':
     enforce_scope        => $enforce_scope,
@@ -77,5 +81,4 @@ class aodh::policy (
     policy_default_rule  => $policy_default_rule,
     policy_dirs          => $policy_dirs,
   }
-
 }

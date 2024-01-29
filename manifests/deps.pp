@@ -24,28 +24,13 @@ class aodh::deps {
   ~> Service<| tag == 'aodh-service' |>
   ~> anchor { 'aodh::service::end': }
 
-  # paste-api.ini config should occur in the config block also.
   Anchor['aodh::config::begin']
   -> Aodh_api_paste_ini<||>
-  ~> Anchor['aodh::config::end']
-
-  # all coordination settings should be applied and all packages should be
-  # installed before service startup
-  Oslo::Coordination<||> -> Anchor['aodh::service::begin']
-
-  # all db settings should be applied and all packages should be installed
-  # before dbsync starts
-  Oslo::Db<||> -> Anchor['aodh::dbsync::begin']
-
-  # policy config should occur in the config block also.
-  Anchor['aodh::config::begin']
-  -> Openstacklib::Policy<| tag == 'aodh' |>
   -> Anchor['aodh::config::end']
 
-  # On any uwsgi config change, we must restart Aodh API.
   Anchor['aodh::config::begin']
   -> Aodh_api_uwsgi_config<||>
-  ~> Anchor['aodh::config::end']
+  -> Anchor['aodh::config::end']
 
   # Installation or config changes will always restart services.
   Anchor['aodh::install::end'] ~> Anchor['aodh::service::begin']
