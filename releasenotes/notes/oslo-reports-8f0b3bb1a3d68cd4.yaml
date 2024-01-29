@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``aodh::reports`` class has been added.
