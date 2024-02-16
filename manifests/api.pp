@@ -119,6 +119,11 @@ class aodh::api (
     }
   }
 
+  # On any paste-api.ini config change, we must restart Aodh API.
+  Aodh_api_paste_ini<||> ~> Service[$service_name]
+  # On any uwsgi config change, we must restart Aodh API.
+  Aodh_api_uwsgi_config<||> ~> Service[$service_name]
+
   aodh_config {
     'api/gnocchi_external_project_owner': value => $gnocchi_external_project_owner;
     'api/gnocchi_external_domain_name':   value => $gnocchi_external_domain_name;
