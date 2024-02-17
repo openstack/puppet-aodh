@@ -279,4 +279,6 @@ class aodh::keystone::authtoken(
       service_type                   => $service_type,
       interface                      => $interface;
   }
+
+  Keystone::Resource::Authtoken['aodh_config'] -> Anchor['aodh::config::end']
 }
