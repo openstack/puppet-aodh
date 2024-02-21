@@ -101,6 +101,11 @@ class aodh::api (
         hasrestart => true,
         tag        => 'aodh-service',
       }
+      # On any paste-api.ini config change, we must restart Aodh API.
+      Aodh_api_paste_ini<||> ~> Service['aodh-api']
+      # On any uwsgi config change, we must restart Aodh API.
+      Aodh_api_uwsgi_config<||> ~> Service['aodh-api']
+
     } elsif $service_name == 'httpd' {
       Service <| title == 'httpd' |> { tag +> 'aodh-service' }
 
@@ -114,15 +119,13 @@ class aodh::api (
         # we need to make sure aodh-api/eventlet is stopped before trying to start apache
         Service['aodh-api'] -> Service[$service_name]
       }
+
+      # On any paste-api.ini config change, we must restart Aodh API.
+      Aodh_api_paste_ini<||> ~> Service[$service_name]
     } else {
       fail('Invalid service_name.')
     }
   }
-
-  # On any paste-api.ini config change, we must restart Aodh API.
-  Aodh_api_paste_ini<||> ~> Service[$service_name]
-  # On any uwsgi config change, we must restart Aodh API.
-  Aodh_api_uwsgi_config<||> ~> Service[$service_name]
 
   aodh_config {
     'api/gnocchi_external_project_owner': value => $gnocchi_external_project_owner;
