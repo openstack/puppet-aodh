@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``aodh::healthcheck::ignore_proxied_requests`` parameter has been
+    added.
