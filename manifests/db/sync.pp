@@ -17,7 +17,7 @@ class aodh::db::sync (
   include aodh::deps
 
   exec { 'aodh-db-sync':
-    command     => 'aodh-dbsync --config-file /etc/aodh/aodh.conf',
+    command     => ['aodh-dbsync'],
     path        => '/usr/bin',
     refreshonly => true,
     user        => $user,

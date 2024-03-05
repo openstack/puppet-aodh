@@ -8,7 +8,7 @@ describe 'aodh::db::sync' do
 
     it 'runs aodh-db-sync' do
       is_expected.to contain_exec('aodh-db-sync').with(
-        :command     => 'aodh-dbsync --config-file /etc/aodh/aodh.conf',
+        :command     => ['aodh-dbsync'],
         :path        => '/usr/bin',
         :refreshonly => 'true',
         :user        => 'aodh',
@@ -33,7 +33,7 @@ describe 'aodh::db::sync' do
 
       it {
         is_expected.to contain_exec('aodh-db-sync').with(
-          :command     => 'aodh-dbsync --config-file /etc/aodh/aodh.conf',
+          :command     => ['aodh-dbsync'],
           :path        => '/usr/bin',
           :refreshonly => 'true',
           :user        => 'aodh',
