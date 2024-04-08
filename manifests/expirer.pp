@@ -46,7 +46,7 @@ class aodh::expirer (
   $monthday                          = '*',
   $month                             = '*',
   $weekday                           = '*',
-  $maxdelay                          = 0,
+  Integer[0] $maxdelay               = 0,
   $alarm_histories_delete_batch_size = $facts['os_service_default'],
 ) {
 
