@@ -26,6 +26,10 @@ describe 'basic aodh' do
     describe port(8042) do
       it { is_expected.to be_listening }
     end
+
+    describe cron do
+      it { is_expected.to have_entry('1 0 * * * aodh-expirer').with_user('aodh') }
+    end
   end
 
 end
