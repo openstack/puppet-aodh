@@ -47,6 +47,7 @@ describe 'aodh' do
           :rabbit_quorum_delivery_limit    => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_length => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_bytes  => '<SERVICE DEFAULT>',
+          :enable_cancel_on_failover       => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__notifications('aodh_config').with(
           :transport_url => '<SERVICE DEFAULT>',
@@ -90,6 +91,7 @@ describe 'aodh' do
           :rabbit_quorum_delivery_limit       => 3,
           :rabbit_quorum_max_memory_length    => 5,
           :rabbit_quorum_max_memory_bytes     => 1073741824,
+          :enable_cancel_on_failover          => false,
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
           :notification_topics                => 'openstack',
@@ -123,6 +125,7 @@ describe 'aodh' do
           :rabbit_quorum_delivery_limit    => 3,
           :rabbit_quorum_max_memory_length => 5,
           :rabbit_quorum_max_memory_bytes  => 1073741824,
+          :enable_cancel_on_failover       => false,
         )
         is_expected.to contain_oslo__messaging__notifications('aodh_config').with(
           :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
