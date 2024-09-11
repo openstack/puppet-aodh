@@ -1,0 +1,4 @@
+---
+features:
+  - |
+    The new ``aodh::rabbit_stream_fanout`` parameter has been added.

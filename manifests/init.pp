@@ -110,6 +110,11 @@
 #   (Optional) Process name used by queue manager.
 #   Defaults to $facts['os_service_default']
 #
+# [*rabbit_stream_fanout*]
+#   (Optional) Use stream queues in RabbitMQ (x-queue-type: stream) for
+#   fanout queues.
+#   Defaults to $facts['os_service_default']
+#
 # [*kombu_ssl_ca_certs*]
 #   (optional) SSL certification authority file (valid only if SSL enabled).
 #   Defaults to $facts['os_service_default']
@@ -191,6 +196,7 @@ class aodh (
   $use_queue_manager                  = $facts['os_service_default'],
   $hostname                           = $facts['os_service_default'],
   $processname                        = $facts['os_service_default'],
+  $rabbit_stream_fanout               = $facts['os_service_default'],
   $kombu_ssl_ca_certs                 = $facts['os_service_default'],
   $kombu_ssl_certfile                 = $facts['os_service_default'],
   $kombu_ssl_keyfile                  = $facts['os_service_default'],
@@ -241,6 +247,7 @@ class aodh (
     use_queue_manager               => $use_queue_manager,
     hostname                        => $hostname,
     processname                     => $processname,
+    rabbit_stream_fanout            => $rabbit_stream_fanout,
   }
 
   oslo::messaging::default { 'aodh_config':

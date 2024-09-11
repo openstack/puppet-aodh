@@ -51,6 +51,7 @@ describe 'aodh' do
           :use_queue_manager               => '<SERVICE DEFAULT>',
           :hostname                        => '<SERVICE DEFAULT>',
           :processname                     => '<SERVICE DEFAULT>',
+          :rabbit_stream_fanout            => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__notifications('aodh_config').with(
           :transport_url => '<SERVICE DEFAULT>',
@@ -101,6 +102,7 @@ describe 'aodh' do
           :use_queue_manager                  => false,
           :hostname                           => 'node1.example.com',
           :processname                        => 'procname',
+          :rabbit_stream_fanout               => false,
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
           :notification_topics                => 'openstack',
@@ -139,6 +141,7 @@ describe 'aodh' do
           :use_queue_manager               => false,
           :hostname                        => 'node1.example.com',
           :processname                     => 'procname',
+          :rabbit_stream_fanout            => false,
         )
         is_expected.to contain_oslo__messaging__notifications('aodh_config').with(
           :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
