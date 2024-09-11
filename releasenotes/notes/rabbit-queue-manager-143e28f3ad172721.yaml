@@ -1,0 +1,7 @@
+---
+features:
+  - |
+    The ``aodh`` class now supports options for queue manager feature.
+
+  - |
+    The new ``aodh::locl_path`` parameter has been added.

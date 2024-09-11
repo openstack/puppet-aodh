@@ -13,6 +13,11 @@
 #   (<= 0 means forever)
 #   Defaults to $facts['os_service_default']
 #
+# [*lock_path*]
+#   (optional) Where to store lock files. This directory must be writeable
+#   by the user executing the agent
+#   Defaults to $facts['os_service_default']
+#
 # [*executor_thread_pool_size*]
 #   (optional) Size of executor thread pool when executor is threading or eventlet.
 #   Defaults to $facts['os_service_default'].
@@ -93,6 +98,18 @@
 #   cancel and notify consumers when queue is down.
 #   Defaults to $facts['os_service_default']
 #
+# [*use_queue_manager*]
+#   (Optional) Should we use consistent queue names or random ones.
+#   Defaults to $facts['os_service_default']
+#
+# [*hostname*]
+#   (Optional) Hostname used by queue manager.
+#   Defaults to $facts['os_service_default']
+#
+# [*processname*]
+#   (Optional) Process name used by queue manager.
+#   Defaults to $facts['os_service_default']
+#
 # [*kombu_ssl_ca_certs*]
 #   (optional) SSL certification authority file (valid only if SSL enabled).
 #   Defaults to $facts['os_service_default']
@@ -155,6 +172,7 @@
 class aodh (
   $package_ensure                     = 'present',
   $alarm_history_time_to_live         = $facts['os_service_default'],
+  $lock_path                          = $facts['os_service_default'],
   $executor_thread_pool_size          = $facts['os_service_default'],
   $default_transport_url              = $facts['os_service_default'],
   $rpc_response_timeout               = $facts['os_service_default'],
@@ -170,6 +188,9 @@ class aodh (
   $rabbit_quorum_max_memory_length    = $facts['os_service_default'],
   $rabbit_quorum_max_memory_bytes     = $facts['os_service_default'],
   $enable_cancel_on_failover          = $facts['os_service_default'],
+  $use_queue_manager                  = $facts['os_service_default'],
+  $hostname                           = $facts['os_service_default'],
+  $processname                        = $facts['os_service_default'],
   $kombu_ssl_ca_certs                 = $facts['os_service_default'],
   $kombu_ssl_certfile                 = $facts['os_service_default'],
   $kombu_ssl_keyfile                  = $facts['os_service_default'],
@@ -217,6 +238,9 @@ class aodh (
     rabbit_quorum_max_memory_length => $rabbit_quorum_max_memory_length,
     rabbit_quorum_max_memory_bytes  => $rabbit_quorum_max_memory_bytes,
     enable_cancel_on_failover       => $enable_cancel_on_failover,
+    use_queue_manager               => $use_queue_manager,
+    hostname                        => $hostname,
+    processname                     => $processname,
   }
 
   oslo::messaging::default { 'aodh_config':
@@ -234,5 +258,9 @@ class aodh (
 
   aodh_config {
     'database/alarm_history_time_to_live': value => $alarm_history_time_to_live;
+  }
+
+  oslo::concurrency { 'aodh_config':
+    lock_path => $lock_path
   }
 }

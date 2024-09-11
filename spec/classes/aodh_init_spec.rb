@@ -48,6 +48,9 @@ describe 'aodh' do
           :rabbit_quorum_max_memory_length => '<SERVICE DEFAULT>',
           :rabbit_quorum_max_memory_bytes  => '<SERVICE DEFAULT>',
           :enable_cancel_on_failover       => '<SERVICE DEFAULT>',
+          :use_queue_manager               => '<SERVICE DEFAULT>',
+          :hostname                        => '<SERVICE DEFAULT>',
+          :processname                     => '<SERVICE DEFAULT>',
         )
         is_expected.to contain_oslo__messaging__notifications('aodh_config').with(
           :transport_url => '<SERVICE DEFAULT>',
@@ -58,6 +61,9 @@ describe 'aodh' do
 
       it 'configures other parameters' do
         is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_oslo__concurrency('aodh_config').with(
+          :lock_path => '<SERVICE DEFAULT>'
+        )
       end
 
       it 'passes purge to resource' do
@@ -92,11 +98,15 @@ describe 'aodh' do
           :rabbit_quorum_max_memory_length    => 5,
           :rabbit_quorum_max_memory_bytes     => 1073741824,
           :enable_cancel_on_failover          => false,
+          :use_queue_manager                  => false,
+          :hostname                           => 'node1.example.com',
+          :processname                        => 'procname',
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
           :notification_topics                => 'openstack',
           :package_ensure                     => '2012.1.1-15.el6',
           :alarm_history_time_to_live         => '604800',
+          :lock_path                          => '/var/lock/aodh',
         }
       end
 
@@ -126,6 +136,9 @@ describe 'aodh' do
           :rabbit_quorum_max_memory_length => 5,
           :rabbit_quorum_max_memory_bytes  => 1073741824,
           :enable_cancel_on_failover       => false,
+          :use_queue_manager               => false,
+          :hostname                        => 'node1.example.com',
+          :processname                     => 'procname',
         )
         is_expected.to contain_oslo__messaging__notifications('aodh_config').with(
           :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
@@ -136,6 +149,9 @@ describe 'aodh' do
 
       it 'configures other parameters' do
         is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('604800')
+        is_expected.to contain_oslo__concurrency('aodh_config').with(
+          :lock_path => '/var/lock/aodh'
+        )
       end
 
     end
