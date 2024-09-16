@@ -12,9 +12,10 @@ describe 'aodh::keystone::auth' do
       end
 
       it { is_expected.to contain_keystone__resource__service_identity('aodh').with(
+        :configure_endpoint  => true,
         :configure_user      => true,
         :configure_user_role => true,
-        :configure_endpoint  => true,
+        :configure_service   => true,
         :service_name        => 'aodh',
         :service_type        => 'alarming',
         :service_description => 'OpenStack Alarming Service',
@@ -44,6 +45,7 @@ describe 'aodh::keystone::auth' do
           :configure_endpoint  => false,
           :configure_user      => false,
           :configure_user_role => false,
+          :configure_service   => false,
           :service_description => 'Alternative OpenStack Alarming Service',
           :service_name        => 'alt_service',
           :service_type        => 'alt_alarming',
@@ -54,9 +56,10 @@ describe 'aodh::keystone::auth' do
       end
 
       it { is_expected.to contain_keystone__resource__service_identity('aodh').with(
+        :configure_endpoint  => false,
         :configure_user      => false,
         :configure_user_role => false,
-        :configure_endpoint  => false,
+        :configure_service   => false,
         :service_name        => 'alt_service',
         :service_type        => 'alt_alarming',
         :service_description => 'Alternative OpenStack Alarming Service',
