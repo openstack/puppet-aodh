@@ -100,7 +100,7 @@ describe 'aodh' do
           :rabbit_quorum_delivery_limit       => 3,
           :rabbit_quorum_max_memory_length    => 5,
           :rabbit_quorum_max_memory_bytes     => 1073741824,
-          :enable_cancel_on_failover          => false,
+          :rabbit_enable_cancel_on_failover   => false,
           :use_queue_manager                  => false,
           :hostname                           => 'node1.example.com',
           :processname                        => 'procname',

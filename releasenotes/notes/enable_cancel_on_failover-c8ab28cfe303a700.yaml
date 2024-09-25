@@ -1,4 +1,4 @@
 ---
 features:
   - |
-    The new ``aodh::enable_cancel_on_failover`` parameter has been added.
+    The new ``aodh::rabbit_enable_cancel_on_failover`` parameter has been added.
