@@ -57,7 +57,8 @@ describe 'aodh' do
         is_expected.to contain_oslo__messaging__notifications('aodh_config').with(
           :transport_url => '<SERVICE DEFAULT>',
           :driver        => '<SERVICE DEFAULT>',
-          :topics        => '<SERVICE DEFAULT>'
+          :topics        => '<SERVICE DEFAULT>',
+          :retry         => '<SERVICE DEFAULT>',
         )
       end
 
@@ -108,6 +109,7 @@ describe 'aodh' do
           :notification_transport_url         => 'rabbit://rabbit_user:password@localhost:5673',
           :notification_driver                => 'ceilometer.compute.aodh_notifier',
           :notification_topics                => 'openstack',
+          :notification_retry                 => 10,
           :package_ensure                     => '2012.1.1-15.el6',
           :alarm_history_time_to_live         => '604800',
           :lock_path                          => '/var/lock/aodh',
@@ -150,6 +152,7 @@ describe 'aodh' do
           :transport_url => 'rabbit://rabbit_user:password@localhost:5673',
           :driver        => 'ceilometer.compute.aodh_notifier',
           :topics        => 'openstack',
+          :retry         => 10,
         )
       end
 

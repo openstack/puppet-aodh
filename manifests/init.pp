@@ -159,19 +159,24 @@
 #   Defaults to $facts['os_service_default']
 #
 # [*notification_transport_url*]
-#   (optional) A URL representing the messaging driver to use for notifications
+#   (Optional) A URL representing the messaging driver to use for notifications
 #   and its full configuration. Transport URLs take the form:
 #     transport://user:pass@host1:port[,hostN:portN]/virtual_host
 #   Defaults to $facts['os_service_default']
 #
 # [*notification_driver*]
-#   (optional) Driver or drivers to handle sending notifications.
+#   (Optional) Driver or drivers to handle sending notifications.
 #   Value can be a string or a list.
 #   Defaults to $facts['os_service_default']
 #
 # [*notification_topics*]
-#   (optional) AMQP topic used for OpenStack notifications
+#   (Optional) AMQP topic used for OpenStack notifications
 #   Defaults to $facts['os_service_default']
+#
+# [*notification_retry*]
+#   (Optional) The maximum number of attempts to re-sent a notification
+#   message, which failed to be delivered due to a recoverable error.
+#   Defaults to $facts['os_service_default'].
 #
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
@@ -213,6 +218,7 @@ class aodh (
   $notification_transport_url         = $facts['os_service_default'],
   $notification_driver                = $facts['os_service_default'],
   $notification_topics                = $facts['os_service_default'],
+  $notification_retry                 = $facts['os_service_default'],
   Boolean $purge_config               = false,
 ) inherits aodh::params {
 
@@ -267,6 +273,7 @@ class aodh (
     transport_url => $notification_transport_url,
     driver        => $notification_driver,
     topics        => $notification_topics,
+    retry         => $notification_retry,
   }
 
   aodh_config {
