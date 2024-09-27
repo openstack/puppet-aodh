@@ -102,15 +102,15 @@
 #   cancel and notify consumers when queue is down.
 #   Defaults to $facts['os_service_default']
 #
-# [*use_queue_manager*]
+# [*rabbit_use_queue_manager*]
 #   (Optional) Should we use consistent queue names or random ones.
 #   Defaults to $facts['os_service_default']
 #
-# [*hostname*]
+# [*rabbit_hostname*]
 #   (Optional) Hostname used by queue manager.
 #   Defaults to $facts['os_service_default']
 #
-# [*processname*]
+# [*rabbit_processname*]
 #   (Optional) Process name used by queue manager.
 #   Defaults to $facts['os_service_default']
 #
@@ -198,9 +198,9 @@ class aodh (
   $rabbit_quorum_max_memory_length    = $facts['os_service_default'],
   $rabbit_quorum_max_memory_bytes     = $facts['os_service_default'],
   $rabbit_enable_cancel_on_failover   = $facts['os_service_default'],
-  $use_queue_manager                  = $facts['os_service_default'],
-  $hostname                           = $facts['os_service_default'],
-  $processname                        = $facts['os_service_default'],
+  $rabbit_use_queue_manager           = $facts['os_service_default'],
+  $rabbit_hostname                    = $facts['os_service_default'],
+  $rabbit_processname                 = $facts['os_service_default'],
   $rabbit_stream_fanout               = $facts['os_service_default'],
   $kombu_ssl_ca_certs                 = $facts['os_service_default'],
   $kombu_ssl_certfile                 = $facts['os_service_default'],
@@ -250,9 +250,9 @@ class aodh (
     rabbit_quorum_max_memory_length => $rabbit_quorum_max_memory_length,
     rabbit_quorum_max_memory_bytes  => $rabbit_quorum_max_memory_bytes,
     enable_cancel_on_failover       => $rabbit_enable_cancel_on_failover,
-    use_queue_manager               => $use_queue_manager,
-    hostname                        => $hostname,
-    processname                     => $processname,
+    use_queue_manager               => $rabbit_use_queue_manager,
+    hostname                        => $rabbit_hostname,
+    processname                     => $rabbit_processname,
     rabbit_stream_fanout            => $rabbit_stream_fanout,
   }
 
