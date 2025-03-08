@@ -235,7 +235,7 @@ class aodh (
   }
 
   resources { 'aodh_config':
-    purge  => $purge_config,
+    purge => $purge_config,
   }
 
   oslo::messaging::rabbit { 'aodh_config':

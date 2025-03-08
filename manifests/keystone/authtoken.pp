@@ -239,7 +239,7 @@ class aodh::keystone::authtoken(
 
   keystone::resource::authtoken {
     'aodh_config':
-      *                              => $params;
+      * => $params;
     default:
       username                       => $username,
       password                       => $password,
