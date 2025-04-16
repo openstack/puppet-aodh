@@ -30,7 +30,6 @@ describe 'aodh::logging' do
      :log_facility                   => 'LOG_FOO',
      :log_dir                        => '/var/log',
      :log_file                       => '/var/log/aodh/aodh.log',
-     :watch_log_file                 => true,
      :debug                          => true,
     }
   end
@@ -82,7 +81,6 @@ describe 'aodh::logging' do
         :syslog_log_facility => 'LOG_FOO',
         :log_dir             => '/var/log',
         :log_file            => '/var/log/aodh/aodh.log',
-        :watch_log_file      => true,
         :debug               => true,
       )
     end
