@@ -1,0 +1,5 @@
+---
+features:
+  - |
+    The new ``aodh::enable_evaluation_results_metrics`` parameter has been
+    added.

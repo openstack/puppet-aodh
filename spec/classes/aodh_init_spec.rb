@@ -66,6 +66,7 @@ describe 'aodh' do
 
       it 'configures other parameters' do
         is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('<SERVICE DEFAULT>')
+        is_expected.to contain_aodh_config('DEFAULT/enable_evaluation_results_metrics').with_value('<SERVICE DEFAULT>')
         is_expected.to contain_oslo__concurrency('aodh_config').with(
           :lock_path => '<SERVICE DEFAULT>'
         )
@@ -115,7 +116,8 @@ describe 'aodh' do
           :notification_topics                => 'openstack',
           :notification_retry                 => 10,
           :package_ensure                     => '2012.1.1-15.el6',
-          :alarm_history_time_to_live         => '604800',
+          :alarm_history_time_to_live         => 604800,
+          :enable_evaluation_results_metrics  => false,
           :lock_path                          => '/var/lock/aodh',
         }
       end
@@ -163,7 +165,8 @@ describe 'aodh' do
       end
 
       it 'configures other parameters' do
-        is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value('604800')
+        is_expected.to contain_aodh_config('database/alarm_history_time_to_live').with_value(604800)
+        is_expected.to contain_aodh_config('DEFAULT/enable_evaluation_results_metrics').with_value(false)
         is_expected.to contain_oslo__concurrency('aodh_config').with(
           :lock_path => '/var/lock/aodh'
         )

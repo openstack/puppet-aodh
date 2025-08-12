@@ -180,6 +180,10 @@
 #   message, which failed to be delivered due to a recoverable error.
 #   Defaults to $facts['os_service_default'].
 #
+# [*enable_evaluation_results_metrics*]
+#   (Optional) Enable evaluation results metrics
+#   Defaults to $facts['os_service_default'].
+#
 # [*purge_config*]
 #   (optional) Whether to set only the specified config options
 #   in the aodh config.
@@ -234,6 +238,7 @@ class aodh (
   $notification_driver                = $facts['os_service_default'],
   $notification_topics                = $facts['os_service_default'],
   $notification_retry                 = $facts['os_service_default'],
+  $enable_evaluation_results_metrics  = $facts['os_service_default'],
   Boolean $purge_config               = false,
   # DEPRECATED PARAMETERS
   $rabbit_heartbeat_in_pthread        = undef,
@@ -296,7 +301,8 @@ class aodh (
   }
 
   aodh_config {
-    'database/alarm_history_time_to_live': value => $alarm_history_time_to_live;
+    'database/alarm_history_time_to_live':       value => $alarm_history_time_to_live;
+    'DEFAULT/enable_evaluation_results_metrics': value => $enable_evaluation_results_metrics;
   }
 
   oslo::concurrency { 'aodh_config':
