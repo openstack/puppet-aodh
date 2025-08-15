@@ -55,8 +55,8 @@ class aodh::expirer (
 
   package { 'aodh-expirer':
     ensure => $package_ensure,
-    name   => $::aodh::params::expirer_package_name,
-    tag    => ['openstack', 'aodh-package']
+    name   => $aodh::params::expirer_package_name,
+    tag    => ['openstack', 'aodh-package'],
   }
 
   if $maxdelay == 0 {
@@ -66,14 +66,14 @@ class aodh::expirer (
   }
 
   aodh_config { 'database/alarm_histories_delete_batch_size':
-    value => $alarm_histories_delete_batch_size
+    value => $alarm_histories_delete_batch_size,
   }
 
   cron { 'aodh-expirer':
     ensure      => $ensure,
     command     => "${sleep}${aodh::params::expirer_command}",
     environment => 'PATH=/bin:/usr/bin:/usr/sbin SHELL=/bin/sh',
-    user        => $::aodh::params::user,
+    user        => $aodh::params::user,
     minute      => $minute,
     hour        => $hour,
     monthday    => $monthday,

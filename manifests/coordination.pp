@@ -32,8 +32,8 @@ class aodh::coordination (
 
   include aodh::deps
 
-  oslo::coordination{ 'aodh_config':
-    backend_url => $backend_url
+  oslo::coordination { 'aodh_config':
+    backend_url => $backend_url,
   }
 
   aodh_config {

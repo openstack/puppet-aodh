@@ -42,13 +42,13 @@ class aodh::notifier (
   aodh_config {
     'notifier/workers':       value => $workers;
     'notifier/batch_size':    value => $batch_size;
-    'notifier/batch_timeout': value => $batch_timeout
+    'notifier/batch_timeout': value => $batch_timeout;
   }
 
   package { 'aodh-notifier':
     ensure => $package_ensure,
-    name   => $::aodh::params::notifier_package_name,
-    tag    => ['openstack', 'aodh-package']
+    name   => $aodh::params::notifier_package_name,
+    tag    => ['openstack', 'aodh-package'],
   }
 
   if $manage_service {
@@ -60,7 +60,7 @@ class aodh::notifier (
 
     service { 'aodh-notifier':
       ensure     => $service_ensure,
-      name       => $::aodh::params::notifier_service_name,
+      name       => $aodh::params::notifier_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,

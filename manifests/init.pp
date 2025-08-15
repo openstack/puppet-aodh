@@ -244,7 +244,7 @@ class aodh (
 
   package { 'aodh':
     ensure => $package_ensure,
-    name   => $::aodh::params::common_package_name,
+    name   => $aodh::params::common_package_name,
     tag    => ['openstack', 'aodh-package'],
   }
 
@@ -300,6 +300,6 @@ class aodh (
   }
 
   oslo::concurrency { 'aodh_config':
-    lock_path => $lock_path
+    lock_path => $lock_path,
   }
 }
