@@ -15,7 +15,7 @@ class aodh::client (
 
   package { 'python-aodhclient':
     ensure => $ensure,
-    name   => $::aodh::params::client_package_name,
+    name   => $aodh::params::client_package_name,
     tag    => ['openstack', 'openstackclient'],
   }
 

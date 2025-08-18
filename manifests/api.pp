@@ -21,7 +21,7 @@
 #   service, and you must use another class to configure that
 #   web service. For example, use class { 'aodh::wsgi::apache'...}
 #   to make aodh-api be a web app using apache mod_wsgi.
-#   Defaults to '$::aodh::params::api_service_name'
+#   Defaults to '$aodh::params::api_service_name'
 #
 # [*sync_db*]
 #   (optional) Run gnocchi-upgrade db sync on api nodes after installing the package.
@@ -56,7 +56,7 @@ class aodh::api (
   Boolean $manage_service         = true,
   Boolean $enabled                = true,
   $package_ensure                 = 'present',
-  $service_name                   = $::aodh::params::api_service_name,
+  $service_name                   = $aodh::params::api_service_name,
   Boolean $sync_db                = false,
   $auth_strategy                  = 'keystone',
   $enable_proxy_headers_parsing   = $facts['os_service_default'],
@@ -76,7 +76,7 @@ class aodh::api (
 
   package { 'aodh-api':
     ensure => $package_ensure,
-    name   => $::aodh::params::api_package_name,
+    name   => $aodh::params::api_package_name,
     tag    => ['openstack', 'aodh-package'],
   }
 
@@ -85,7 +85,7 @@ class aodh::api (
   }
 
   if $manage_service {
-    $api_service_name = $::aodh::params::api_service_name
+    $api_service_name = $aodh::params::api_service_name
     if $api_service_name != 'httpd' and $service_name == $api_service_name {
       if $enabled {
         $service_ensure = 'running'

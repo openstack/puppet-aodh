@@ -98,7 +98,7 @@
 #   Defaults to $facts['os_service_default']
 #   Example: 'Y-%m-%d %H:%M:%S'
 #
-class aodh::logging(
+class aodh::logging (
   $use_syslog                    = $facts['os_service_default'],
   $use_json                      = $facts['os_service_default'],
   $use_journal                   = $facts['os_service_default'],

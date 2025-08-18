@@ -115,11 +115,11 @@
 #
 # [*wsgi_script_dir*]
 #   (Optional) The directory to install the WSGI script for apache to read.
-#   Defaults to $::aodh::params::aodh_wsgi_script_path
+#   Defaults to $aodh::params::aodh_wsgi_script_path
 #
 # [*wsgi_script_source*]
 #   (Optional) The location of the aodh WSGI script
-#   Defaults to $::aodh::params::aodh_wsgi_script_source
+#   Defaults to $aodh::params::aodh_wsgi_script_source
 #
 # [*headers*]
 #   (Optional) Headers for the vhost.
@@ -170,8 +170,8 @@ class aodh::wsgi::apache (
   $error_log_pipe              = undef,
   $error_log_syslog            = undef,
   $custom_wsgi_process_options = {},
-  $wsgi_script_dir             = $::aodh::params::aodh_wsgi_script_dir,
-  $wsgi_script_source          = $::aodh::params::aodh_wsgi_script_source,
+  $wsgi_script_dir             = $aodh::params::aodh_wsgi_script_dir,
+  $wsgi_script_source          = $aodh::params::aodh_wsgi_script_source,
   $headers                     = undef,
   $request_headers             = undef,
   $vhost_custom_fragment       = undef,
@@ -186,7 +186,7 @@ class aodh::wsgi::apache (
   openstacklib::wsgi::apache { 'aodh_wsgi':
     bind_host                   => $bind_host,
     bind_port                   => $port,
-    group                       => $::aodh::params::group,
+    group                       => $aodh::params::group,
     path                        => $path,
     priority                    => $priority,
     servername                  => $servername,
@@ -199,7 +199,7 @@ class aodh::wsgi::apache (
     ssl_crl_path                => $ssl_crl_path,
     ssl_key                     => $ssl_key,
     threads                     => $threads,
-    user                        => $::aodh::params::user,
+    user                        => $aodh::params::user,
     vhost_custom_fragment       => $vhost_custom_fragment,
     workers                     => $workers,
     wsgi_daemon_process         => 'aodh',

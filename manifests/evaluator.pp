@@ -52,7 +52,7 @@ class aodh::evaluator (
 
   package { 'aodh-evaluator':
     ensure => $package_ensure,
-    name   => $::aodh::params::evaluator_package_name,
+    name   => $aodh::params::evaluator_package_name,
     tag    => ['openstack', 'aodh-package'],
   }
 
@@ -65,11 +65,11 @@ class aodh::evaluator (
 
     service { 'aodh-evaluator':
       ensure     => $service_ensure,
-      name       => $::aodh::params::evaluator_service_name,
+      name       => $aodh::params::evaluator_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
-      tag        => ['aodh-service','aodh-db-sync-service']
+      tag        => ['aodh-service','aodh-db-sync-service'],
     }
   }
 }

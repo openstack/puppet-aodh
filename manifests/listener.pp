@@ -52,8 +52,8 @@ class aodh::listener (
 
   package { 'aodh-listener':
     ensure => $package_ensure,
-    name   => $::aodh::params::listener_package_name,
-    tag    => ['openstack', 'aodh-package']
+    name   => $aodh::params::listener_package_name,
+    tag    => ['openstack', 'aodh-package'],
   }
 
   if $manage_service {
@@ -65,7 +65,7 @@ class aodh::listener (
 
     service { 'aodh-listener':
       ensure     => $service_ensure,
-      name       => $::aodh::params::listener_service_name,
+      name       => $aodh::params::listener_service_name,
       enable     => $enabled,
       hasstatus  => true,
       hasrestart => true,
