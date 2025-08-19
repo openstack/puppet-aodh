@@ -13,7 +13,6 @@ class aodh::db::sync (
   $user            = $aodh::params::user,
   $db_sync_timeout = 300,
 ) inherits aodh::params {
-
   include aodh::deps
 
   exec { 'aodh-db-sync':

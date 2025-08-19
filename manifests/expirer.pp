@@ -49,7 +49,6 @@ class aodh::expirer (
   Integer[0] $maxdelay               = 0,
   $alarm_histories_delete_batch_size = $facts['os_service_default'],
 ) {
-
   include aodh::params
   include aodh::deps
 
@@ -81,5 +80,4 @@ class aodh::expirer (
     weekday     => $weekday,
     require     => Anchor['aodh::dbsync::end'],
   }
-
 }

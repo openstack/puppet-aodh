@@ -39,7 +39,6 @@ class aodh::evaluator (
   $event_alarm_cache_ttl    = $facts['os_service_default'],
   $additional_ingestion_lag = $facts['os_service_default'],
 ) {
-
   include aodh::deps
   include aodh::params
 

@@ -27,7 +27,6 @@ class aodh::config (
   Hash $aodh_config        = {},
   Hash $aodh_api_paste_ini = {},
 ) {
-
   include aodh::deps
 
   create_resources('aodh_config', $aodh_config)

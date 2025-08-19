@@ -119,7 +119,6 @@ class aodh::logging (
   $instance_uuid_format          = $facts['os_service_default'],
   $log_date_format               = $facts['os_service_default'],
 ) {
-
   include aodh::deps
 
   oslo::log { 'aodh_config':

@@ -49,6 +49,5 @@ class aodh::params {
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")
     }
-
   }
 }

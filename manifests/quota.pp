@@ -19,7 +19,6 @@ class aodh::quota (
   $project_alarm_quota = $facts['os_service_default'],
   $alarm_max_actions   = $facts['os_service_default'],
 ) {
-
   include aodh::deps
   include aodh::params
 
@@ -28,5 +27,4 @@ class aodh::quota (
     'api/project_alarm_quota': value => $project_alarm_quota;
     'api/alarm_max_actions':   value => $alarm_max_actions;
   }
-
 }

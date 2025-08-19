@@ -194,7 +194,7 @@
 #  (Optional) Hash of additional parameters to pass through to the keystone
 #  authtoken class. Values set here override the individual parameters above.
 #
-class aodh::keystone::authtoken(
+class aodh::keystone::authtoken (
   String[1] $password,
   $username                       = 'aodh',
   $auth_url                       = 'http://localhost:5000',
@@ -234,7 +234,6 @@ class aodh::keystone::authtoken(
   $interface                      = $facts['os_service_default'],
   $params                         = {},
 ) {
-
   include aodh::deps
 
   keystone::resource::authtoken {

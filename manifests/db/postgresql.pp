@@ -24,14 +24,13 @@
 #    (Optional) Privileges given to the database user.
 #    Default to 'ALL'
 #
-class aodh::db::postgresql(
+class aodh::db::postgresql (
   $password,
   $dbname     = 'aodh',
   $user       = 'aodh',
   $encoding   = undef,
   $privileges = 'ALL',
 ) {
-
   include aodh::deps
 
   openstacklib::db::postgresql { 'aodh':
@@ -45,5 +44,4 @@ class aodh::db::postgresql(
   Anchor['aodh::db::begin']
   ~> Class['aodh::db::postgresql']
   ~> Anchor['aodh::db::end']
-
 }

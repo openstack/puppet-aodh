@@ -176,7 +176,6 @@ class aodh::wsgi::apache (
   $request_headers             = undef,
   $vhost_custom_fragment       = undef,
 ) inherits aodh::params {
-
   include aodh::deps
 
   # NOTE(aschultz): needed because the packaging may introduce some apache

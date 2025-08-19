@@ -65,7 +65,6 @@ class aodh::api (
   $gnocchi_external_project_owner = 'services',
   $gnocchi_external_domain_name   = 'Default',
 ) inherits aodh::params {
-
   include aodh::deps
   include aodh::params
   include aodh::policy
@@ -105,7 +104,6 @@ class aodh::api (
       Aodh_api_paste_ini<||> ~> Service['aodh-api']
       # On any uwsgi config change, we must restart Aodh API.
       Aodh_api_uwsgi_config<||> ~> Service['aodh-api']
-
     } elsif $service_name == 'httpd' {
       Service <| title == 'httpd' |> { tag +> 'aodh-service' }
 

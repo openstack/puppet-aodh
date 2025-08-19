@@ -61,7 +61,6 @@ class aodh::service_credentials (
   $cacert              = $facts['os_service_default'],
   $interface           = $facts['os_service_default'],
 ) {
-
   include aodh::deps
 
   if is_service_default($system_scope) {

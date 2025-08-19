@@ -9,7 +9,6 @@
 class aodh::client (
   $ensure = 'present'
 ) {
-
   include aodh::deps
   include aodh::params
 
@@ -20,5 +19,4 @@ class aodh::client (
   }
 
   include openstacklib::openstackclient
-
 }

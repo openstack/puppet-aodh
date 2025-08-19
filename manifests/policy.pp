@@ -54,7 +54,6 @@ class aodh::policy (
   $policy_dirs          = $facts['os_service_default'],
   Boolean $purge_config = false,
 ) {
-
   include aodh::deps
   include aodh::params
 

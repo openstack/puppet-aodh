@@ -33,7 +33,7 @@
 #   Only used with mysql modules >= 2.2.
 #   Defaults to 'utf8_general_ci'
 #
-class aodh::db::mysql(
+class aodh::db::mysql (
   String[1] $password,
   $dbname        = 'aodh',
   $user          = 'aodh',
@@ -42,7 +42,6 @@ class aodh::db::mysql(
   $collate       = 'utf8_general_ci',
   $allowed_hosts = undef
 ) {
-
   include aodh::deps
 
   openstacklib::db::mysql { 'aodh':
@@ -58,5 +57,4 @@ class aodh::db::mysql(
   Anchor['aodh::db::begin']
   ~> Class['aodh::db::mysql']
   ~> Anchor['aodh::db::end']
-
 }

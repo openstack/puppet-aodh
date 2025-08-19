@@ -35,7 +35,6 @@ class aodh::notifier (
   $batch_size             = $facts['os_service_default'],
   $batch_timeout          = $facts['os_service_default'],
 ) {
-
   include aodh::deps
   include aodh::params
 

@@ -98,7 +98,6 @@ class aodh::keystone::auth (
   Keystone::EndpointUrl $internal_url     = 'http://127.0.0.1:8042',
   Keystone::EndpointUrl $admin_url        = 'http://127.0.0.1:8042',
 ) {
-
   include aodh::deps
 
   Keystone::Resource::Service_identity['aodh'] -> Anchor['aodh::service::end']
@@ -123,5 +122,4 @@ class aodh::keystone::auth (
     internal_url        => $internal_url,
     admin_url           => $admin_url,
   }
-
 }

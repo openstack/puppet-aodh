@@ -243,7 +243,6 @@ class aodh (
   # DEPRECATED PARAMETERS
   $rabbit_heartbeat_in_pthread        = undef,
 ) inherits aodh::params {
-
   include aodh::deps
   include aodh::db
 

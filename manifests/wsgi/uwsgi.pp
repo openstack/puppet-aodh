@@ -25,8 +25,7 @@ class aodh::wsgi::uwsgi (
   $processes         = $facts['os_workers'],
   $threads           = 32,
   $listen_queue_size = 100,
-){
-
+) {
   include aodh::deps
 
   if $facts['os']['name'] != 'Debian' {

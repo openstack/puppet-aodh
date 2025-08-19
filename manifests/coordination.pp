@@ -29,7 +29,6 @@ class aodh::coordination (
   $retry_backoff      = $facts['os_service_default'],
   $max_retry_interval = $facts['os_service_default'],
 ) {
-
   include aodh::deps
 
   oslo::coordination { 'aodh_config':

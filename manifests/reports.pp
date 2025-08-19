@@ -22,7 +22,6 @@ class aodh::reports (
   $file_event_handler          = $facts['os_service_default'],
   $file_event_handler_interval = $facts['os_service_default'],
 ) {
-
   include aodh::deps
 
   oslo::reports { 'aodh_config':
