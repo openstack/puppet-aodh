@@ -166,7 +166,7 @@ describe 'aodh::wsgi::apache' do
         when 'RedHat'
           {
             :wsgi_script_path   => '/var/www/cgi-bin/aodh',
-            :wsgi_script_source => '/usr/bin/aodh-api'
+            :wsgi_script_source => '/usr/lib/python3.9/site-packages/aodh/wsgi/api.py',
           }
 
         end
