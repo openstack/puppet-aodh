@@ -14,7 +14,7 @@ class aodh::params {
     'RedHat': {
       $common_package_name     = 'openstack-aodh-common'
       $api_package_name        = 'openstack-aodh-api'
-      $api_service_name        = 'httpd'
+      $api_service_name        = undef
       $notifier_package_name   = 'openstack-aodh-notifier'
       $notifier_service_name   = 'openstack-aodh-notifier'
       $evaluator_package_name  = 'openstack-aodh-evaluator'
@@ -31,7 +31,7 @@ class aodh::params {
       $api_package_name        = 'aodh-api'
       case $facts['os']['name'] {
         'Ubuntu': {
-          $api_service_name = 'httpd'
+          $api_service_name = undef
         }
         default: {
           $api_service_name = 'aodh-api'

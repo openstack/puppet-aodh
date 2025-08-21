@@ -84,44 +84,43 @@ class aodh::api (
   }
 
   if $manage_service {
-    $api_service_name = $aodh::params::api_service_name
-    if $api_service_name != 'httpd' and $service_name == $api_service_name {
-      if $enabled {
-        $service_ensure = 'running'
-      } else {
-        $service_ensure = 'stopped'
-      }
+    case $service_name {
+      'httpd': {
+        Service <| title == 'httpd' |> { tag +> 'aodh-service' }
 
-      service { 'aodh-api':
-        ensure     => $service_ensure,
-        name       => $api_service_name,
-        enable     => $enabled,
-        hasstatus  => true,
-        hasrestart => true,
-        tag        => 'aodh-service',
-      }
-      # On any paste-api.ini config change, we must restart Aodh API.
-      Aodh_api_paste_ini<||> ~> Service['aodh-api']
-      # On any uwsgi config change, we must restart Aodh API.
-      Aodh_api_uwsgi_config<||> ~> Service['aodh-api']
-    } elsif $service_name == 'httpd' {
-      Service <| title == 'httpd' |> { tag +> 'aodh-service' }
-
-      if $api_service_name != 'httpd' {
-        service { 'aodh-api':
-          ensure => 'stopped',
-          name   => $api_service_name,
-          enable => false,
-          tag    => 'aodh-service',
+        if $aodh::params::api_service_name {
+          service { 'aodh-api':
+            ensure => 'stopped',
+            name   => $aodh::params::api_service_name,
+            enable => false,
+            tag    => 'aodh-service',
+          }
+          # we need to make sure aodh-api/eventlet is stopped before trying to start apache
+          Service['aodh-api'] -> Service['httpd']
         }
-        # we need to make sure aodh-api/eventlet is stopped before trying to start apache
-        Service['aodh-api'] -> Service[$service_name]
-      }
 
-      # On any paste-api.ini config change, we must restart Aodh API.
-      Aodh_api_paste_ini<||> ~> Service[$service_name]
-    } else {
-      fail('Invalid service_name.')
+        # On any paste-api.ini config change, we must restart Aodh API.
+        Aodh_api_paste_ini<||> ~> Service['httpd']
+      }
+      default: {
+        $service_ensure = $enabled ? {
+          true    => 'running',
+          default => 'stopped',
+        }
+
+        service { 'aodh-api':
+          ensure     => $service_ensure,
+          name       => $service_name,
+          enable     => $enabled,
+          hasstatus  => true,
+          hasrestart => true,
+          tag        => 'aodh-service',
+        }
+        # On any paste-api.ini config change, we must restart Aodh API.
+        Aodh_api_paste_ini<||> ~> Service['aodh-api']
+        # On any uwsgi config change, we must restart Aodh API.
+        Aodh_api_uwsgi_config<||> ~> Service['aodh-api']
+      }
     }
   }
 
