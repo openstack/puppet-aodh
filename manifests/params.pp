@@ -3,6 +3,8 @@
 class aodh::params {
   include openstacklib::defaults
 
+  $pyver3 = $openstacklib::defaults::pyver3
+
   $client_package_name = 'python3-aodhclient'
   $user                = 'aodh'
   $group               = 'aodh'
@@ -22,7 +24,7 @@ class aodh::params {
       $listener_package_name   = 'openstack-aodh-listener'
       $listener_service_name   = 'openstack-aodh-listener'
       $aodh_wsgi_script_dir    = '/var/www/cgi-bin/aodh'
-      $aodh_wsgi_script_source = '/usr/bin/aodh-api'
+      $aodh_wsgi_script_source = "/usr/lib/python${pyver3}/site-packages/aodh/wsgi/api.py"
     }
     'Debian': {
       $common_package_name     = 'aodh-common'
