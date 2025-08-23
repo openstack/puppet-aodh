@@ -10,7 +10,7 @@ describe 'aodh::client' do
     it 'installs aodh client package' do
       is_expected.to contain_package('python-aodhclient').with(
         :ensure => 'present',
-        :name   => 'python3-aodhclient',
+        :name   => platform_params[:client_package_name],
         :tag    => ['openstack', 'openstackclient'],
       )
     end
