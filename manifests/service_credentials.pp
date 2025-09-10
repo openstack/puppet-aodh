@@ -8,7 +8,7 @@
 #
 # [*auth_url*]
 #  (Optional) the keystone public endpoint
-#  Defaults to 'http://localhost:5000/v3'
+#  Defaults to 'http://localhost:5000'
 #
 # [*region_name*]
 #  (Optional) the keystone region of this node
@@ -50,7 +50,7 @@
 #
 class aodh::service_credentials (
   $password,
-  $auth_url            = 'http://localhost:5000/v3',
+  $auth_url            = 'http://localhost:5000',
   $region_name         = 'RegionOne',
   $username            = 'aodh',
   $project_name        = 'services',

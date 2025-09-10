@@ -11,7 +11,7 @@ describe 'aodh::service_credentials' do
   shared_examples_for 'aodh::service_credentials' do
 
     it 'configures authentication' do
-      is_expected.to contain_aodh_config('service_credentials/auth_url').with_value('http://localhost:5000/v3')
+      is_expected.to contain_aodh_config('service_credentials/auth_url').with_value('http://localhost:5000')
       is_expected.to contain_aodh_config('service_credentials/region_name').with_value('RegionOne')
       is_expected.to contain_aodh_config('service_credentials/project_domain_name').with_value('Default')
       is_expected.to contain_aodh_config('service_credentials/user_domain_name').with_value('Default')
