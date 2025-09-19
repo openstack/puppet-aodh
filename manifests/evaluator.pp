@@ -31,13 +31,13 @@
 #    Defaults to $facts['os_service_default'].
 #
 class aodh::evaluator (
-  Boolean $manage_service   = true,
-  Boolean $enabled          = true,
-  $package_ensure           = 'present',
-  $workers                  = $facts['os_workers'],
-  $evaluation_interval      = $facts['os_service_default'],
-  $event_alarm_cache_ttl    = $facts['os_service_default'],
-  $additional_ingestion_lag = $facts['os_service_default'],
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $workers                                = $facts['os_workers'],
+  $evaluation_interval                    = $facts['os_service_default'],
+  $event_alarm_cache_ttl                  = $facts['os_service_default'],
+  $additional_ingestion_lag               = $facts['os_service_default'],
 ) {
   include aodh::deps
   include aodh::params

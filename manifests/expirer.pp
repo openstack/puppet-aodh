@@ -39,15 +39,15 @@
 #    Defaults to $facts['os_service_default'].
 #
 class aodh::expirer (
-  Enum['present', 'absent'] $ensure  = 'present',
-  $package_ensure                    = 'present',
-  $minute                            = 1,
-  $hour                              = 0,
-  $monthday                          = '*',
-  $month                             = '*',
-  $weekday                           = '*',
-  Integer[0] $maxdelay               = 0,
-  $alarm_histories_delete_batch_size = $facts['os_service_default'],
+  Enum['present', 'absent'] $ensure       = 'present',
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $minute                                 = 1,
+  $hour                                   = 0,
+  $monthday                               = '*',
+  $month                                  = '*',
+  $weekday                                = '*',
+  Integer[0] $maxdelay                    = 0,
+  $alarm_histories_delete_batch_size      = $facts['os_service_default'],
 ) {
   include aodh::params
   include aodh::deps

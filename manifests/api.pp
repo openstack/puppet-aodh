@@ -53,17 +53,17 @@
 #   Defaults to 'Default'
 #
 class aodh::api (
-  Boolean $manage_service         = true,
-  Boolean $enabled                = true,
-  $package_ensure                 = 'present',
-  $service_name                   = $aodh::params::api_service_name,
-  Boolean $sync_db                = false,
-  $auth_strategy                  = 'keystone',
-  $enable_proxy_headers_parsing   = $facts['os_service_default'],
-  $max_request_body_size          = $facts['os_service_default'],
-  $paste_config                   = $facts['os_service_default'],
-  $gnocchi_external_project_owner = 'services',
-  $gnocchi_external_domain_name   = 'Default',
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  String[1] $service_name                 = $aodh::params::api_service_name,
+  Boolean $sync_db                        = false,
+  $auth_strategy                          = 'keystone',
+  $enable_proxy_headers_parsing           = $facts['os_service_default'],
+  $max_request_body_size                  = $facts['os_service_default'],
+  $paste_config                           = $facts['os_service_default'],
+  $gnocchi_external_project_owner         = 'services',
+  $gnocchi_external_domain_name           = 'Default',
 ) inherits aodh::params {
   include aodh::deps
   include aodh::params
