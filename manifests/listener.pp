@@ -31,13 +31,13 @@
 #   Defaults to $facts['os_service_default'].
 #
 class aodh::listener (
-  Boolean $manage_service = true,
-  Boolean $enabled        = true,
-  $package_ensure         = 'present',
-  $workers                = $facts['os_workers'],
-  $event_alarm_topic      = $facts['os_service_default'],
-  $batch_size             = $facts['os_service_default'],
-  $batch_timeout          = $facts['os_service_default'],
+  Boolean $manage_service                 = true,
+  Boolean $enabled                        = true,
+  Stdlib::Ensure::Package $package_ensure = 'present',
+  $workers                                = $facts['os_workers'],
+  $event_alarm_topic                      = $facts['os_service_default'],
+  $batch_size                             = $facts['os_service_default'],
+  $batch_timeout                          = $facts['os_service_default'],
 ) {
   include aodh::deps
   include aodh::params
