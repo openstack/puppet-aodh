@@ -7,7 +7,7 @@
 #   Defaults to 'present'.
 #
 class aodh::client (
-  $ensure = 'present'
+  Stdlib::Ensure::Package $ensure = 'present'
 ) {
   include aodh::deps
   include aodh::params
