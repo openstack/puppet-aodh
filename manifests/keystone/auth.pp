@@ -21,7 +21,7 @@
 #
 # [*roles*]
 #   (Optional) List of roles assigned to aodh user.
-#   Defaults to ['admin']
+#   Defaults to ['admin', 'service']
 #
 # [*system_scope*]
 #   (Optional) Scope for system operations.
@@ -83,7 +83,7 @@ class aodh::keystone::auth (
   String[1] $auth_name                    = 'aodh',
   String[1] $email                        = 'aodh@localhost',
   String[1] $tenant                       = 'services',
-  Array[String[1]] $roles                 = ['admin'],
+  Array[String[1]] $roles                 = ['admin', 'service'],
   String[1] $system_scope                 = 'all',
   Array[String[1]] $system_roles          = [],
   Boolean $configure_endpoint             = true,
