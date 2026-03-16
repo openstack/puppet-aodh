@@ -3,7 +3,7 @@
 class aodh::params {
   include openstacklib::defaults
 
-  $pyver3 = $openstacklib::defaults::pyver3
+  $pybasedir = $openstacklib::defaults::pybasedir
 
   $client_package_name = 'python3-aodhclient'
   $user                = 'aodh'
@@ -24,7 +24,7 @@ class aodh::params {
       $listener_package_name   = 'openstack-aodh-listener'
       $listener_service_name   = 'openstack-aodh-listener'
       $aodh_wsgi_script_dir    = '/var/www/cgi-bin/aodh'
-      $aodh_wsgi_script_source = "/usr/lib/python${pyver3}/site-packages/aodh/wsgi/api.py"
+      $aodh_wsgi_script_source = "${pybasedir}/aodh/wsgi/api.py"
     }
     'Debian': {
       $common_package_name     = 'aodh-common'
@@ -46,7 +46,7 @@ class aodh::params {
       $listener_package_name   = 'aodh-listener'
       $listener_service_name   = 'aodh-listener'
       $aodh_wsgi_script_dir    = '/usr/lib/cgi-bin/aodh'
-      $aodh_wsgi_script_source = '/usr/bin/aodh-api'
+      $aodh_wsgi_script_source = "${pybasedir}/aodh/wsgi/api.py"
     }
     default: {
       fail("Unsupported osfamily: ${facts['os']['family']}")
